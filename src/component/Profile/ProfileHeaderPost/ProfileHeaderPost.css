@@ -1,0 +1,13 @@
+.tab-profile__active {
+  font-weight: 500;
+  border-top: 2px solid rgb(92, 92, 92);
+  opacity: 1;
+  transition: all ease .1s;
+  transform: translateY(-3%);
+}
+
+@media (max-width: 767px) {
+  .tab-profile__active {
+    color: rgb(0, 149, 246);
+  }
+}

@@ -1,0 +1,37 @@
+.story-active {
+  transform: translate(446.644px) scale(1);
+}
+
+.story-active .active__hidden {
+  display: none;
+}
+
+.story-active .pre-story:hover,
+.story-active .next-story:hover {
+  opacity: 1;
+}
+
+.story-active .pre-story,
+.story-active .next-story {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.story-active .active-flex {
+  display: flex;
+}
+
+/* tablet */
+@media (min-width: 740px) and (max-width: 1023px) {
+  .story-active {
+    transform: translate(176.64px) scale(1);
+  }
+}
+
+/* mobile */
+@media (max-width: 739px) {
+ 
+  .story-active {
+    transform: translate(0px) scale(1);
+  }
+}

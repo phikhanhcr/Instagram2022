@@ -1,0 +1,4 @@
+.setting-option__active {
+  border-left: 2px solid black;
+  opacity: 1;
+}

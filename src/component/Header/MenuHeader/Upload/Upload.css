@@ -1,0 +1,36 @@
+.check-allow-comment {
+
+}
+.check-allow-comment::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  background-color: #fff;
+  width: 16px;
+  height: 16px;
+  border-radius: 100%;
+  transition: 0.5s;
+}
+#check-box-comment:checked ~ .check-allow-comment::before {
+  transform: translateX(-50px) ;
+}
+
+#check-box-comment:checked ~ .check-allow-comment {
+  background-color: #0095f6;
+}
+.check-allow-comment::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  right: 3px;
+  background-color: #fff;
+  width: 16px;
+  height: 16px;
+  border-radius: 100%;
+  transition: 0.5s;
+  transform: translateX(50px) ;
+}
+#check-box-comment:checked ~ .check-allow-comment::after {
+  transform: translateX(0px) ;
+}
