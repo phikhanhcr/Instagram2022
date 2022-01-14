@@ -225,6 +225,10 @@
   display: block;
 }
 
+#input_checkbox-notification:checked ~ .header__content-menu-show-notification {
+  display: block;
+}
+
 #input_checkbox-notification:checked ~ #over__lay-screen-notification {
   display: block;
 }
@@ -232,13 +236,6 @@
 #header__content-menu-link__home {
   font-size: 23px;
 }
-
-
-
-#input_checkbox-notification:checked ~ .header__content-menu-show-notification {
-  display: block;
-}
-
 
 .wrapper-dot {
   display: flex;

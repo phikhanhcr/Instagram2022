@@ -2,10 +2,9 @@ import { memo, useEffect, useState } from "react";
 import FollowerOverlay from "../FollowerOverlay/FollowerOverlay";
 import MainAvatar from "./MainAvatar";
 
-function MainInfo() {
+function MainInfo({ username, avatar }) {
   const [checkModal, setCheckModal] = useState("");
   useEffect(() => {
-    console.log({ checkModal })
   }, [checkModal])
 
   const handleClose = () => {
@@ -14,12 +13,12 @@ function MainInfo() {
 
   return (
     <div className="flex mb-11">      
-      <MainAvatar />
+      <MainAvatar avatar={avatar}/>
       <div className="w-8/12">
         <div>
           <div className="flex flex-col items-start mb-5 md:flex-row md:items-center">
             <span className="text-[28px] leading-8 font-light mb-1">
-              kckatalbas
+              {username}
             </span>
             <button className="md:ml-5 border mb-1 border-solid border-[#b9b9b9] px-[9px] py-[5px] font-semibold rounded-md">
               Chỉnh sửa trang cá nhân

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import Header from "../Header/Header";
 import ModalDetail from "./ModalDetail/ModalDetail";
 import NormalDiscover from "./NormalDiscover/NormalDiscover";
 import TopDiscover from "./TopDiscover/TopDiscover";
@@ -90,7 +91,6 @@ function Discover() {
 
   const [checkShowModal, setCHeckShowModal] = useState(false);
   const handleClickShowDetail = useCallback((data) => {
-    // console.log(data);
     setDetailDiscover(data);
     setCHeckShowModal(true);
   }, [])
@@ -100,6 +100,8 @@ function Discover() {
   };
   return (
     <>
+      <Header />
+
       <section className="pt-[60px] md:pt-[90px]">
         <div className="w-[100%] lg:w-full max-w-[975px] mx-auto p-0">
           <TopDiscover

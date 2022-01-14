@@ -1,7 +1,6 @@
 import { memo } from "react";
 
 function ProfileStory() {
-  console.log("Profile Story")
   
   return (
     <div className="mb-11">

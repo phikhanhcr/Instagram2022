@@ -3,6 +3,7 @@ import OtherPost from "./OtherPost/OtherPost";
 import PostMobile from "./Version/Mobile/PostMobile";
 import PostPcTablet from "./Version/PcTablet/PostPcTablet";
 import { useState } from "react";
+import Header from "../Header/Header";
 
 function DetailPost() {
   const [showModal, setShowModal] = useState(false);
@@ -11,6 +12,7 @@ function DetailPost() {
   };
   return (
     <>
+      <Header />
       <div className="pt-header_height md:pt-[86px] w-[100%] lg:w-full max-w-[975px] mx-auto my-0 p-0 ">
         <PostPcTablet onCLickClose={handleClickMenu} />
         <PostMobile onCLickClose={handleClickMenu} />

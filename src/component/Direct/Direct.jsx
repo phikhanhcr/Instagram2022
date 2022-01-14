@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "../../assert/tailwind/build/styleTailwind.css";
+import Header from "../Header/Header";
 import "./Direct.css";
 import MessageList from "./MessageList/AllMessage";
 import UserList from "./UserList/UserList";
@@ -121,7 +122,6 @@ function Direct() {
 
   const clickEventHandle = (id) => {
     setUserActive(id);
-    console.log({ id });
     if (checkMobile) {
       setCheckDisplay(true);
     }
@@ -175,6 +175,8 @@ function Direct() {
 
   return (
     <>
+      <Header />
+
       <div className="md:pt-header_height w-[100%] lg:w-full max-w-[975px] mx-auto my-0 p-0 mt-10">
         {handleDisplay()}
 

@@ -48,20 +48,7 @@ function NotificationModal() {
   ];
 
   return (
-    // <div className="header__content-menu-show-notification">
-    //   <div className="arrow_above hide-on-mobile" style={{ right: "5%" }} />
-    //   <div className="header__content-menu-show-notification__wrapper">
-    //     <ul className="menu-show-notification__list">
 
-    //       {
-    //         data.length && data.map((ele, index) => (
-    //           <ItemNotification data={ele} key={index}/>
-    //         ))
-    //       }
-
-    //     </ul>
-    //   </div>
-    // </div>
     <div
       className="
         border border-solid border-[#e9e9e9]

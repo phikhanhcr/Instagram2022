@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./ProfileHeaderPost.css";
 function ProfileHeaderPost({ onClickTab, currentTab }) {
   return (

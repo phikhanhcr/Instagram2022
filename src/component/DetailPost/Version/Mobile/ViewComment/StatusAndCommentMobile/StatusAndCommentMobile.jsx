@@ -5,7 +5,6 @@ import StatusMoblie from "./StatusMoblie/StatusMoblie";
 function StatusAndCommentMobile() {
   const listRef = useRef();
   useEffect(() => {
-    console.log(listRef);
     const height = window.innerHeight;
     listRef.current.style.height = `${height - 122}px`;
     const handleResizeChangeSize = () => {

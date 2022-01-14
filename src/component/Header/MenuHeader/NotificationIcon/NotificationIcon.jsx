@@ -6,10 +6,10 @@ function NotificationIcon() {
   return (
 
     <div className="ml-[22px] cursor-pointer relative">
-      <input type="checkbox" hidden id="input_checkbox-notification " />
+      <input type="checkbox" hidden id="input_checkbox-notification"/>
       <label
         htmlFor="input_checkbox-notification"
-        className="fixed top-0 bottom-0 right-0 left-0 z-[1] hidden select-none "
+        className="fixed top-0 bottom-0 right-0 left-0 z-[1] hidden select-none"
         id="over__lay-screen-notification"
       />
       <label
