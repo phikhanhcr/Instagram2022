@@ -31,3 +31,7 @@ Day 11/1
 
 Day 14 
 - Header layout
+
+Day 15:
+- Loading post when isLoading === true
+-- render post

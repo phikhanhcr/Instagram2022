@@ -1,8 +1,8 @@
-function CaptionStatus() {
+function CaptionStatus({ post }) {
   return (
     <div className="post-section__status">
       <a href="/" className="font-semibold mb-2 block">
-        316 lượt thích
+        {post.like_count} lượt thích
       </a>
       <div className="text-sm">
         <a href="/" className="font-semibold hover:underline ">

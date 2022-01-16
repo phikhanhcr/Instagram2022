@@ -6,31 +6,32 @@ import CommentSection from "./CommentSection/CommentSection";
 import PostHeader from "./EachPostHeader/EachPostHeader";
 import PostImages from "./PostImages/PostImage";
 
-function EachPostHomePage() {
-  
+function EachPostHomePage({ post }) {
   const [checkLike, setCheckLike] = useState(false);
 
   const handleDbClick = () => {
     setCheckLike(true);
-  }
+  };
 
   const handleCLickHeart = () => {
-    setCheckLike(pre => !pre)
-  }
+    setCheckLike((pre) => !pre);
+  };
 
   return (
-
     <li className="post_section-item mb-8">
       <div className="bg-[#fff] post-section w-full border border-solid border-[#ccc]">
         <div className="post-section__username-image">
-          <PostHeader />
-          <PostImages onDbCLick={handleDbClick}/>
+          <PostHeader info={post.userId} idPost={post._id}/>
+          <PostImages onDbCLick={handleDbClick} images={post.images}/>
         </div>
 
         <div className="post-section__action-comment py-[6px] px-[16px]">
-          <ActionSection checkLike={checkLike} handleCheckLike={handleCLickHeart}/>
+          <ActionSection
+            checkLike={checkLike}
+            handleCheckLike={handleCLickHeart}
+          />
           {/* status  */}
-          <CaptionStatus />
+          <CaptionStatus post={post}/>
 
           {/* comment section */}
           <CommentSection />

@@ -1,7 +1,7 @@
 import AndroidDownload from "../../assert/images/downloadPlay.png";
 import IosDownload from "../../assert/images/downloadApp.png";
 import LeftSectionLogin from "./LeftSectionLogin";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userLogin } from "../../redux/features/user/userSlice";
 import { useState } from "react";
@@ -13,8 +13,7 @@ function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const location = useLocation()
-  console.log({ location });
+
   async function loginUser(e) {
     e.preventDefault();
     dispatch(

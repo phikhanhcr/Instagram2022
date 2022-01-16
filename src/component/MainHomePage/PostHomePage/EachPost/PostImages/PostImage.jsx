@@ -1,12 +1,7 @@
 import { useState } from "react";
 
-const images = [
-  "https://images.unsplash.com/photo-1638595325180-299e3d5b128b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-  "https://images.unsplash.com/photo-1638129640863-d1f283b8ffdb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-  "https://anhdephd.com/wp-content/uploads/2019/08/anh-gai-xinh-viet-nam-thu-hut-moi-anh-nhin-xinh-moc-mac.jpg",
-];
 
-function PostImages({ onDbCLick }) {
+function PostImages({ onDbCLick, images }) {
   // const [images, setImages ] = useState([]);
 
   const [slideIndex, setSlideIndex] = useState(0);
