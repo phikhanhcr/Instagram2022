@@ -1,14 +1,10 @@
-import { useEffect, useRef } from "react";
 import HeaderViewComment from "./ChildrenComponent/HeaderViewComment";
 import ViewCommentAvatar from "./ChildrenComponent/ViewCommentAvatar";
-import StatusAndCommentMobile from './StatusAndCommentMobile/StatusAndCommentMobile'
-function ViewComment() {
-  
-
+import StatusAndCommentMobile from "./StatusAndCommentMobile/StatusAndCommentMobile";
+function ViewComment({ onClickShowModelComment }) {
   return (
-    <section className="view-comment ">
-      {/* header */}
-      <HeaderViewComment />
+    <section className="view-comment bg-white">
+      <HeaderViewComment onClickShowModelComment={onClickShowModelComment}/>
 
       <div className="fixed top-[56px] h-[65px] w-full right-0 left-0 bg-gray-200">
         <div className="flex h-full items-center px-4">
@@ -29,7 +25,7 @@ function ViewComment() {
         </div>
         {/* status post */}
         {/* calculate height of screen minus 62px */}
-       
+
         <StatusAndCommentMobile />
       </div>
     </section>

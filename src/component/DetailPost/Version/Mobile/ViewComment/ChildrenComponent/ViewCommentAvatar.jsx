@@ -1,4 +1,4 @@
-function ViewCommentAvatar({}) {
+function ViewCommentAvatar() {
   return (
     <div
       style={{

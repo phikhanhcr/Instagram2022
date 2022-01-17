@@ -1,20 +1,24 @@
 import { useEffect } from "react";
 import usePost from "../../../customHooks/usePost";
 import EachPostHomePage from "./EachPost/EachPost";
-import LoadingPost from "./LoadingPost";
+import { Instagram } from "react-content-loader";
+import { useDispatch } from "react-redux";
+import { postInit } from "../../../redux/features/post/postSlice";
 
 function PostHomePage() {
-  const { post, initializeNewFeedPost, isLoading, status } = usePost();
-
+  const { post, isLoading } = usePost();
+  const dispatch = useDispatch();
   useEffect(() => {
-    initializeNewFeedPost();
-  }, [initializeNewFeedPost]);
+    const promise = dispatch(postInit());
+    return () => promise.abort();
+  }, [dispatch]);
 
   return (
     <ul className="post_section-list">
-      {/* <LoadingPost /> */}
+      {isLoading ? <Instagram /> : ""}
 
-      {post.length && post.map((ele) => <EachPostHomePage post={ele} key={ele._id}/>)}
+      {post.length &&
+        post.map((ele) => <EachPostHomePage post={ele} key={ele._id} />)}
     </ul>
   );
 }

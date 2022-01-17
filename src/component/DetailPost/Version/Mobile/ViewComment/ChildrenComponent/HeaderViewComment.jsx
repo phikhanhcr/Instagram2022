@@ -1,7 +1,10 @@
-function HeaderViewComment() {
+function HeaderViewComment({ onClickShowModelComment }) {
   return (
     <div className="fixed top-0 right-0 left-0 w-full h-header_height bg-white flex items-center z-10">
-      <div className="absolute rotate-[270deg] px-4 cursor-pointer">
+      <div
+        onClick={onClickShowModelComment}
+        className="absolute rotate-[270deg] px-4 cursor-pointer"
+      >
         <svg
           aria-label="Quay lại"
           className="_8-yf5 "

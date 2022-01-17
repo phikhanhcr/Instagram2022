@@ -1,46 +1,26 @@
+import useDetailPost from "../../../../../../customHooks/useDetailPost";
+
 function ContentPostDetail() {
+  const { post } = useDetailPost();
   return (
     <div className="main py-2 px-4 lg:p-4 min-h-[67%] h-[67%]  scrollbar-hide overflow-y-scroll ">
-    <div className="post flex text-sm">
+    <div className="post flex text-sm mb-2">
       <div
         className="w-7 h-7 p-2 rounded-full bg-cover bg-no-repeat bg-center mr-[14px] mt-1"
         style={{
           backgroundImage:
-            "url(https://images.unsplash.com/photo-1553272725-086100aecf5e?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=765&q=80)",
+          `url(${post.userId.avatar})`,
         }}
       ></div>
-      <div className="flex-1">
+      <div className="flex-1 mt-1">
         <a href="/" className="font-medium mr-1 hover:underline">
-          phikhanhcr
+        {post.userId.username}
         </a>
-        Which realistic artwork is your favourite ? <br />
-        <br />
-        Artwork by{" "}
-        <a href="/" className="text-[#00376b]">
-          @darky.artist
-        </a>{" "}
-        <br /> <br />
-        Follow 👉{" "}
-        <a href="/" className="text-[#00376b]">
-          @thevisualcrowd⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣
-        </a>
-        for more!!! <br />
-        Follow 👉{" "}
-        <a href="/" className="text-[#00376b]">
-          @thevisualcrowd⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣
-        </a>
-        for more!!! <br /> <br />
-        🔔Remember to turn on post notifications so you can see our latest
-        post!!!⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣
-        <br />
-        ⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣
-        <div className="dicover__post_hastag text-[#00376b]">
-          #nerdculture #DisneyStudios #Art
-        </div>
-        <div className="mt-2 opacity-70 text-[12px]">3 ngày</div>
-        <br />
+        {post.description} 
       </div>
     </div>
+
+    {/* comment */}
     <div className="comment">
       <ul className="h-auto">
         {/* list comment */}

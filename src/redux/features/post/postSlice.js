@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { postSelector, userSelector } from "../../selector/selector";
+import { postSelector } from "../../selector/selector";
 
 const initialState = {
   post: [],
@@ -12,9 +12,9 @@ const namespace = "post";
 
 // POST-ASYNC THUNK-----------------------------------------------------------------
 
-const postInit = createAsyncThunk(
+export const postInit = createAsyncThunk(
   `${namespace}/init`,
-  async (_, { dispatch, rejectWithValue }) => {
+  async (_, { dispatch, rejectWithValue, signal }) => {
     try {
       const accessToken = window.localStorage.getItem("accessToken");
       const response = await fetch("http://localhost:3001/api/post/feeds", {
@@ -22,7 +22,8 @@ const postInit = createAsyncThunk(
         headers: {
           "Content-Type": "application/json",
           token: accessToken
-        }
+        },
+        signal : signal
       });
       const data = await response.json();
       dispatch(INITIALIZE_POST({
@@ -74,7 +75,7 @@ const postSlice = createSlice({
       console.log({ state })
       state.status = "PENDING";
       state.isLoading = true;
-    },
+    }, 
     [postInit.fulfilled]: (state) => {
       state.isLoading = false;
       state.status = "SUCCESS";

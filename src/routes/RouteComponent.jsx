@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import PageNotFound from "../component/PageNotFount/PageNotFound";
+// import PageNotFound from "../component/PageNotFount/PageNotFound";
 import ProtectedRoute from "./ProtectedRoute";
-import CheckAuthLogin from "./RequireAuth";
+// import CheckAuthLogin from "./RequireAuth";
 
 const ViewCommentMobile = React.lazy(() =>
   import("../component/DetailPost/Version/Mobile/ViewComment/ViewComment")

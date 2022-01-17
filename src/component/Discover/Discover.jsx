@@ -71,6 +71,7 @@ const data = [
 ];
 
 function Discover() {
+
   useEffect(() => {
     const allDiscoverImage = document.querySelectorAll(".discover-section_img");
     allDiscoverImage.forEach((ele) => {
@@ -90,6 +91,7 @@ function Discover() {
   const [detailDiscover, setDetailDiscover] = useState({});
 
   const [checkShowModal, setCHeckShowModal] = useState(false);
+  
   const handleClickShowDetail = useCallback((data) => {
     setDetailDiscover(data);
     setCHeckShowModal(true);

@@ -1,10 +1,11 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { LOGOUT } from "../../../../redux/features/user/userSlice";
-
+import useAuthentication from "../../../../customHooks/useAuthentication";
 function DropDownProfile(props) {
+  const { user } = useAuthentication();
+
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(LOGOUT());
@@ -26,8 +27,7 @@ function DropDownProfile(props) {
           <div
             className="header__content-menu-info"
             style={{
-              backgroundImage:
-                "url(https://cdn.bongdaplus.vn/Assets/Media/2021/05/18/77/Mason-Mount-xuat-sac-nhat-chelsea.jpg)",
+              backgroundImage: `url(${user.avatar})`,
             }}
           ></div>
         </div>

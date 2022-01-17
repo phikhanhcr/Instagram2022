@@ -6,14 +6,9 @@ function CaptionStatus({ post }) {
       </a>
       <div className="text-sm">
         <a href="/" className="font-semibold hover:underline ">
-          english_quotes_everynight{" "}
+          {post.userId.username}{" "}
         </a>
-        <span className="opacity-80">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos
-          voluptate praesentium perspiciatis vel quae, magnam veniam similique
-          nam, voluptatibus voluptates sunt maxime explicabo cupiditate et.
-          Explicabo maiores doloribus asperiores. Consectetur.
-        </span>
+        <span className="opacity-80">{post.description} </span>
       </div>
       {/* comment section */}
     </div>

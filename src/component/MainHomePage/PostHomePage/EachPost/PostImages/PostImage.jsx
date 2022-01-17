@@ -57,8 +57,8 @@ function PostImages({ onDbCLick, images }) {
             // className="dot cursor-pointer h-[5px] w-[5px] my-0 mx-0.5 bg-[#bbb] inline-block transition-all duration-500"
             className={
               slideIndex === index
-                ? "dot cursor-pointer h-[5px] w-[5px] my-0 mx-0.5 bg-[#0095f6] inline-block transition-all duration-500"
-                : "dot cursor-pointer h-[5px] w-[5px] my-0 mx-0.5 bg-[#bbb] inline-block transition-all duration-500"
+                ? "dot cursor-pointer rounded-full h-[5px] w-[5px] my-0 mx-0.5 bg-[#0095f6] inline-block transition-all duration-500"
+                : "dot cursor-pointer rounded-full h-[5px] w-[5px] my-0 mx-0.5 bg-[#bbb] inline-block transition-all duration-500"
             }
           />
         ))}

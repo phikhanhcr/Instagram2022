@@ -26,12 +26,23 @@ Day 11/1
 - Double click on image => show heart icon
 
 
-
-
-
 Day 14 
 - Header layout
 
 Day 15:
 - Loading post when isLoading === true
 -- render post
+
+
+Day 17
+- Show only on comment bellow each post on the homepage
++ On the pc
+  - show model when clicking the comment button on the pc. => done
++ On the mobile 
+  - Redirect to comment section when click comment button => done
+  - Explore and each post home page => done
+
+- Explore error, no-render post from api yet
+- review useMemo, useCallback, mounted and unmounted
+
+

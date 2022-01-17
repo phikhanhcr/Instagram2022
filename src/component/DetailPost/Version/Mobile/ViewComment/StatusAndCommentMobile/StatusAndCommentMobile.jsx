@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
-import CommentMoblie from "./CommentMoblie/CommentMoblie";
-import StatusMoblie from "./StatusMoblie/StatusMoblie";
+import CommentMoblie from "./CommentMoblie/CommentMobile";
+import StatusMobile from "./StatusMobile/StatusMobile";
 
 function StatusAndCommentMobile() {
   const listRef = useRef();
@@ -19,11 +19,11 @@ function StatusAndCommentMobile() {
 
   return (
     <div
-      className="pt-4 h-[500px] overflow-y-auto pl-4 pr-2"
+      className="pt-4 h-[500px] overflow-y-auto pl-4 pr-2 z-10 bg-white"
       id="list-comment"
       ref={listRef}
     >
-      <StatusMoblie />
+      <StatusMobile />
 
      <CommentMoblie />
     </div>

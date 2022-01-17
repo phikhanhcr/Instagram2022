@@ -1,17 +1,20 @@
+import useDetailPost from "../../../../../../customHooks/useDetailPost";
+
 function HeaderPostDetail({ onCLickClose }) {
+  const { post } = useDetailPost();
   return (
     <div className=" header  flex items-center justify-between py-2 px-4 lg:p-4 border border-solid border-[#ccc]">
       <div
         className="w-7 h-7 p-2 rounded-full bg-cover bg-no-repeat bg-center mr-[14px] "
         style={{
           backgroundImage:
-            "url(https://images.unsplash.com/photo-1553272725-086100aecf5e?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=765&q=80)",
+            `url(${post.userId.avatar})`,
         }}
       ></div>
       <div className="flex-1">
         <div className="flex text-sm items-center">
           <a href="/" className="font-medium mr-1 hover:underline">
-            phikhanhcr
+            {post.userId.username}
           </a>
           <span className="text-[#0095f6] font-semibold">• Theo dõi</span>
         </div>

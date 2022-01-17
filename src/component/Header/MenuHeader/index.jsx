@@ -3,7 +3,6 @@ import CountNumber from './CountNumber/CountNumber';
 import DropDownProfile from './DropDownProfile/DropDownProfile';
 import NotificationIcon from "./NotificationIcon/NotificationIcon";
 import UploadIcon from "./Upload/UploadIcon";
-
 function MenuHeader() {
   return (
     <div className="justify-between w-full md:w-auto md:justify-start flex items-center">

@@ -1,4 +1,8 @@
+import useDetailPost from "../../../../../../customHooks/useDetailPost";
+
 function LikePostDetail() {
+  const { post } = useDetailPost();
+  const { like_count } = post;
   return (
     <>
       <div className="react flex justify-between px-4 lg:py-2 lg:px-4 pt-1 border-t border-[#d1d1d1] border-solid">
@@ -66,10 +70,10 @@ function LikePostDetail() {
         </div>
       </div>
       {/* like  */}
-      
+
       <div className="px-4 py-1">
         <a href="#" className="font-semibold text-sm block">
-          7,700 lượt thích
+          {like_count} {" "} lượt thích
         </a>
         <span className="text-xs opacity-60">3 ngày trước</span>
       </div>

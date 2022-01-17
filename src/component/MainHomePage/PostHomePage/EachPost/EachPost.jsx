@@ -29,6 +29,7 @@ function EachPostHomePage({ post }) {
           <ActionSection
             checkLike={checkLike}
             handleCheckLike={handleCLickHeart}
+            post={post}
           />
           {/* status  */}
           <CaptionStatus post={post}/>
