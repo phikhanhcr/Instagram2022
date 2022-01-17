@@ -19,7 +19,6 @@ export const eachPostInit = createAsyncThunk(
         signal : signal
       });
       const data = await response.json();
-      console.log({ data });
       dispatch(INITIALIZE_DETAIL_POST({
         post : data
       }))

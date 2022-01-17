@@ -66,13 +66,11 @@ const postSlice = createSlice({
   initialState,
   reducers: {
     INITIALIZE_POST: (state, action) => {
-      console.log({ action })
       state.post = action.payload.post
     }
   },
   extraReducers: {
     [postInit.pending]: (state) => {
-      console.log({ state })
       state.status = "PENDING";
       state.isLoading = true;
     }, 

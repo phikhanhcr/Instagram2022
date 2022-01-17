@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import CommentMoblie from "./CommentMoblie/CommentMobile";
+import CommentMobile from "./CommentMoblie/CommentMobile";
 import StatusMobile from "./StatusMobile/StatusMobile";
 
 function StatusAndCommentMobile() {
@@ -25,7 +25,7 @@ function StatusAndCommentMobile() {
     >
       <StatusMobile />
 
-     <CommentMoblie />
+     <CommentMobile />
     </div>
   );
 }

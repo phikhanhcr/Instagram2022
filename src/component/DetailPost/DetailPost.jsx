@@ -17,21 +17,13 @@ function DetailPost() {
   const { idPost } = useParams();
   const { isLoading, post } = useDetailPost(idPost);
   const [checkModelCommentMobile, setCheckModelCommentMobile] = useState(false);
-  const [checkMobile, setCheckMobile] = useState(false);
 
   const handleCheckModelCommentMobile = () => {
     setCheckModelCommentMobile((pre) => !pre);
   };
   useEffect(() => {
-    // initializeDetailPost();
-    const promise = dispatch(eachPostInit(idPost));
-    const windowSize = window.innerWidth;
-    console.log({ windowSize })
-    
-    if(windowSize <= 767) {
-      setCheckMobile(true);
-    }
 
+    const promise = dispatch(eachPostInit(idPost));
     // Canceling While Running​
     // when the internet's so fucking slow, you wanna go to detail post page, dispatch => detailPost Init
     // for some reason u go to home page, the detailPost.rejected will be executed
@@ -40,7 +32,7 @@ function DetailPost() {
       promise.abort();
     };
   }, [dispatch, idPost]);
-
+  
   const handleClickMenu = () => {
     setShowModal((pre) => !pre);
   };
