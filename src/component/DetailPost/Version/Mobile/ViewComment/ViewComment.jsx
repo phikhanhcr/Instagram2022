@@ -1,14 +1,17 @@
 import HeaderViewComment from "./ChildrenComponent/HeaderViewComment";
 import ViewCommentAvatar from "./ChildrenComponent/ViewCommentAvatar";
 import StatusAndCommentMobile from "./StatusAndCommentMobile/StatusAndCommentMobile";
-function ViewComment({ onClickShowModelComment }) {
+import useAuthentication from '../../../../../customHooks/useAuthentication'
+function ViewComment() {
+  const { user } = useAuthentication();
+  const { avatar } = user;
   return (
     <section className="view-comment bg-white">
-      <HeaderViewComment onClickShowModelComment={onClickShowModelComment}/>
+      <HeaderViewComment />
 
       <div className="fixed top-[56px] h-[65px] w-full right-0 left-0 bg-gray-200">
         <div className="flex h-full items-center px-4">
-          <ViewCommentAvatar />
+          <ViewCommentAvatar avatar={avatar}/>
           <div className="flex-1">
             <form
               action

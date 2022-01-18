@@ -36,16 +36,16 @@ const initialState = {
   status: null
 }
 
-export const EACH_POST_FUNCTION = (idPost) => {
+export const EACH_POST_FUNCTION = () => {
   const dispatch = useDispatch();
   const { post, isLoading, status } = useSelector(detailPostSelector);
 
   const initializeDetailPost = useCallback(() => {
-    const promise = dispatch(eachPostInit(idPost));
+    const promise = dispatch(eachPostInit());
     return () => {
       promise.abort();
     }
-  }, [dispatch, idPost])
+  }, [dispatch])
 
   return {
     post,
@@ -60,7 +60,6 @@ const eachPostSlice = createSlice({
   initialState,
   reducers: {
     INITIALIZE_DETAIL_POST: (state, action) => {
-      console.log({ action })
       state.post = action.payload.post
     }
   },

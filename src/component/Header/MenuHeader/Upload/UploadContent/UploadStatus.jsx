@@ -1,20 +1,58 @@
+import { useState } from "react";
 import AllowCommentButton from "./AllowCommentButton";
+import useAuthentication from "../../../../../customHooks/useAuthentication";
+import { useDispatch } from "react-redux";
+import { createPostAsync } from "../../../../../redux/features/post/postSlice";
+import usePost from "../../../../../customHooks/usePost";
+function UploadStatus({ onClickNextStep, file, handleUploadSuccessfully }) {
+  const dispatch = useDispatch();
+  const { user } = useAuthentication();
+  const [description, setDescription] = useState("");
+  const [checkSendOrNot, setCheckSendOrNot] = useState(false);
 
-function UploadStatus({ onClickNextStep }) {
+  const { checkUploadSuccess } = usePost();
+  if (checkUploadSuccess) {
+    handleUploadSuccessfully();
+  }
+
+  const uploadFile = async () => {
+    setCheckSendOrNot(true);
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "Instagram");
+    const res = await fetch(
+      "https://api.cloudinary.com/v1_1/pklevi/image/upload",
+      {
+        method: "POST",
+        body: data,
+      }
+    );
+
+    const dataFile = await res.json();
+    const dataSendServer = {
+      description,
+      images: [dataFile.url],
+      type: "post",
+    };
+    dispatch(createPostAsync(dataSendServer));
+  };
+
   return (
     <div className="flex justify-center mt-5">
       <div className="text-sm w-[80%]">
         <div className="flex mb-3 items-center">
           <div
             style={{
-              backgroundImage: `url(https://tockhoedep365.com/wp-content/uploads/2018/04/cac-kieu-toc-dep-nhat-cua-ricardo-kaka.jpg)`,
+              backgroundImage: `url(${user.avatar})`,
             }}
             className="bg-cover bg-center bg-no-repeat w-8 h-8 rounded-full mr-3"
           ></div>
-          <p className="font-semibold">phikhanhcr</p>
+          <p className="font-semibold">{user.username}</p>
         </div>
         <div className="mb-3 text-base">
           <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             type="text"
             placeholder="Viết chú thích"
             className="outline-none w-[80%] h-auto resize-none max-h-{168px] md:min-h-[168px]"
@@ -22,14 +60,24 @@ function UploadStatus({ onClickNextStep }) {
         </div>
         <AllowCommentButton />
         <div className="flex mt-3">
-          <div 
+          <div
             onClick={onClickNextStep}
-            className="mr-3 cursor-pointer mt-3 border border-solid border-transparent bg-[#0095f6] text-white rounded text-center text-sm appearance-none py-[5px] px-[9px]">
+            className="mr-3 cursor-pointer mt-3 border border-solid border-transparent bg-[#0095f6] text-white rounded text-center text-sm appearance-none py-[5px] px-[9px]"
+          >
             {"<"} Trở lại
           </div>
-          <div className="cursor-pointer mt-3 border border-solid border-transparent bg-[#0095f6] text-white rounded text-center text-sm appearance-none py-[5px] px-[9px]">
-            Chia sẻ
-          </div>
+          {checkSendOrNot ? (
+            <button className="cursor-pointer select-none opacity-70 mt-3 border border-solid border-transparent bg-[#0095f6] text-white rounded text-center text-sm appearance-none py-[5px] px-[9px]">
+              Uploading
+            </button>
+          ) : (
+            <button
+              onClick={uploadFile}
+              className="cursor-pointer mt-3 border border-solid border-transparent bg-[#0095f6] text-white rounded text-center text-sm appearance-none py-[5px] px-[9px]"
+            >
+              Chia sẻ
+            </button>
+          )}
         </div>
       </div>
     </div>

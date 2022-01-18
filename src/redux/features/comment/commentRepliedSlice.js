@@ -14,7 +14,6 @@ const namespace = "comment_replied_by_root_comment";
 export const commentRepliedAsyncIdCommentRoot = createAsyncThunk(
   `${namespace}/init`,
   async (idCommentRoot, { dispatch, signal }) => {
-    console.log({ idCommentRoot })
     try {
       const accessToken = window.localStorage.getItem("accessToken");
       const response = await fetch(`http://localhost:3001/api/comment/replied/${idCommentRoot}`, {
@@ -26,7 +25,6 @@ export const commentRepliedAsyncIdCommentRoot = createAsyncThunk(
         signal: signal
       });
       const data = await response.json();
-      console.log({ data })
       dispatch(INITIALIZE_COMMENT_REPLIED({
         comment_replied: data.newData
       }));
@@ -55,7 +53,6 @@ const commentRepliedSlice = createSlice({
   initialState,
   reducers: {
     INITIALIZE_COMMENT_REPLIED: (state, action) => {
-      console.log(action)
       state.comment_replied = action.payload.comment_replied;
     }
   },

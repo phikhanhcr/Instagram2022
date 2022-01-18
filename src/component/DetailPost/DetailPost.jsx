@@ -48,8 +48,6 @@ function DetailPost() {
           <PostMobile
             onCLickClose={handleClickMenu}
             post={post}
-            checkModelCommentMobile={checkModelCommentMobile}
-            onClickShowModelComment={handleCheckModelCommentMobile}
           />
 
           <div className="my-12 w-full border border-solid border-[#ccc]" />

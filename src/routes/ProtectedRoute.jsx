@@ -3,7 +3,6 @@ import useAuthentication from "../customHooks/useAuthentication";
 
 function ProtectedRoute() {
   const { isAuthenticated } = useAuthentication();
-  console.log({ isAuthenticated })
   return isAuthenticated ? <Outlet /> : <Navigate to={"/login"}/> 
 }
 

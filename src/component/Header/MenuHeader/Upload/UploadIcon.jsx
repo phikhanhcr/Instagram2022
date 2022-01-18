@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from "react";
+import usePost from "../../../../customHooks/usePost";
 import "./Upload.css";
 import UploadStatus from "./UploadContent/UploadStatus";
 
@@ -7,7 +8,18 @@ function UploadIcon() {
   const [file, setFile] = useState(null);
   const modalRef = useRef();
   const [uploadContentModal, setUploadContentModel] = useState(false);
-  const handleChangeInputFile = (e) => {
+
+  const handleClickRemoveFile = () => {
+    setFile(null);
+    setUploadContentModel(false);
+  };
+  const handleUploadSuccessfully = () => {
+    setFile(null);
+    setShowModal(false);
+    setUploadContentModel(false);
+  }
+
+  const handleChangeInputFile = async (e) => {
     const file = e.target.files[0];
     file.preview = URL.createObjectURL(file);
     setFile(file);
@@ -16,7 +28,7 @@ function UploadIcon() {
   const handleClickNextStep = () => {
     setUploadContentModel((pre) => !pre);
   };
-  
+
   // cleanup function
   useEffect(() => {
     return () => file && URL.revokeObjectURL(file.preview);
@@ -109,7 +121,11 @@ function UploadIcon() {
                   <div className="max-h-[85%] relative overflow-hidden">
                     <div className="w-full">
                       <div className="flex justify-center">
-                        <img alt="img" src={file.preview} className="w-full h-auto" />
+                        <img
+                          alt="img"
+                          src={file.preview}
+                          className="w-full h-auto"
+                        />
                       </div>
                       <button
                         onClick={handleClickNextStep}
@@ -117,10 +133,20 @@ function UploadIcon() {
                       >
                         Tiếp
                       </button>
+                      <button
+                        onClick={handleClickRemoveFile}
+                        className="absolute cursor-pointer bottom-2 left-2 border border-solid border-transparent bg-gray-400 font-semibold bg-opacity-60 rounded text-center text-sm appearance-none py-[5px] px-[9px]"
+                      >
+                        Xóa
+                      </button>
                     </div>
                   </div>
                 ) : (
-                  <UploadStatus onClickNextStep={handleClickNextStep} />
+                  <UploadStatus
+                    handleUploadSuccessfully={handleUploadSuccessfully}
+                    file={file}
+                    onClickNextStep={handleClickNextStep}
+                  />
                 )}
               </>
             )}

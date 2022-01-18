@@ -1,21 +1,25 @@
-function ContentCommentMobile({ status }) {
+function ContentCommentMobile({ username, content, reply }) {
   return (
     <>
       <div>
         <a href="/" className="font-semibold mr-2">
-          phikhanhcr
+          {username}
         </a>
-        <span>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-          qui, repudiandae aperiam recusandae natus sint voluptatum perferendis
-          consequuntur iusto quaerat similique architecto. Consequatur et dolore
-          hic possimus eum, facere veritatis?
-        </span>
+        {reply ? (
+          <span>
+            <a href="/" className="text-[#00376b] inline-block">
+              @{reply}
+            </a>{" "}
+            {content}{" "}
+          </span>
+        ) : (
+          <span>{content}</span>
+        )}
       </div>
 
       <div className="mt-3 opacity-70">
         <span className="mr-3 cursor-pointer">1 day</span>
-        {!status && <span className="cursor-pointer">Reply</span>}
+        <span className="cursor-pointer">Reply</span>
       </div>
     </>
   );

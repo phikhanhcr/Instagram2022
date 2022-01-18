@@ -4,11 +4,8 @@ import useCommentReplied from "../../../../../../../customHooks/useCommentReplie
 import { commentRepliedAsyncIdCommentRoot } from "../../../../../../../redux/features/comment/commentRepliedSlice";
 
 function CommentRelied({ commentId }) {
-  console.log({ commentId });
   const dispatch = useDispatch();
-  const { comment_replied, isLoading, status } = useCommentReplied();
-  const [checkHide, setCheckHide] = useState()
-  console.log({ comment_replied, isLoading, status });
+  const { comment_replied, isLoading } = useCommentReplied();
 
   useEffect(() => {
     const promise = dispatch(commentRepliedAsyncIdCommentRoot(commentId));

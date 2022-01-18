@@ -3,7 +3,6 @@ import MobileDiscover from "./MobileDiscover/MobileDiscover";
 import PcDiscover from "./PcDiscover/PcDiscover";
 
 function ModalDetail({ onCloseBtn, data }) {
-  console.log({ data })
   return (
     <>
       <div

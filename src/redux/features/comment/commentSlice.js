@@ -14,7 +14,6 @@ const namespace = "comment_by_id_post";
 export const commentAsyncIdPost = createAsyncThunk(
   `${namespace}/init`,
   async (idPost, { dispatch, signal }) => {
-    console.log({ idPost })
     try {
       const accessToken = window.localStorage.getItem("accessToken");
       const response = await fetch(`http://localhost:3001/api/comment/post/${idPost}`, {
@@ -26,7 +25,6 @@ export const commentAsyncIdPost = createAsyncThunk(
         signal: signal
       });
       const data = await response.json();
-      console.log({ data })
       dispatch(INITIALIZE_COMMENT({
         comment: data.data
       }));
@@ -55,7 +53,6 @@ const commentSlice = createSlice({
   initialState,
   reducers: {
     INITIALIZE_COMMENT: (state, action) => {
-      console.log(action)
       state.comment = action.payload.comment;
     }
   },

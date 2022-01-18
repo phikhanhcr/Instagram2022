@@ -46,3 +46,7 @@ Day 17
 - review useMemo, useCallback, mounted and unmounted
 
 
+Day 18
+  - Tag friends functionality
+  - Add has_tags for post
+  - Allow comment functionality

@@ -1,18 +1,14 @@
 import { useCallback, useState } from "react";
 import ModalDetail from "../../../../Discover/ModalDetail/ModalDetail";
 
-function ActionSection({ checkLike, handleCheckLike, post }) {
-  const [checkShowModal, setCHeckShowModal] = useState(false);
+function ActionSection({ checkLike, handleCheckLike, post, checkShowModal, handleCloseBtn }) {
+
   const [detailDiscover, setDetailDiscover] = useState({});
 
   const handleClickShowDetail = useCallback((data) => {
     setDetailDiscover(data);
-    setCHeckShowModal(true);
-  }, []);
-
-  const handleCloseBtn = () => {
-    setCHeckShowModal(false);
-  };
+    handleCloseBtn()
+  }, [handleCloseBtn]);
 
   return (
     <>

@@ -4,8 +4,11 @@ import useDetailPost from "../../../../../../customHooks/useDetailPost";
 import { commentAsyncIdPost } from "../../../../../../redux/features/comment/commentSlice";
 import useComment from "../../../../../../customHooks/useComment";
 import EachComment from "./EachComment/EachComment";
-function ContentPostDetail() {
-  const { post } = useDetailPost();
+function ContentPostDetail({ postProps }) {
+  let { post } = useDetailPost();
+  if(postProps) {
+    post = postProps;
+  }
   const postId = post._id;
   const dispatch = useDispatch();
   const { comment, isLoading } = useComment();
@@ -16,7 +19,7 @@ function ContentPostDetail() {
       promise.abort();
     };
   }, [dispatch, postId]);
-  
+
   return (
     <>
       {isLoading ? <div>Loading...</div> : ""}
@@ -40,12 +43,10 @@ function ContentPostDetail() {
         <div className="comment">
           <ul className="h-auto">
             {/* list comment */}
-            {
-              comment.length && comment.map((ele, index) => (
-                <EachComment key={index} comment={ele}/>
-              ))
-           
-            }
+            {comment.length &&
+              comment.map((ele, index) => (
+                <EachComment key={index} comment={ele} />
+              ))}
           </ul>
         </div>
       </div>
