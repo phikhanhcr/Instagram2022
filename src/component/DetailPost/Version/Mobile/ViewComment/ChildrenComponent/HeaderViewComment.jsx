@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 
 function HeaderViewComment() {
@@ -28,4 +29,4 @@ function HeaderViewComment() {
     </div>
   );
 }
-export default HeaderViewComment;
+export default memo(HeaderViewComment);

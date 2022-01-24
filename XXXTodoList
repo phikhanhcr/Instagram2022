@@ -50,3 +50,9 @@ Day 18
   - Tag friends functionality
   - Add has_tags for post
   - Allow comment functionality
+
+Day 24:
+  - Comment oke 
+  - But still having one issue with viewing comment replied, what I am using is Redux to store comment replied, 
+    it's not so oke, must think about call direct api through comment root Id to load more content as 
+    well as comment (pagination)

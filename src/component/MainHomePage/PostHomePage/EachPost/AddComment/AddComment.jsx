@@ -1,4 +1,21 @@
-function AddComment() {
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { createCommentAsync } from "../../../../../redux/features/comment/commentSlice";
+
+function AddComment({ idPost }) {
+  const [input, setInput] = useState("");
+  const dispatch = useDispatch();
+
+  const handleCreateComment = () => {
+    dispatch(
+      createCommentAsync({
+        post_id: idPost,
+        content: input,
+      })
+    );
+    setInput("")
+  };
+
   return (
     <div className="py-[6px] mt-3 items-center flex border-t border-solid border-[#ccc]">
       <div className="py-2 pr-4 pl-0">
@@ -21,11 +38,25 @@ function AddComment() {
           className="outline-none text-sm border-none w-full"
           type="text"
           placeholder="Thêm bình luận"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
         />
       </div>
-      <button className="border-0 text-[#0095f6] text-sm font-semibold  cursor-pointer">
-        Đăng
-      </button>
+      {input === "" ? (
+        <button
+          disabled
+          className="border-0 text-[#0095f6] text-sm font-semibold opacity-50"
+        >
+          Đăng
+        </button>
+      ) : (
+        <button
+          onClick={handleCreateComment}
+          className="border-0 text-[#0095f6] text-sm font-semibold  cursor-pointer"
+        >
+          Đăng
+        </button>
+      )}
     </div>
   );
 }

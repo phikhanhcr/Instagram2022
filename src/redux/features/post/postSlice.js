@@ -7,7 +7,8 @@ const initialState = {
   post: [],
   isLoading: false,
   status: null,
-  checkUploadSuccess: false
+  checkUploadSuccess: false,
+  postByUserID : []
 }
 const namespace = "post";
 
@@ -39,6 +40,30 @@ export const createPostAsync = createAsyncThunk(
   }
 )
 
+export const getPostByUserId = createAsyncThunk(
+  `${namespace}/get_post_by_user_id`,
+  async (userId, { dispatch, signal }) => {
+    try {
+      const accessToken = window.localStorage.getItem("accessToken");
+      const response = await fetch("http://localhost:3001/api/post/feeds", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          token: accessToken
+        },
+        signal: signal
+      });
+      const data = await response.json();
+      dispatch(INITIALIZE_POST({
+        post: data
+      }));
+    } catch (error) {
+      dispatch(INITIALIZE_POST({
+        post: null
+      }));
+    }
+  }
+)
 
 
 // POST-ASYNC THUNK-----------------------------------------------------------------

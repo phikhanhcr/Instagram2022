@@ -11,7 +11,6 @@ function ModalDetail({ onCloseBtn, data }) {
       >
         <PcDiscover data={data}/>
         <MobileDiscover data={data}/>
-
         <BtnCloseDiscover onCloseBtn={onCloseBtn} />
       </div>
     </>

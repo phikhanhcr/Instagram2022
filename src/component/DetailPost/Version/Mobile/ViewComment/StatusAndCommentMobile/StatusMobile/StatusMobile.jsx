@@ -1,13 +1,13 @@
 import ContentCommentMobile from "../../ChildrenComponent/ContentCommentMobile";
 import ViewCommentAvatar from "../../ChildrenComponent/ViewCommentAvatar";
-import useDetailPost from '../../../../../../../customHooks/useDetailPost'
+import useDetailPost from "../../../../../../../customHooks/useDetailPost";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { eachPostInit } from "../../../../../../../redux/features/detailPost/detailPost";
 import { useParams } from "react-router-dom";
 function StatusMoblie() {
   const idPost = useParams();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const promise = dispatch(eachPostInit(idPost.idPost));
@@ -15,19 +15,21 @@ function StatusMoblie() {
       promise.abort();
     };
   }, [dispatch, idPost]);
-  const { post, isLoading } = useDetailPost(idPost)
+  const { post, isLoading } = useDetailPost(idPost);
 
   return (
     <>
-    {
-      isLoading && <>Loading...</>
-    }
+      {isLoading && <>Loading...</>}
       {post._id && (
         <ul className="border-b border-solid border-[#e2e2e2] pb-5">
           <li className="flex">
-            <ViewCommentAvatar avatar={post.userId.avatar}/>
+            <ViewCommentAvatar avatar={post.userId.avatar} />
             <div className="text-xs flex-1">
-              <ContentCommentMobile username={post.userId.username} content={post.description}/>
+              <ContentCommentMobile
+                isStatus
+                username={post.userId.username}
+                content={post.description}
+              />
             </div>
           </li>
         </ul>

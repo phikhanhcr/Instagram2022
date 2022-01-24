@@ -44,7 +44,7 @@ function EachPostHomePage({ post }) {
           {/* <CommentSection /> */}
 
           {/* post comment*/}
-          <AddComment />
+          <AddComment idPost={post._id}/>
         </div>
       </div>
     </li>

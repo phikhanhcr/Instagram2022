@@ -8,7 +8,6 @@ import UserList from "./UserList/UserList";
 
 function Direct() {
   const params = useParams();
-  console.log({ params })
   let testMessage = [
     { message: "Hello", icon: "heart", sender: "me" },
     { message: "Hi", icon: "heart" },

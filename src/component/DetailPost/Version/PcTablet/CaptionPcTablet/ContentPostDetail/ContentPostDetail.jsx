@@ -4,7 +4,7 @@ import useDetailPost from "../../../../../../customHooks/useDetailPost";
 import { commentAsyncIdPost } from "../../../../../../redux/features/comment/commentSlice";
 import useComment from "../../../../../../customHooks/useComment";
 import EachComment from "./EachComment/EachComment";
-function ContentPostDetail({ postProps }) {
+function ContentPostDetail({ postProps, handleClickReply }) {
   let { post } = useDetailPost();
   if(postProps) {
     post = postProps;
@@ -45,7 +45,7 @@ function ContentPostDetail({ postProps }) {
             {/* list comment */}
             {comment.length &&
               comment.map((ele, index) => (
-                <EachComment key={index} comment={ele} />
+                <EachComment key={index} comment={ele} handleClickReply={handleClickReply}/>
               ))}
           </ul>
         </div>

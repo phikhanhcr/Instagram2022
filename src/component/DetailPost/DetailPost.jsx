@@ -16,13 +16,8 @@ function DetailPost() {
   const dispatch = useDispatch();
   const { idPost } = useParams();
   const { isLoading, post } = useDetailPost(idPost);
-  const [checkModelCommentMobile, setCheckModelCommentMobile] = useState(false);
 
-  const handleCheckModelCommentMobile = () => {
-    setCheckModelCommentMobile((pre) => !pre);
-  };
   useEffect(() => {
-
     const promise = dispatch(eachPostInit(idPost));
     // Canceling While Running​
     // when the internet's so fucking slow, you wanna go to detail post page, dispatch => detailPost Init
@@ -32,7 +27,7 @@ function DetailPost() {
       promise.abort();
     };
   }, [dispatch, idPost]);
-  
+
   const handleClickMenu = () => {
     setShowModal((pre) => !pre);
   };
@@ -45,25 +40,20 @@ function DetailPost() {
       {post._id && (
         <div className="pt-header_height md:pt-[86px] w-[100%] lg:w-full max-w-[975px] mx-auto my-0 p-0 ">
           <PostPcTablet onCLickClose={handleClickMenu} post={post} />
-          <PostMobile
-            onCLickClose={handleClickMenu}
-            post={post}
-          />
+          <PostMobile onCLickClose={handleClickMenu} post={post} />
 
           <div className="my-12 w-full border border-solid border-[#ccc]" />
 
-          {!checkModelCommentMobile && (
-            <>
-              <div className="mb-5">
-                Thêm các bài viết của
-                <a href="/" className="font-semibold text-sm">
-                  {" "}
-                  {post.userId.username}
-                </a>
-              </div>
-              <OtherPost />
-            </>
-          )}
+          <>
+            <div className="mb-5">
+              Thêm các bài viết của
+              <a href="/" className="font-semibold text-sm">
+                {" "}
+                {post.userId.username}
+              </a>
+            </div>
+            <OtherPost />
+          </>
 
           {showModal && <OverlayMenuPost onCLickClose={handleClickMenu} />}
         </div>

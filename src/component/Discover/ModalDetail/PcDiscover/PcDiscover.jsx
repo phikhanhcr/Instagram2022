@@ -1,5 +1,4 @@
 import { memo } from "react";
-import { useState } from "react";
 import CaptionPcTablet from "../../../DetailPost/Version/PcTablet/CaptionPcTablet/CaptionPcTablet";
 import ImagesSlidePcDiscover from "./ImagesSlidePcDiscover";
 
@@ -25,7 +24,7 @@ function PcDiscover({ data }) {
     >
       <ImagesSlidePcDiscover urls={data.images}/>
      
-      <CaptionPcTablet onCLickClose={onCLickClose} post={data} />
+      <CaptionPcTablet onCLickClose={onCLickClose} post={data} postId={data._id}/>
       {/* {showModal && <OverlayMenuPost onCLickClose={onCLickClose} />} */}
     </div>
   );

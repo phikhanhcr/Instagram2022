@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import CommentRelied from "./CommentRelied";
 
-function EachComment({ comment }) {
-  const [checkHide, setCheckHide] = useState();
+function EachComment({ comment, handleClickReply }) {
+  const [checkHide, setCheckHide] = useState(false);
   const handleSetHide = () => {
     setCheckHide((pre) => !pre);
   };
@@ -15,11 +15,13 @@ function EachComment({ comment }) {
             backgroundImage: `url(${comment.avatar})`,
           }}
         ></div>
-        <div className="main flex-1">
+        <div className="flex-1 flex">
           <a href="/" className="font-medium mr-1 hover:underline">
             {comment.username}
           </a>
-          <span>{comment.content} </span>
+          <p className="inline-block max-w-[170px] overflow-x-hidden">
+            {comment.content}{" "}
+          </p>
         </div>
         <div>
           <svg
@@ -40,7 +42,19 @@ function EachComment({ comment }) {
         <div className="flex mt-2 items-center  opacity-70">
           <span className="cursor-pointer mr-2">5 ngày</span>
           <span className="cursor-pointer mr-2">19 lượt thích</span>
-          <span className="cursor-pointer mr-2">Trả lời</span>
+          <span
+            onClick={() =>
+              handleClickReply({
+                commentRoot: comment._id,
+                username: comment.username,
+                avatar: comment.avatar,
+                userId: comment.user_commented_id,
+              })
+            }
+            className="cursor-pointer mr-2"
+          >
+            Trả lời
+          </span>
           <div>
             <svg
               aria-label="Tùy chọn bình luận"
@@ -63,9 +77,20 @@ function EachComment({ comment }) {
             <br />
             <button onClick={handleSetHide} type="button">
               <div className="align-middle border-b-[1px] border-solid inline-block w-6 h-0 mr-4 border-[#7a7a7a]"></div>
-              <span>Xem câu trả lời ({comment.comment_replied_count})</span>
+              {checkHide ? (
+                <span onClick={() => setCheckHide(true)}>Ẩn câu trả lời</span>
+              ) : (
+                <span onClick={() => setCheckHide(false)}>
+                  Xem câu trả lời ({comment.comment_replied_count})
+                </span>
+              )}
             </button>
-            {checkHide && <CommentRelied commentId={comment._id} />}
+            {checkHide && (
+              <CommentRelied
+                handleClickReply={handleClickReply}
+                comment={comment}
+              />
+            )}
           </>
         )}
       </div>

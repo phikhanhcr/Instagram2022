@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import CommentMobile from "./CommentMoblie/CommentMobile";
 import StatusMobile from "./StatusMobile/StatusMobile";
 
-function StatusAndCommentMobile() {
+function StatusAndCommentMobile({ handleClickReply }) {
   const listRef = useRef();
   useEffect(() => {
     const height = window.innerHeight;
@@ -25,7 +25,7 @@ function StatusAndCommentMobile() {
     >
       <StatusMobile />
 
-     <CommentMobile />
+      <CommentMobile handleClickReply={handleClickReply}/>
     </div>
   );
 }

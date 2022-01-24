@@ -6,7 +6,7 @@ import useDetailPost from "../../../../../../../customHooks/useDetailPost";
 import { commentAsyncIdPost } from "../../../../../../../redux/features/comment/commentSlice";
 import EachCommentMobile from "./EachCommentMobile";
 import ContentLoaderComponent from "../../../../../../Commom/ContentLoader";
-function CommentMobilie() {
+function CommentMobile({ handleClickReply }) {
   const { post } = useDetailPost();
   const idPost = post._id;
   const dispatch = useDispatch();
@@ -21,14 +21,21 @@ function CommentMobilie() {
 
   return (
     <>
-      {isLoading && <ContentLoaderComponent />}
-      <ul>
-        {comment.length &&
-          comment.map((ele, index) => (
-            <EachCommentMobile key={index} comment={ele} />
-          ))}
-      </ul>
+      {isLoading ? (
+        <ContentLoaderComponent />
+      ) : (
+        <ul>
+          {comment.length &&
+            comment.map((ele, index) => (
+              <EachCommentMobile
+                key={index}
+                comment={ele}
+                handleClickReply={handleClickReply}
+              />
+            ))}
+        </ul>
+      )}
     </>
   );
 }
-export default CommentMobilie;
+export default CommentMobile;

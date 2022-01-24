@@ -1,25 +1,9 @@
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import useCommentReplied from "../../../../../../../customHooks/useCommentReplied";
-import { commentRepliedAsyncIdCommentRoot } from "../../../../../../../redux/features/comment/commentRepliedSlice";
 
-function CommentRelied({ commentId }) {
-  const dispatch = useDispatch();
-  const { comment_replied, isLoading } = useCommentReplied();
-
-  useEffect(() => {
-    const promise = dispatch(commentRepliedAsyncIdCommentRoot(commentId));
-
-    return () => {
-      promise.abort();
-    };
-  }, [dispatch, commentId]);
-
+function CommentRelied({ comment, handleClickReply }) {
   return (
     <div>
-      {isLoading && <>Loading....</>}
-      {comment_replied.length &&
-        comment_replied.map((ele, index) => (
+      {comment.comment_replied.length &&
+        comment.comment_replied.map((ele, index) => (
           <div key={index} className="flex flex-col text-sm mt-4">
             <div className="flex">
               <div
@@ -33,9 +17,10 @@ function CommentRelied({ commentId }) {
                   {ele.username}
                 </a>
                 <span>
-                  <a href="/" className="text-[#00376b] inline-block">@{ele.reply_to.username}</a>
-                  {" "}
-                  {ele.content}{" "}
+                  <a href="/" className="text-[#00376b] inline-block">
+                    @{ele.reply_to.username}
+                  </a>{" "}
+                  {ele.comment_id.content}{" "}
                 </span>
               </div>
               <div>
@@ -58,7 +43,19 @@ function CommentRelied({ commentId }) {
               <span className="cursor-pointer opacity-70 mr-2">
                 19 lượt thích
               </span>
-              <span className="cursor-pointer opacity-70 mr-2">Trả lời</span>
+              <span
+                onClick={() =>
+                  handleClickReply({
+                    commentRoot: comment._id,
+                    username: ele.username,
+                    avatar: ele.avatar,
+                    userId: ele.user_id,
+                  })
+                }
+                className="cursor-pointer opacity-70 mr-2"
+              >
+                Trả lời
+              </span>
               <div>
                 <svg
                   aria-label="Tùy chọn bình luận"
@@ -78,7 +75,6 @@ function CommentRelied({ commentId }) {
             </div>
           </div>
         ))}
-        
     </div>
   );
 }
