@@ -11,7 +11,7 @@ function CommentMobile({ handleClickReply }) {
   const idPost = post._id;
   const dispatch = useDispatch();
   const { comment, isLoading } = useComment();
-
+  console.log({ comment })
   useEffect(() => {
     const promise = dispatch(commentAsyncIdPost(idPost));
     return () => {
@@ -25,7 +25,7 @@ function CommentMobile({ handleClickReply }) {
         <ContentLoaderComponent />
       ) : (
         <ul>
-          {comment.length &&
+          {comment && comment.length &&
             comment.map((ele, index) => (
               <EachCommentMobile
                 key={index}

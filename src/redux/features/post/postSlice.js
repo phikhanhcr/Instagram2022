@@ -8,7 +8,8 @@ const initialState = {
   isLoading: false,
   status: null,
   checkUploadSuccess: false,
-  postByUserID : []
+  postByUserID: [],
+  discoverPost : []
 }
 const namespace = "post";
 
@@ -43,7 +44,33 @@ export const createPostAsync = createAsyncThunk(
 export const getPostByUserId = createAsyncThunk(
   `${namespace}/get_post_by_user_id`,
   async (userId, { dispatch, signal }) => {
+    console.log({ userId })
     try {
+      const accessToken = window.localStorage.getItem("accessToken");
+      const response = await fetch("http://localhost:3001/api/post/posts/user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          token: accessToken
+        },
+        body: userId ? JSON.stringify({ userId }) : null,
+        signal: signal
+      });
+      const data = await response.json();
+      dispatch(GET_POST_BY_USER_ID(data));
+    } catch (error) {
+      dispatch(GET_POST_BY_USER_ID(null));
+    }
+  }
+)
+
+
+// POST-ASYNC THUNK-----------------------------------------------------------------
+export const postInit = createAsyncThunk(
+  `${namespace}/init`,
+  async (_, { dispatch, signal }) => {
+    try {
+      console.log("Có vào đây ko ? ")
       const accessToken = window.localStorage.getItem("accessToken");
       const response = await fetch("http://localhost:3001/api/post/feeds", {
         method: "GET",
@@ -65,10 +92,8 @@ export const getPostByUserId = createAsyncThunk(
   }
 )
 
-
-// POST-ASYNC THUNK-----------------------------------------------------------------
-export const postInit = createAsyncThunk(
-  `${namespace}/init`,
+export const postDiscover = createAsyncThunk(
+  `${namespace}/discover`,
   async (_, { dispatch, signal }) => {
     try {
       const accessToken = window.localStorage.getItem("accessToken");
@@ -81,13 +106,9 @@ export const postInit = createAsyncThunk(
         signal: signal
       });
       const data = await response.json();
-      dispatch(INITIALIZE_POST({
-        post: data
-      }));
+      dispatch(GET_DISCOVER_POST(data));
     } catch (error) {
-      dispatch(INITIALIZE_POST({
-        post: null
-      }));
+      dispatch(GET_DISCOVER_POST(null));
     }
   }
 )
@@ -96,7 +117,7 @@ export const postInit = createAsyncThunk(
 
 export const PostFunction = () => {
   const dispatch = useDispatch();
-  const { post, isLoading, status, checkUploadSuccess } = useSelector(postSelector);
+  const { post, isLoading, status, checkUploadSuccess, postByUserID, discoverPost } = useSelector(postSelector);
 
   const initializeNewFeedPost = useCallback(() => {
     dispatch(postInit());
@@ -106,6 +127,8 @@ export const PostFunction = () => {
     post,
     status,
     isLoading,
+    discoverPost,
+    postByUserID,
     checkUploadSuccess,
     initializeNewFeedPost
   }
@@ -122,6 +145,12 @@ const postSlice = createSlice({
     },
     CREATE_POST: (state, action) => {
       state.post.unshift(action.payload);
+    },
+    GET_POST_BY_USER_ID: (state, action) => {
+      state.postByUserID = action.payload;
+    },
+    GET_DISCOVER_POST : (state, action) => {
+      state.discoverPost = action.payload;
     },
   },
   extraReducers: {
@@ -154,11 +183,37 @@ const postSlice = createSlice({
       state.checkUploadSuccess = false;
       toast.error(action?.payload);
     },
+    [getPostByUserId.pending]: (state) => {
+      state.status = "PENDING";
+      state.isLoading = true;
+    },
+    [getPostByUserId.fulfilled]: (state) => {
+      state.isLoading = false;
+      state.status = "SUCCESS";
+    },
+    [getPostByUserId.rejected]: (state, action) => {
+      state.status = "FAILED";
+      state.isLoading = false;
+    },
+    [postDiscover.pending]: (state) => {
+      state.status = "PENDING";
+      state.isLoading = true;
+    },
+    [postDiscover.fulfilled]: (state) => {
+      state.isLoading = false;
+      state.status = "SUCCESS";
+    },
+    [postDiscover.rejected]: (state, action) => {
+      state.status = "FAILED";
+      state.isLoading = false;
+    },
   }
 })
 
 export const {
+  GET_POST_BY_USER_ID,
   INITIALIZE_POST,
-  CREATE_POST
+  CREATE_POST,
+  GET_DISCOVER_POST
 } = postSlice.actions;
 export default postSlice.reducer;

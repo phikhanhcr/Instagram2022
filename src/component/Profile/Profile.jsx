@@ -6,11 +6,12 @@ import ProfilePost from "./ProfilePost/ProfilePost";
 import ProfileStory from "./ProfileStory/ProfileStory";
 import Header from "../Header/Header";
 function Profile() {
-  const [currentTab, setCurrentTab] = useState("posts");
+  const [currentTab, setCurrentTab] = useState("post");
   const { user } = useAuthentication();
   const { username, avatar } = user;
   useEffect(() => {
     // call api
+    console.log({ currentTab })
   }, [currentTab]);
 
   const handleClickTab = (value) => {
@@ -28,7 +29,7 @@ function Profile() {
             currentTab={currentTab}
             onClickTab={handleClickTab}
           />
-          <ProfilePost />
+          <ProfilePost currentTab={currentTab}/>
 
           <div className="footer h-[100px] flex justify-center items-center">
             <div className="text-xs opacity-60  mt-10">

@@ -1,9 +1,8 @@
-import { memo } from "react";
 import CaptionPcTablet from "../../../DetailPost/Version/PcTablet/CaptionPcTablet/CaptionPcTablet";
 import ImagesSlidePcDiscover from "./ImagesSlidePcDiscover";
 
 function PcDiscover({ data }) {
-
+  console.log({ data })
   const onCLickClose = () => {};
   return (
     <div
@@ -22,12 +21,16 @@ function PcDiscover({ data }) {
       relative
       "
     >
-      <ImagesSlidePcDiscover urls={data.images}/>
-     
-      <CaptionPcTablet onCLickClose={onCLickClose} post={data} postId={data._id}/>
+      <ImagesSlidePcDiscover urls={data.images} />
+
+      <CaptionPcTablet
+        onCLickClose={onCLickClose}
+        post={data}
+        postId={data._id}
+      />
       {/* {showModal && <OverlayMenuPost onCLickClose={onCLickClose} />} */}
     </div>
   );
 }
 
-export default memo(PcDiscover);
+export default PcDiscover;

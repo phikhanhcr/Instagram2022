@@ -35,6 +35,7 @@ function ProfileEachPost({ type, src }) {
     }
 
   };
+  
   return (
     <div className="text-white  w-6/12 md:w-4/12 px-1 md:px-3.5 md:mb-7 mb-2">
       <div

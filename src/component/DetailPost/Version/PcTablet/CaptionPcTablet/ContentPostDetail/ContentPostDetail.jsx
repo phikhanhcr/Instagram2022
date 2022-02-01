@@ -4,6 +4,7 @@ import useDetailPost from "../../../../../../customHooks/useDetailPost";
 import { commentAsyncIdPost } from "../../../../../../redux/features/comment/commentSlice";
 import useComment from "../../../../../../customHooks/useComment";
 import EachComment from "./EachComment/EachComment";
+
 function ContentPostDetail({ postProps, handleClickReply }) {
   let { post } = useDetailPost();
   if(postProps) {
