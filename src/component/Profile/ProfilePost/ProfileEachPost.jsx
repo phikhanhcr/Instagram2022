@@ -1,8 +1,8 @@
-function ProfileEachPost({ type, src }) {
+function ProfileEachPost({ data }) {
   const handleType = () => {
-    if (type === "images") {
+    if (data.type === "images") {
       return "";
-    } else if (type === "video") {
+    } else if (data.type === "video") {
       return (
         <svg
           aria-label="Video"
@@ -17,7 +17,7 @@ function ProfileEachPost({ type, src }) {
           <path d="M9.6 46.5c-1 0-2-.3-2.9-.8-1.8-1.1-2.9-2.9-2.9-5.1V7.3c0-2.1 1.1-4 2.9-5.1 1.9-1.1 4.1-1.1 5.9 0l30.1 17.6c1.5.9 2.3 2.4 2.3 4.1 0 1.7-.9 3.2-2.3 4.1L12.6 45.7c-.9.5-2 .8-3 .8z"></path>
         </svg>
       );
-    } else if (type === "reels") {
+    } else if (data.type === "reels") {
       return (
         <svg
           aria-label="Clip"
@@ -42,7 +42,7 @@ function ProfileEachPost({ type, src }) {
         className="group cursor-pointer relative w-full h-[305px] bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage:
-            `url(${src})`,
+            `url(${data.images[0]})`,
         }}
       >
         <div className="group-hover:flex items-center justify-center hidden transition-all absolute bg-black bg-opacity-20 top-0 left-0 right-0 bottom-0">
@@ -62,7 +62,7 @@ function ProfileEachPost({ type, src }) {
                 d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"
               ></path>
             </svg>
-            <span className="font-semibold text-base">340</span>
+            <span className="font-semibold text-base">{data.like_count}</span>
           </div>
           <div className="flex items-center">
             <svg
@@ -80,7 +80,7 @@ function ProfileEachPost({ type, src }) {
                 d="M256 32C114.6 32 0 125.1 0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3 0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4 0 256-93.1 256-208S397.4 32 256 32z"
               ></path>
             </svg>
-            <span className="font-semibold text-base">340</span>
+            <span className="font-semibold text-base">{data.comment_count}</span>
           </div>
         </div>
 

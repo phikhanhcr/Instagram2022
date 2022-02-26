@@ -9,9 +9,12 @@ function PostHomePage() {
   const { post, isLoading } = usePost();
   const dispatch = useDispatch();
   useEffect(() => {
-    const promise = dispatch(postInit());
-    return () => promise.abort();
-  }, [dispatch]);
+    if(!post.length) {
+      const promise = dispatch(postInit());
+      return () => promise.abort();
+    }
+
+  }, [dispatch, post]);
 
   return (
     <ul className="post_section-list">

@@ -9,12 +9,11 @@ function App() {
     document.title = "Instagram"
   }, [])
 
-  const { isLoading, initialize, isInitialized } = useAuthentication();
+  const { isLoading, initialize, isInitialized, isAuthenticated } = useAuthentication();
 
   useEffect(() => {
     initialize()
   }, [initialize])
-
 
   return (
     <>

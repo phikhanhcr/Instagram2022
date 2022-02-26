@@ -2,7 +2,6 @@ import { useState } from "react";
 import ActionSection from "./ActionSection/ActionSection";
 import AddComment from "./AddComment/AddComment";
 import CaptionStatus from "./CaptionStatus/CaptionStatus";
-import CommentSection from "./CommentSection/CommentSection";
 import PostHeader from "./EachPostHeader/EachPostHeader";
 import PostImages from "./PostImages/PostImage";
 

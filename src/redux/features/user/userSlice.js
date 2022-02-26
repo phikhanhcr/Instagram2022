@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSession, isValidToken } from "../../../utils/jwt";
 import { toast } from "react-toastify";
 import { useCallback } from "react";
+
+import {socket } from '../../../index'
 const initialState = {
   user: {},
   isAuthenticated: false,
@@ -32,7 +34,6 @@ const userInit = createAsyncThunk(
             token: accessToken
           },
         });
-
         const data = await response.json();
         dispatch(
           INITIALIZE({
@@ -40,6 +41,7 @@ const userInit = createAsyncThunk(
             user: JSON.parse(data.user),
           })
         );
+        socket.emit("user-init", JSON.parse(data.user))
 
       } else {
         dispatch(
@@ -80,6 +82,7 @@ const userLogin = createAsyncThunk(
       }
       setSession(data.token);
       data.user = JSON.parse(data.user)
+      dispatch(userInit())
       dispatch(LOGIN(data));
     } catch (error) {
       return rejectWithValue("Something went wrong, please try another time");

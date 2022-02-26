@@ -12,15 +12,15 @@ function MainInfo({ username, avatar }) {
   }
 
   return (
-    <div className="flex mb-11">      
+    <div className="flex mb-4 md:mb-11">      
       <MainAvatar avatar={avatar}/>
       <div className="w-8/12">
         <div>
           <div className="flex flex-col items-start mb-5 md:flex-row md:items-center">
-            <span className="text-[28px] leading-8 font-light mb-1">
+            <span className="text-[28px] leading-8 font-light mb-3 md:mb-1">
               {username}
             </span>
-            <button className="md:ml-5 border mb-1 border-solid border-[#b9b9b9] px-[9px] py-[5px] font-semibold rounded-md">
+            <button className="md:ml-5 border mb-3 md:mb-1 border-solid border-[#b9b9b9] px-[9px] py-[5px] font-semibold rounded-md">
               Chỉnh sửa trang cá nhân
             </button>
             <div className="cursor-pointer md:ml-4 mb-1">

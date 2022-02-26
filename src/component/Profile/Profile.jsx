@@ -11,7 +11,6 @@ function Profile() {
   const { username, avatar } = user;
   useEffect(() => {
     // call api
-    console.log({ currentTab })
   }, [currentTab]);
 
   const handleClickTab = (value) => {
@@ -29,7 +28,7 @@ function Profile() {
             currentTab={currentTab}
             onClickTab={handleClickTab}
           />
-          <ProfilePost currentTab={currentTab}/>
+          <ProfilePost currentTab={currentTab} />
 
           <div className="footer h-[100px] flex justify-center items-center">
             <div className="text-xs opacity-60  mt-10">

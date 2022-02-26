@@ -3,12 +3,16 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { LOGOUT } from "../../../../redux/features/user/userSlice";
 import useAuthentication from "../../../../customHooks/useAuthentication";
+import { LOGOUT_SET_NOTIFY } from "../../../../redux/features/notification/notificationSlice";
+import { LOGOUT_SET_POST } from "../../../../redux/features/post/postSlice";
 function DropDownProfile(props) {
   const { user } = useAuthentication();
 
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(LOGOUT());
+    dispatch(LOGOUT_SET_NOTIFY());
+    dispatch(LOGOUT_SET_POST());
   };
   return (
     <div className=" ml-[22px] cursor-pointer relative">

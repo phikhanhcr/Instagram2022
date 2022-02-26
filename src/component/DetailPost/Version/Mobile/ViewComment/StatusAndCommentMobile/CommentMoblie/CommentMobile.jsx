@@ -11,7 +11,6 @@ function CommentMobile({ handleClickReply }) {
   const idPost = post._id;
   const dispatch = useDispatch();
   const { comment, isLoading } = useComment();
-  console.log({ comment })
   useEffect(() => {
     const promise = dispatch(commentAsyncIdPost(idPost));
     return () => {

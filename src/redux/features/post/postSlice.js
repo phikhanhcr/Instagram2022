@@ -9,7 +9,7 @@ const initialState = {
   status: null,
   checkUploadSuccess: false,
   postByUserID: [],
-  discoverPost : []
+  discoverPost: []
 }
 const namespace = "post";
 
@@ -44,7 +44,6 @@ export const createPostAsync = createAsyncThunk(
 export const getPostByUserId = createAsyncThunk(
   `${namespace}/get_post_by_user_id`,
   async (userId, { dispatch, signal }) => {
-    console.log({ userId })
     try {
       const accessToken = window.localStorage.getItem("accessToken");
       const response = await fetch("http://localhost:3001/api/post/posts/user", {
@@ -70,7 +69,6 @@ export const postInit = createAsyncThunk(
   `${namespace}/init`,
   async (_, { dispatch, signal }) => {
     try {
-      console.log("Có vào đây ko ? ")
       const accessToken = window.localStorage.getItem("accessToken");
       const response = await fetch("http://localhost:3001/api/post/feeds", {
         method: "GET",
@@ -149,8 +147,16 @@ const postSlice = createSlice({
     GET_POST_BY_USER_ID: (state, action) => {
       state.postByUserID = action.payload;
     },
-    GET_DISCOVER_POST : (state, action) => {
+    GET_DISCOVER_POST: (state, action) => {
       state.discoverPost = action.payload;
+    },
+    LOGOUT_SET_POST: (state) => {
+      state.post = [];
+      state.isLoading = false
+      state.status = null
+      state.checkUploadSuccess = false
+      state.postByUserID = []
+      state.discoverPost = []
     },
   },
   extraReducers: {
@@ -214,6 +220,7 @@ export const {
   GET_POST_BY_USER_ID,
   INITIALIZE_POST,
   CREATE_POST,
-  GET_DISCOVER_POST
+  GET_DISCOVER_POST,
+  LOGOUT_SET_POST
 } = postSlice.actions;
 export default postSlice.reducer;

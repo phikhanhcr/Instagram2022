@@ -3,3 +3,4 @@ export const postSelector = state => state.post;
 export const detailPostSelector = state => state.detailPost;
 export const commentSelector = state => state.comment;
 export const commentRepliedSelector = state => state.comment_replied;
+export const notificationSelector = state => state.notification;

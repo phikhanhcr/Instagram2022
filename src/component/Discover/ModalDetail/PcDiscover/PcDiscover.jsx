@@ -2,7 +2,6 @@ import CaptionPcTablet from "../../../DetailPost/Version/PcTablet/CaptionPcTable
 import ImagesSlidePcDiscover from "./ImagesSlidePcDiscover";
 
 function PcDiscover({ data }) {
-  console.log({ data })
   const onCLickClose = () => {};
   return (
     <div

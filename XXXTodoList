@@ -42,7 +42,7 @@ Day 17
   - Redirect to comment section when click comment button => done
   - Explore and each post home page => done
 
-- Explore error, no-render post from api yet
+- Explore error, no-render post from api yet => oke
 - review useMemo, useCallback, mounted and unmounted
 
 
@@ -56,3 +56,13 @@ Day 24:
   - But still having one issue with viewing comment replied, what I am using is Redux to store comment replied, 
     it's not so oke, must think about call direct api through comment root Id to load more content as 
     well as comment (pagination)
+
+
+
+// Todo list
+
+
+Day 21 - 02 - 2022
+  - Notification view  => oke
+  - Fix redux store avoid reloading data  => oke
+  - Notification realtime                 => NO, YET

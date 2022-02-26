@@ -30,6 +30,7 @@ function MainHomePage() {
       window.removeEventListener("resize", handleREsize);
     };
   }, []);
+  
   return (
     <section className="pt-0 md:pt-[30px]">
       <div
