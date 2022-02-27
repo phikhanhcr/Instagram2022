@@ -22,22 +22,22 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate.
 
 ### Some images from this app 
-> Homepage
+#### Homepage
 ![HOMEPAGE](src/assert/readme_images/homepage.png)
 
->Profile
+#### Profile
 ![Cart](src/assert/readme_images/profile.png)\
 
->Discover
+#### Discover
 ![Cart](src/assert/readme_images/discover.png)
 
->Notification Realtime
+#### Notification Realtime
 ![Cart](src/assert/readme_images/notification.png)
 
->Feature upload images
+#### Feature upload images
 ![Cart](src/assert/readme_images/upload.png)
 
->Full Responsive
+#### Full Responsive
 ![Cart](src/assert/readme_images/full_responsive.png)
 
 
