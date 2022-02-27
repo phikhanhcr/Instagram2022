@@ -1,3 +1,6 @@
+# Notice:
+> The project haven't been finished yet, still developing
+
 # Front-end for Instagram clone
 > A website that is familiar to you, 
 > The Social Media Web 
