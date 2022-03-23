@@ -31,6 +31,7 @@ function DetailPost() {
   const handleClickMenu = () => {
     setShowModal((pre) => !pre);
   };
+  console.log(post)
   return (
     <>
       <Header />
@@ -52,7 +53,7 @@ function DetailPost() {
                 {post.userId.username}
               </a>
             </div>
-            <OtherPost />
+            <OtherPost userId={post.userId._id}/>
           </>
 
           {showModal && <OverlayMenuPost onCLickClose={handleClickMenu} />}

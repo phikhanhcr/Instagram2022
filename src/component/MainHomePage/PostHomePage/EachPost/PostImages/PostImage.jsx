@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-
 function PostImages({ onDbCLick, images }) {
   // const [images, setImages ] = useState([]);
 
@@ -22,11 +21,12 @@ function PostImages({ onDbCLick, images }) {
             className={` ${slideIndex === index ? "fade" : "hidden fade"}`}
             key={index}
             onDoubleClick={onDbCLick}
-            
           >
-            <div className="text-[#f2f2f2] text-xs py-2 px-3 absolute top-0">
-              {slideIndex + 1} / {numberSlide}
-            </div>
+            {numberSlide > 1 && (
+              <div className="text-[#f2f2f2] text-xs py-2 px-3 absolute top-0">
+                {slideIndex + 1} / {numberSlide}
+              </div>
+            )}
             <img
               src={ele}
               className="post-section__image w-full h-auto"
@@ -34,18 +34,23 @@ function PostImages({ onDbCLick, images }) {
             />
           </div>
         ))}
-        <span
-          onClick={() => getNewSlideIndex(-1)}
-          className="left-1 cursor-pointer absolute top-[50%] w-[25px] h-[25px] mt-[-22px] text-black font-bold text-sm select-none bg-white bg-opacity-70 rounded-full flex justify-center items-center opacity-50 prev"
-        >
-          ❮
-        </span>
-        <span
-          onClick={() => getNewSlideIndex(1)}
-          className="right-1 cursor-pointer absolute top-[50%] w-[25px] h-[25px] mt-[-22px] text-black font-bold text-sm select-none bg-white bg-opacity-70 rounded-full flex justify-center items-center opacity-50 next"
-        >
-          ❯
-        </span>
+        {numberSlide > 1 && (
+          <>
+            {" "}
+            <span
+              onClick={() => getNewSlideIndex(-1)}
+              className="left-1 cursor-pointer absolute top-[50%] w-[25px] h-[25px] mt-[-22px] text-black font-bold text-sm select-none bg-white bg-opacity-70 rounded-full flex justify-center items-center opacity-50 prev"
+            >
+              ❮
+            </span>
+            <span
+              onClick={() => getNewSlideIndex(1)}
+              className="right-1 cursor-pointer absolute top-[50%] w-[25px] h-[25px] mt-[-22px] text-black font-bold text-sm select-none bg-white bg-opacity-70 rounded-full flex justify-center items-center opacity-50 next"
+            >
+              ❯
+            </span>
+          </>
+        )}
       </div>
       <div
         className="wrapper-dot mt-1 flex justify-center"
