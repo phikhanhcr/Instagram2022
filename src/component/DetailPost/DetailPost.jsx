@@ -31,7 +31,6 @@ function DetailPost() {
   const handleClickMenu = () => {
     setShowModal((pre) => !pre);
   };
-  console.log(post)
   return (
     <>
       <Header />
