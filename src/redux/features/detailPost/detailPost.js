@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { isValidToken } from "../../../utils/jwt";
 import { detailPostSelector } from "../../selector/selector";
 
 const namespace = "detail_post";
@@ -10,21 +11,26 @@ export const eachPostInit = createAsyncThunk(
   async (post_id, { dispatch, rejectWithValue, signal }) => {
     try {
       const accessToken = window.localStorage.getItem("accessToken");
-      const response = await fetch(`http://localhost:3001/api/post/one/${post_id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          token: accessToken
-        },
-        signal : signal
-      });
-      const data = await response.json();
-      dispatch(INITIALIZE_DETAIL_POST({
-        post : data
-      }))
+      if (accessToken && await isValidToken(accessToken)) {
+
+        const response = await fetch(`http://localhost:3001/api/post/one/${post_id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            'x-auth-token': window.localStorage.getItem("accessToken")
+          },
+          signal: signal
+        });
+        const data = await response.json();
+        dispatch(INITIALIZE_DETAIL_POST({
+          post: data
+        }))
+      } else {
+        return rejectWithValue("Something went wrong")
+      }
     } catch (error) {
       dispatch(INITIALIZE_DETAIL_POST({
-        post : null
+        post: null
       }))
     }
   }

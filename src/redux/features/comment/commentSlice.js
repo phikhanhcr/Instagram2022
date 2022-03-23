@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { socket } from "../../..";
+import { isValidToken } from "../../../utils/jwt";
 import { commentSelector } from "../../selector/selector";
 
 const initialState = {
@@ -18,27 +19,32 @@ export const createCommentAsync = createAsyncThunk(
   async (body, { dispatch, rejectWithValue }) => {
     try {
       const accessToken = window.localStorage.getItem("accessToken");
-      const response = await fetch("http://localhost:3001/api/comment/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          token: accessToken
-        },
-        body: JSON.stringify(body),
-      });
+      if (accessToken && await isValidToken(accessToken)) {
+        const response = await fetch("http://localhost:3001/api/comment/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            'x-auth-token': window.localStorage.getItem("accessToken")
+          },
+          body: JSON.stringify(body),
+        });
 
-      const data = await response.json();
-      if (data) {
-        if (body.comment_root_id || body.reply_to) {
-          data.comment_root_id = body.comment_root_id;
-          dispatch(CREATE_COMMENT_REPLIED(data));
-          socket.emit("notify-comment_replied_on_post", data);
+        const data = await response.json();
+        if (data) {
+          if (body.comment_root_id || body.reply_to) {
+            data.comment_root_id = body.comment_root_id;
+            dispatch(CREATE_COMMENT_REPLIED(data));
+            socket.emit("notify-comment_replied_on_post", data);
+          } else {
+            dispatch(CREATE_COMMENT(data));
+            socket.emit("notify-comment_on_post", data);
+          }
         } else {
-          dispatch(CREATE_COMMENT(data));
-          socket.emit("notify-comment_on_post", data);
+          return rejectWithValue("Errors")
         }
+
       } else {
-        return rejectWithValue("Errors")
+        return rejectWithValue("Something went wrong")
       }
     } catch (error) {
       return rejectWithValue("Errors")
@@ -57,7 +63,7 @@ export const commentAsyncIdPost = createAsyncThunk(
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          token: accessToken
+          'x-auth-token': accessToken
         },
         signal: signal
       });

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
+import { isValidToken } from "../../../utils/jwt";
 import { notificationSelector } from "../../selector/selector";
 
 const initialState = {
@@ -17,19 +18,23 @@ export const getNotificationAsyncThunk = createAsyncThunk(
   async (_, { dispatch, rejectWithValue, signal }) => {
     try {
       const accessToken = window.localStorage.getItem("accessToken");
-      const response = await fetch("http://localhost:3001/api/notification", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          token: accessToken
-        },
-        signal: signal
-      });
-      const data = await response.json();
-      if (data) {
-        dispatch(INITIALIZE_NOTIFICATION(data))
+      if (accessToken && await isValidToken(accessToken)) {
+        const response = await fetch("http://localhost:3001/api/notification", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            'x-auth-token': window.localStorage.getItem("accessToken")
+          },
+          signal: signal
+        });
+        const data = await response.json();
+        if (data) {
+          dispatch(INITIALIZE_NOTIFICATION(data))
+        } else {
+          return rejectWithValue("Something went wrong")
+        }
       } else {
-        return rejectWithValue("Something went wrong")
+        return rejectWithValue("Session expired, plz login to go go go");
       }
     } catch (error) {
       return rejectWithValue("Something went wrong")
@@ -57,10 +62,10 @@ const notificationSlice = createSlice({
     INITIALIZE_NOTIFICATION: (state, action) => {
       state.notifications = action.payload
     },
-    LOGOUT_SET_NOTIFY : (state, action) => {
+    LOGOUT_SET_NOTIFY: (state, action) => {
       state.notifications = [];
     },
-    ADD_NOTIFY_REALTIME : (state, action) => {
+    ADD_NOTIFY_REALTIME: (state, action) => {
       state.notifications.push(action.payload);
     }
   },

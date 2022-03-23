@@ -4,7 +4,6 @@ import ContentNotification from "./ContentNotification";
 import OptionNotification from "./OptionNotification";
 
 const HandleType = ({ children, data }) => {
-  console.log({ children, data });
   if (data.type === "comment") {
     return <Link to={`/post/view/${data.root_content}`}>{children}</Link>;
   } else if (data.type === "like") {

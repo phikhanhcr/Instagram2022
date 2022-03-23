@@ -4,7 +4,7 @@ import { setSession, isValidToken } from "../../../utils/jwt";
 import { toast } from "react-toastify";
 import { useCallback } from "react";
 
-import {socket } from '../../../index'
+import { socket } from '../../../index'
 const initialState = {
   user: {},
   isAuthenticated: false,
@@ -25,13 +25,12 @@ const userInit = createAsyncThunk(
   async (_, { dispatch, getState, rejectWithValue }) => {
     try {
       const accessToken = window.localStorage.getItem("accessToken");
-      if (accessToken && isValidToken(accessToken).isValid) {
-        setSession(accessToken);
+      if (accessToken && await isValidToken(accessToken)) {
         const response = await fetch("http://localhost:3001/api/get-user", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            token: accessToken
+            'x-auth-token': window.localStorage.getItem("accessToken")
           },
         });
         const data = await response.json();
@@ -41,8 +40,9 @@ const userInit = createAsyncThunk(
             user: JSON.parse(data.user),
           })
         );
+        socket.auth = JSON.parse(data.user);
         socket.emit("user-init", JSON.parse(data.user))
-
+        socket.connect()
       } else {
         dispatch(
           INITIALIZE({
@@ -80,7 +80,7 @@ const userLogin = createAsyncThunk(
       if (response.status < 200 || response.status >= 300) {
         return rejectWithValue(data.message);
       }
-      setSession(data.token);
+      setSession(data.token, data.refreshToken);
       data.user = JSON.parse(data.user)
       dispatch(userInit())
       dispatch(LOGIN(data));
@@ -99,7 +99,7 @@ export const AuthFunctions = () => {
     (state) => state.user
   );
   const user = useSelector((state) => (state.user.user ? state.user.user : {}));
-  
+
   const initialize = useCallback(() => {
     dispatch(userInit());
   }, [dispatch]);
@@ -145,6 +145,7 @@ const userSlice = createSlice({
     },
     LOGOUT: (state, action) => {
       localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
       state.user = null;
       state.isAuthenticated = false;
     }

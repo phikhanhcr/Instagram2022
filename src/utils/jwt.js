@@ -1,8 +1,6 @@
 import jwtDecode from "jwt-decode";
-import { verify, sign } from "jsonwebtoken";
-// import axios from "./axios";
 
-const isValidToken = (accessToken) => {
+const isValidToken = async (accessToken) => {
   if (!accessToken) {
     return false;
   }
@@ -10,18 +8,42 @@ const isValidToken = (accessToken) => {
   const { exp } = jwtDecode(accessToken);
 
   const currentTime = Date.now() / 1000;
-  const timeLeft = (exp - currentTime) * 1000;
-  return { isValid: exp > currentTime, timeLeft };
+
+  const isValid = exp > currentTime;
+
+  if (!isValid) {
+
+    const refreshToken = window.localStorage.getItem("refreshToken");
+    const response = await fetch("http://localhost:3001/api/auth/get-access-token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ refreshToken }),
+    });
+    const data = await response.json();
+    if (data.msg === "oke") {
+      setSession(data.token, data.refreshToken);
+    } else {
+      return false;
+    }
+  }
+
+  return true;
 };
 
-const setSession = (accessToken) => {
-  if (accessToken) {
+
+
+const setSession = (accessToken, refreshToken) => {
+  if (accessToken && refreshToken) {
     localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("refreshToken", refreshToken);
     // axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
   } else {
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     // delete axios.defaults.headers.common.Authorization;
   }
 };
 
-export { isValidToken, setSession, verify, sign };
+export { isValidToken, setSession };

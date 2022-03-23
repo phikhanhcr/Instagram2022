@@ -3,6 +3,7 @@ import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { postSelector } from "../../selector/selector";
 import { toast } from "react-toastify";
+import { isValidToken } from "../../../utils/jwt";
 const initialState = {
   post: [],
   isLoading: false,
@@ -21,19 +22,23 @@ export const createPostAsync = createAsyncThunk(
   async (body, { dispatch, rejectWithValue }) => {
     try {
       const accessToken = window.localStorage.getItem("accessToken");
-      const response = await fetch("http://localhost:3001/api/post/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          token: accessToken
-        },
-        body: JSON.stringify(body),
-      });
-      const data = await response.json();
-      if (data) {
-        dispatch(CREATE_POST(data))
+      if (accessToken && await isValidToken(accessToken)) {
+        const response = await fetch("http://localhost:3001/api/post/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            'x-auth-token': window.localStorage.getItem("accessToken")
+          },
+          body: JSON.stringify(body),
+        });
+        const data = await response.json();
+        if (data) {
+          dispatch(CREATE_POST(data))
+        } else {
+          return rejectWithValue("Can't upload file, try again with other")
+        }
       } else {
-        return rejectWithValue("Can't upload file, try again with other")
+        return rejectWithValue("Token expired")
       }
     } catch (error) {
       return rejectWithValue("Can't upload file, try again with other")
@@ -43,22 +48,27 @@ export const createPostAsync = createAsyncThunk(
 
 export const getPostByUserId = createAsyncThunk(
   `${namespace}/get_post_by_user_id`,
-  async (userId, { dispatch, signal }) => {
+  async (userId, { dispatch, rejectWithValue, signal }) => {
     try {
       const accessToken = window.localStorage.getItem("accessToken");
-      const response = await fetch("http://localhost:3001/api/post/posts/user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          token: accessToken
-        },
-        body: userId ? JSON.stringify({ userId }) : null,
-        signal: signal
-      });
-      const data = await response.json();
-      dispatch(GET_POST_BY_USER_ID(data));
+      if (accessToken && await isValidToken(accessToken)) {
+        const response = await fetch("http://localhost:3001/api/post/posts/user", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            'x-auth-token': window.localStorage.getItem("accessToken")
+          },
+          body: userId ? JSON.stringify({ userId }) : null,
+          signal: signal
+        });
+        const data = await response.json();
+        dispatch(GET_POST_BY_USER_ID(data));
+      } else {
+        dispatch(GET_POST_BY_USER_ID([]));
+      }
+
     } catch (error) {
-      dispatch(GET_POST_BY_USER_ID(null));
+      dispatch(GET_POST_BY_USER_ID([]));
     }
   }
 )
@@ -70,21 +80,29 @@ export const postInit = createAsyncThunk(
   async (_, { dispatch, signal }) => {
     try {
       const accessToken = window.localStorage.getItem("accessToken");
-      const response = await fetch("http://localhost:3001/api/post/feeds", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          token: accessToken
-        },
-        signal: signal
-      });
-      const data = await response.json();
-      dispatch(INITIALIZE_POST({
-        post: data
-      }));
+      if (accessToken && await isValidToken(accessToken)) {
+        const response = await fetch("http://localhost:3001/api/post/feeds", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            'x-auth-token': window.localStorage.getItem("accessToken")
+          },
+          signal: signal
+        });
+        const data = await response.json();
+
+        dispatch(INITIALIZE_POST({
+          post: data
+        }));
+
+      } else {
+        dispatch(INITIALIZE_POST({
+          post: []
+        }));
+      }
     } catch (error) {
       dispatch(INITIALIZE_POST({
-        post: null
+        post: []
       }));
     }
   }
@@ -95,18 +113,23 @@ export const postDiscover = createAsyncThunk(
   async (_, { dispatch, signal }) => {
     try {
       const accessToken = window.localStorage.getItem("accessToken");
-      const response = await fetch("http://localhost:3001/api/post/feeds", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          token: accessToken
-        },
-        signal: signal
-      });
-      const data = await response.json();
-      dispatch(GET_DISCOVER_POST(data));
+      if (accessToken && await isValidToken(accessToken)) {
+        const response = await fetch("http://localhost:3001/api/post/feeds", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            'x-auth-token': window.localStorage.getItem("accessToken")
+          },
+          signal: signal
+        });
+        const data = await response.json();
+        dispatch(GET_DISCOVER_POST(data));
+      } else {
+        dispatch(GET_DISCOVER_POST([]));
+      }
+
     } catch (error) {
-      dispatch(GET_DISCOVER_POST(null));
+      dispatch(GET_DISCOVER_POST([]));
     }
   }
 )
