@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import useDetailPost from "../../customHooks/useDetailPost";
 import { Instagram } from "react-content-loader";
 import { eachPostInit } from "../../redux/features/detailPost/detailPost";
+import useAuthentication from "../../customHooks/useAuthentication";
 function DetailPost() {
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ function DetailPost() {
     // when the internet's so fucking slow, you wanna go to detail post page, dispatch => detailPost Init
     // for some reason u go to home page, the detailPost.rejected will be executed
     // for saving resources
+    
     return () => {
       promise.abort();
     };
@@ -39,8 +41,14 @@ function DetailPost() {
 
       {post._id && (
         <div className="pt-header_height md:pt-[86px] w-[100%] lg:w-full max-w-[975px] mx-auto my-0 p-0 ">
-          <PostPcTablet onCLickClose={handleClickMenu} post={post} />
-          <PostMobile onCLickClose={handleClickMenu} post={post} />
+          <PostPcTablet
+            onCLickClose={handleClickMenu}
+            post={post}
+          />
+          <PostMobile
+            onCLickClose={handleClickMenu}
+            post={post}
+          />
 
           <div className="my-12 w-full border border-solid border-[#ccc]" />
 
@@ -52,7 +60,7 @@ function DetailPost() {
                 {post.userId.username}
               </a>
             </div>
-            <OtherPost userId={post.userId._id}/>
+            <OtherPost userId={post.userId._id} />
           </>
 
           {showModal && <OverlayMenuPost onCLickClose={handleClickMenu} />}

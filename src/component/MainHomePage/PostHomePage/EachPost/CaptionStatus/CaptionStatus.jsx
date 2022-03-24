@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ModelLikedUser from "../../../../Commom/ModelLikedUser/ModelLikedUser";
 
 function CaptionStatus({ post, likeCount }) {
   const [checkModel, setCheckModel] = useState(false);
+  
   return (
     <div className="post-section__status">
       <div
