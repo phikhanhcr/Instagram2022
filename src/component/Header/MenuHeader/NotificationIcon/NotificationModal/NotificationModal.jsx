@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import useNotify from "../../../../../customHooks/useNotify";
-import {
-  getNotificationAsyncThunk,
-} from "../../../../../redux/features/notification/notificationSlice";
+import { getNotificationAsyncThunk } from "../../../../../redux/features/notification/notificationSlice";
+
 import ItemNotification from "./ItemNotification";
 import LoadingGif from "../../../../../assert/images/loading.gif";
 
@@ -13,7 +12,6 @@ function NotificationModal({ mewNotify }) {
   useEffect(() => {
     // if (!notifications.length) {
     const promise = dispatch(getNotificationAsyncThunk());
-
     return () => {
       promise.abort();
     };
@@ -48,9 +46,7 @@ function NotificationModal({ mewNotify }) {
 
       <div className="overflow-hidden overflow-y-auto h-full max-h-[362px]">
         <ul>
-          {
-            mewNotify ? <ItemNotification data={mewNotify} /> : ""
-          }
+          {mewNotify ? <ItemNotification data={mewNotify} /> : ""}
           {notifications &&
             notifications.map((ele, index) => (
               <ItemNotification data={ele} key={index} />

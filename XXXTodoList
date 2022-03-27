@@ -72,5 +72,6 @@ Day 23-03-2022
   - Add model show all users who liked post when clicking it.
   
 
-
-
+Day 24-03-2022
+  - send notify when someone like posts      => oke
+  - remove notify when unlike post           => oke
