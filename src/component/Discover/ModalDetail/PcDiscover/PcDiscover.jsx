@@ -26,6 +26,7 @@ function PcDiscover({ data }) {
         onCLickClose={onCLickClose}
         post={data}
         postId={data._id}
+        postProps={data}
       />
       {/* {showModal && <OverlayMenuPost onCLickClose={onCLickClose} />} */}
     </div>

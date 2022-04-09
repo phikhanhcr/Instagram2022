@@ -8,12 +8,12 @@ import { postInit } from "../../../redux/features/post/postSlice";
 function PostHomePage() {
   const { post, isLoading } = usePost();
   const dispatch = useDispatch();
+
   useEffect(() => {
     if(!post.length) {
       const promise = dispatch(postInit());
       return () => promise.abort();
     }
-
   }, [dispatch, post]);
 
   return (

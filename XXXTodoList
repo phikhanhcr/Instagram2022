@@ -65,4 +65,13 @@ Day 24:
 Day 21 - 02 - 2022
   - Notification view  => oke
   - Fix redux store avoid reloading data  => oke
-  - Notification realtime                 => NO, YET
+  - Notification realtime                 => oke
+
+
+Day 23-03-2022
+  - Add model show all users who liked post when clicking it.
+  
+
+Day 24-03-2022
+  - send notify when someone like posts      => oke
+  - remove notify when unlike post           => oke

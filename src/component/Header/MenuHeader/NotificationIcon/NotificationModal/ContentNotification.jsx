@@ -27,9 +27,6 @@ function ContentNotification({ data }) {
       return (
         <span>
           đã bình luận trong bài viết của bạn
-          <a className="primary-color" href="/" tabIndex={0}>
-            {" @phikhanhcris"}
-          </a>
         </span>
       );
     }

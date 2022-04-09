@@ -7,7 +7,6 @@ import EachOtherPost from "./EachOtherPost";
 function OtherPost({ userId }) {
   const dispatch = useDispatch();
   const { postByUserID, isLoading } = usePost();
-  console.log({ postByUserID });
   useEffect(() => {
     const promise = dispatch(getPostByUserId(userId));
     return () => promise.abort();

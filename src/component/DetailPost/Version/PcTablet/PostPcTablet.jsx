@@ -9,7 +9,7 @@ function PostPcTablet({ onCLickClose, post }) {
           {/* images */}
           <PictureTablet images={post.images}/>
 
-          <CaptionPcTablet postId={post._id} onCLickClose={onCLickClose}/>
+          <CaptionPcTablet postId={post._id} postProps={post} onCLickClose={onCLickClose}/>
         </div>
       </div>
     </div>

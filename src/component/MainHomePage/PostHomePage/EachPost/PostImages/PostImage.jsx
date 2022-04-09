@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function PostImages({ onDbCLick, images }) {
+function PostImages({ images }) {
   // const [images, setImages ] = useState([]);
 
   const [slideIndex, setSlideIndex] = useState(0);
@@ -20,7 +20,6 @@ function PostImages({ onDbCLick, images }) {
           <div
             className={` ${slideIndex === index ? "fade" : "hidden fade"}`}
             key={index}
-            onDoubleClick={onDbCLick}
           >
             {numberSlide > 1 && (
               <div className="text-[#f2f2f2] text-xs py-2 px-3 absolute top-0">
