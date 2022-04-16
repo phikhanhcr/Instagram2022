@@ -2,7 +2,7 @@ function HeaderListMessage({ onClickBack }) {
 
 
   return (
-    <div className="fixed top-0 right-0 left-0 md:relative z-1 bg-white px-2 md:px-5 h-[60px] w-full flex items-center border border-solid border-[#ccc]">
+    <div className="fixed top-0 right-0 left-0 md:relative z-[2] bg-white px-2 md:px-5 h-[60px] w-full flex items-center border border-solid border-[#ccc]">
       <div
         className="rotate-[270deg] mr-2 cursor-pointer block md:hidden"
         onClick={() => onClickBack()}

@@ -1,8 +1,9 @@
 import { useState } from "react";
+import useAuthentication from "../../../../../customHooks/useAuthentication";
 
 function EachMessage({ message }) {
   const [checkCLick, setCheckClick] = useState(false);
-
+  const { user } = useAuthentication();
   const handleClick = () => {
     const allMenuModal = document.querySelectorAll(".message__menu-modal");
     const overlayModel = document.getElementById("overlay-message");
@@ -10,15 +11,14 @@ function EachMessage({ message }) {
     allMenuModal.forEach((ele) => {
       ele.style.display = "none";
     });
-    overlayModel.style.display = "block"
-    
+    overlayModel.style.display = "block";
+
     setCheckClick((pre) => !pre);
   };
-
   return (
     <li
       className={
-        message.sender === "me"
+        message.sender === user._id
           ? "w-full flex justify-start items-end mb-2 group my-message"
           : "w-full flex justify-start items-end mb-2 group"
       }
@@ -31,9 +31,9 @@ function EachMessage({ message }) {
         className="bg-cover bg-no-repeat rounded-full w-[24px] h-[24px] mr-2 mb-2 my-message__my-avatar"
       />
 
-      <div className="shadow-md border border-solid rounded-[22px] min-h-[54px] h-auto text-sm p-4 my-message__my-content direct-message__wrapper max-w-[244px] relative">
-        <span className="content-message break-words">{message.message}</span>
-        {message.icon === "heart" ? (
+      <div className="border border-solid rounded-[22px] min-h-[54px] h-auto text-sm p-4 my-message__my-content max-w-[244px] relative">
+        <span className="break-words">{message.message}</span>
+        {message.reaction ? (
           <button className="absolute animate-showModal -bottom-3 -left-0.5 p-1 bg-opacity-30 bg-gray-400 rounded-full ">
             <div className="text-xs md:text-sm">❤️</div>
           </button>
@@ -61,8 +61,7 @@ function EachMessage({ message }) {
           <circle cx="6.5" cy={12} r="1.5" />
           <circle cx="17.5" cy={12} r="1.5" />
         </svg>
-        {
-        checkCLick && (
+        {checkCLick && (
           <div className="min-w-[168px] py-[3px] items-center justify-around animate-showModal flex message__menu-modal z-10 absolute -top-9 -left-1 shadow-2xl text-white bg-black text-sm font-semibold rounded-lg px-2">
             <span className=" cursor-pointer z-10 message-like_btn">Like</span>
             <span className=" cursor-pointer z-10 message-copy_btn">Copy</span>

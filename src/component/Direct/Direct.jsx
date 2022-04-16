@@ -1,97 +1,24 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import "../../assert/tailwind/build/styleTailwind.css";
 import Header from "../Header/Header";
 import "./Direct.css";
 import MessageList from "./MessageList/AllMessage";
 import UserList from "./UserList/UserList";
-
+import useConversation from "../../customHooks/useConversation";
+import { getConversationsAsyncById } from "../../redux/features/conversation/conversationSlice";
 function Direct() {
-  const params = useParams();
-  let testMessage = [
-    { message: "Hello", icon: "heart", sender: "me" },
-    { message: "Hi", icon: "heart" },
-    { message: "what's your name?", icon: "heart", sender: "me" },
-    { message: "Khanh", icon: "heart" },
-    { message: "Jennie", icon: "heart", sender: "me" },
-    {
-      message: "Interestingasjhdksahdkjsahdasjkdhasjkdhasjkdhsajkdahskd",
-      icon: "heart",
-    },
-    { message: "Perhaps", icon: null, sender: "me" },
-    { message: "Leaving", icon: null },
-    { message: "Now.", icon: "heart", sender: "me" },
-    { message: "I'll wait outside.", icon: "heart" },
-    { message: "Perhaps", icon: null, sender: "me" },
-    { message: "Leaving", icon: null },
-    { message: "Now.", icon: "heart", sender: "me" },
-    { message: "I'll wait outside.", icon: "heart" },
-  ];
-  testMessage = testMessage.reverse();
-  let listUser = [
-    {
-      avatar:
-        "https://images.unsplash.com/photo-1540804485132-9c94bcae6c66?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
-      userName: "phikhanhcr",
-      id: 1,
-    },
-    {
-      avatar:
-        "https://images.unsplash.com/photo-1540804485132-9c94bcae6c66?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
-      userName: "phikhanhcr",
-      id: 2,
-    },
-    {
-      avatar:
-        "https://images.unsplash.com/photo-1540804485132-9c94bcae6c66?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
-      userName: "phikhanhcr",
-      id: 3,
-    },
-    {
-      avatar:
-        "https://images.unsplash.com/photo-1540804485132-9c94bcae6c66?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
-      userName: "phikhanhcr",
-      id: 4,
-    },
-    {
-      avatar:
-        "https://images.unsplash.com/photo-1540804485132-9c94bcae6c66?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
-      userName: "phikhanhcr",
-      id: 5,
-    },
-    {
-      avatar:
-        "https://images.unsplash.com/photo-1540804485132-9c94bcae6c66?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
-      userName: "phikhanhcr",
-      id: 6,
-    },
-    {
-      avatar:
-        "https://images.unsplash.com/photo-1540804485132-9c94bcae6c66?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
-      userName: "phikhanhcr",
-      id: 7,
-    },
-    {
-      avatar:
-        "https://images.unsplash.com/photo-1540804485132-9c94bcae6c66?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
-      userName: "phikhanhcr",
-      id: 8,
-    },
-    {
-      avatar:
-        "https://images.unsplash.com/photo-1540804485132-9c94bcae6c66?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
-      userName: "phikhanhcr",
-      id: 9,
-    },
-    {
-      avatar:
-        "https://images.unsplash.com/photo-1540804485132-9c94bcae6c66?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
-      userName: "phikhanhcr",
-      id: 10,
-    },
-  ];
+  const dispatch = useDispatch();
+  const { conversations, isLoading } = useConversation();
+  console.log("re-render", conversations);
+  useEffect(() => {
+    const promise = dispatch(getConversationsAsyncById());
+    return () => {
+      promise.abort();
+    };
+  }, [dispatch]);
 
-  const [userActive, setUserActive] = useState(1);
+  const [conversationId, setConversationId] = useState(null);
   const [checkMobile, setCheckMobile] = useState(() => {
     const checkMobileWidth = window.innerWidth;
     return checkMobileWidth <= 767;
@@ -111,8 +38,8 @@ function Direct() {
     };
     window.addEventListener("resize", handleChangeSize);
     return () => {
-      return window.removeEventListener("resize", handleChangeSize)
-    }
+      return window.removeEventListener("resize", handleChangeSize);
+    };
   }, []);
 
   const handleClickBack = () => {
@@ -120,7 +47,7 @@ function Direct() {
   };
 
   const clickEventHandle = (id) => {
-    setUserActive(id);
+    setConversationId(id);
     if (checkMobile) {
       setCheckDisplay(true);
     }
@@ -137,25 +64,29 @@ function Direct() {
 
   const handleDisplay = () => {
     if (!checkMobile) {
+      // pc
       return (
-        <div className="flex border border-solid border-[#ccc] h-screen md:h-[850px] relative">
+        <div className="flex border border-solid border-[#ccc] h-screen md:h-[650px] relative">
           <UserList
             clickEventHandle={clickEventHandle}
-            userActive={userActive}
-            listUser={listUser}
+            userActive={conversationId}
+            listUser={conversations}
           />
 
-          <MessageList testMessage={testMessage} />
+          <MessageList
+            conversationId={conversationId}
+          />
         </div>
       );
     } else {
+      // mobile
       if (!checkDisplay) {
         return (
-          <div className="flex border border-solid border-[#ccc] h-screen md:h-[850px] relative">
+          <div className="flex border border-solid border-[#ccc] h-[screen] md:h-[850px] relative">
             <UserList
               clickEventHandle={clickEventHandle}
-              userActive={userActive}
-              listUser={listUser}
+              userActive={conversationId}
+              listUser={conversations}
             />
           </div>
         );
@@ -163,7 +94,6 @@ function Direct() {
         return (
           <div className="flex border border-solid border-[#ccc] h-screen md:h-[850px] relative">
             <MessageList
-              testMessage={testMessage}
               onClickBack={handleClickBack}
             />
           </div>
