@@ -4,16 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { postSelector } from "../../selector/selector";
 import { toast } from "react-toastify";
 import { isValidToken } from "../../../utils/jwt";
+import { BASE_API_BACKEND } from "../../../config/common";
+import axios from "axios";
 const initialState = {
   post: [],
   isLoading: false,
   status: null,
   checkUploadSuccess: false,
   postByUserID: [],
-  discoverPost: []
-}
+  discoverPost: [],
+};
 const namespace = "post";
-
 
 // CREATE-POST-ASYNC THUNK-----------------------------------------------------------------
 
@@ -22,57 +23,63 @@ export const createPostAsync = createAsyncThunk(
   async (body, { dispatch, rejectWithValue }) => {
     try {
       const accessToken = window.localStorage.getItem("accessToken");
-      if (accessToken && await isValidToken(accessToken)) {
-        const response = await fetch("http://localhost:3001/api/post/create", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            'x-auth-token': window.localStorage.getItem("accessToken")
+      if (accessToken && (await isValidToken(accessToken))) {
+        const response = await axios.post(
+          `${BASE_API_BACKEND}/api/post/create`,
+          {
+            ...body,
           },
-          body: JSON.stringify(body),
-        });
-        const data = await response.json();
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "x-auth-token": window.localStorage.getItem("accessToken"),
+            },
+          }
+        );
+        const { data } = response;
         if (data) {
-          dispatch(CREATE_POST(data))
+          dispatch(CREATE_POST(data));
         } else {
-          return rejectWithValue("Can't upload file, try again with other")
+          return rejectWithValue("Can't upload file, try again with other");
         }
       } else {
-        return rejectWithValue("Token expired")
+        return rejectWithValue("Token expired");
       }
     } catch (error) {
-      return rejectWithValue("Can't upload file, try again with other")
+      return rejectWithValue("Can't upload file, try again with other");
     }
   }
-)
+);
 
 export const getPostByUserId = createAsyncThunk(
   `${namespace}/get_post_by_user_id`,
   async (userId, { dispatch, rejectWithValue, signal }) => {
     try {
       const accessToken = window.localStorage.getItem("accessToken");
-      if (accessToken && await isValidToken(accessToken)) {
-        const response = await fetch("http://localhost:3001/api/post/posts/user", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            'x-auth-token': window.localStorage.getItem("accessToken")
+      if (accessToken && (await isValidToken(accessToken))) {
+        const response = await axios.post(
+          `${BASE_API_BACKEND}/api/post/posts/user`,
+          {
+            userId,
           },
-          body: userId ? JSON.stringify({ userId }) : null,
-          signal: signal
-        });
-        const data = await response.json();
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "x-auth-token": window.localStorage.getItem("accessToken"),
+            },
+            signal: signal,
+          }
+        );
+        const { data } = response;
         dispatch(GET_POST_BY_USER_ID(data));
       } else {
         dispatch(GET_POST_BY_USER_ID([]));
       }
-
     } catch (error) {
       dispatch(GET_POST_BY_USER_ID([]));
     }
   }
-)
-
+);
 
 // POST-ASYNC THUNK-----------------------------------------------------------------
 export const postInit = createAsyncThunk(
@@ -80,70 +87,81 @@ export const postInit = createAsyncThunk(
   async (_, { dispatch, signal }) => {
     try {
       const accessToken = window.localStorage.getItem("accessToken");
-      if (accessToken && await isValidToken(accessToken)) {
-        const response = await fetch("http://localhost:3001/api/post/feeds", {
-          method: "GET",
+      if (accessToken && (await isValidToken(accessToken))) {
+        const response = await axios.get(`${BASE_API_BACKEND}/api/post/feeds`, {
           headers: {
             "Content-Type": "application/json",
-            'x-auth-token': window.localStorage.getItem("accessToken")
+            "x-auth-token": window.localStorage.getItem("accessToken"),
           },
-          signal: signal
         });
-        const data = await response.json();
+        const { data } = response;
 
-        dispatch(INITIALIZE_POST({
-          post: data
-        }));
-
+        dispatch(
+          INITIALIZE_POST({
+            post: data,
+          })
+        );
       } else {
-        dispatch(INITIALIZE_POST({
-          post: []
-        }));
+        dispatch(
+          INITIALIZE_POST({
+            post: [],
+          })
+        );
       }
     } catch (error) {
-      dispatch(INITIALIZE_POST({
-        post: []
-      }));
+      dispatch(
+        INITIALIZE_POST({
+          post: [],
+        })
+      );
     }
   }
-)
+);
 
 export const postDiscover = createAsyncThunk(
   `${namespace}/discover`,
   async (_, { dispatch, signal }) => {
     try {
       const accessToken = window.localStorage.getItem("accessToken");
-      if (accessToken && await isValidToken(accessToken)) {
-        const response = await fetch("http://localhost:3001/api/post/feeds", {
-          method: "GET",
+      if (accessToken && (await isValidToken(accessToken))) {
+        const config = {
           headers: {
             "Content-Type": "application/json",
-            'x-auth-token': window.localStorage.getItem("accessToken")
+            "x-auth-token": window.localStorage.getItem("accessToken"),
           },
-          signal: signal
-        });
-        const data = await response.json();
+          signal: signal,
+        };
+        const response = await axios.get(
+          `${BASE_API_BACKEND}/api/post/feeds`,
+          config
+        );
+        const { data } = response;
         dispatch(GET_DISCOVER_POST(data));
       } else {
         dispatch(GET_DISCOVER_POST([]));
       }
-
     } catch (error) {
       dispatch(GET_DISCOVER_POST([]));
     }
   }
-)
-
+);
 
 // POST-FUNCTIONS-----------------------------------------------------------------
 
 export const PostFunction = () => {
   const dispatch = useDispatch();
-  const { post, isLoading, status, checkUploadSuccess, postByUserID, discoverPost } = useSelector(postSelector);
+  const {
+    post,
+    isLoading,
+    status,
+    checkUploadSuccess,
+    postByUserID,
+    discoverPost,
+  } = useSelector(postSelector);
 
   const initializeNewFeedPost = useCallback(() => {
     dispatch(postInit());
-  }, [dispatch])
+  }, [dispatch]);
 
   return {
     post,
@@ -152,9 +170,9 @@ export const PostFunction = () => {
     discoverPost,
     postByUserID,
     checkUploadSuccess,
-    initializeNewFeedPost
-  }
-}
+    initializeNewFeedPost,
+  };
+};
 
 // POST-SLICE-----------------------------------------------------------------
 
@@ -163,7 +181,7 @@ const postSlice = createSlice({
   initialState,
   reducers: {
     INITIALIZE_POST: (state, action) => {
-      state.post = action.payload.post
+      state.post = action.payload.post;
     },
     CREATE_POST: (state, action) => {
       state.post.unshift(action.payload);
@@ -176,11 +194,11 @@ const postSlice = createSlice({
     },
     LOGOUT_SET_POST: (state) => {
       state.post = [];
-      state.isLoading = false
-      state.status = null
-      state.checkUploadSuccess = false
-      state.postByUserID = []
-      state.discoverPost = []
+      state.isLoading = false;
+      state.status = null;
+      state.checkUploadSuccess = false;
+      state.postByUserID = [];
+      state.discoverPost = [];
     },
   },
   extraReducers: {
@@ -237,14 +255,14 @@ const postSlice = createSlice({
       state.status = "FAILED";
       state.isLoading = false;
     },
-  }
-})
+  },
+});
 
 export const {
   GET_POST_BY_USER_ID,
   INITIALIZE_POST,
   CREATE_POST,
   GET_DISCOVER_POST,
-  LOGOUT_SET_POST
+  LOGOUT_SET_POST,
 } = postSlice.actions;
 export default postSlice.reducer;

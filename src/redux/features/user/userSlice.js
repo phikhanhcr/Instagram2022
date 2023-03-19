@@ -4,7 +4,9 @@ import { setSession, isValidToken } from "../../../utils/jwt";
 import { toast } from "react-toastify";
 import { useCallback } from "react";
 
-import { socket } from '../../../index'
+import { socket } from "../../../index";
+import { BASE_API_BACKEND } from "../../../config/common";
+import axios from "axios";
 const initialState = {
   user: {},
   isAuthenticated: false,
@@ -14,9 +16,9 @@ const initialState = {
   hasError: false,
   notifications: {
     newMessages: 0,
-    newNotification: 0
+    newNotification: 0,
   },
-}
+};
 
 // ASYNC-FUNCTIONS-----------------------------------------------------------------
 
@@ -25,15 +27,17 @@ const userInit = createAsyncThunk(
   async (_, { dispatch, getState, rejectWithValue }) => {
     try {
       const accessToken = window.localStorage.getItem("accessToken");
-      if (accessToken && await isValidToken(accessToken)) {
-        const response = await fetch("http://localhost:3001/api/get-user", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            'x-auth-token': window.localStorage.getItem("accessToken")
-          },
-        });
-        const data = await response.json();
+      if (accessToken && (await isValidToken(accessToken))) {
+        const response = await axios.post(
+          `${BASE_API_BACKEND}/api/get-user`,
+          {},
+          {
+            headers: {
+              "x-auth-token": window.localStorage.getItem("accessToken"),
+            },
+          }
+        );
+        const { data } = response;
         dispatch(
           INITIALIZE({
             isAuthenticated: true,
@@ -41,8 +45,8 @@ const userInit = createAsyncThunk(
           })
         );
         socket.auth = JSON.parse(data.user);
-        socket.emit("user-init", JSON.parse(data.user))
-        socket.connect()
+        socket.emit("user-init", JSON.parse(data.user));
+        socket.connect();
       } else {
         dispatch(
           INITIALIZE({
@@ -63,33 +67,52 @@ const userInit = createAsyncThunk(
   }
 );
 
-
 const userLogin = createAsyncThunk(
   "user/login",
   async (userInfo, { dispatch, rejectWithValue }) => {
+    const response = await axios.post(`${BASE_API_BACKEND}/api/login`, {
+      ...userInfo,
+    });
+    const data = response.data;
+    if (response.status < 200 || response.status >= 300) {
+      return rejectWithValue(data.message);
+    }
+    setSession(data.token, data.refreshToken);
+    data.user = JSON.parse(data.user);
+    dispatch(userInit());
+    dispatch(LOGIN(data));
+  }
+);
+
+const userRegister = createAsyncThunk(
+  "user/register",
+  async (userInfo, { dispatch, rejectWithValue }) => {
     try {
-      const response = await fetch("http://localhost:3001/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await axios.post(
+        `${BASE_API_BACKEND}/api/register`,
+        {
+          ...userInfo,
         },
-        body: JSON.stringify(userInfo),
-      });
-      const data = await response.json();
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const { data } = response;
       //  Nếu bị lỗi thì reject
       if (response.status < 200 || response.status >= 300) {
         return rejectWithValue(data.message);
       }
       setSession(data.token, data.refreshToken);
-      data.user = JSON.parse(data.user)
-      dispatch(userInit())
+      data.user = JSON.parse(data.user);
+      dispatch(userInit());
       dispatch(LOGIN(data));
     } catch (error) {
       return rejectWithValue("Something went wrong, please try another time");
     }
   }
 );
-
 
 // AUTH-FUNCTIONS-----------------------------------------------------------------
 
@@ -104,8 +127,8 @@ export const AuthFunctions = () => {
     dispatch(userInit());
   }, [dispatch]);
 
-
   const register = (userInfo) => {
+    dispatch(userRegister(userInfo));
   };
   const login = (userInfo) => {
     dispatch(userLogin(userInfo));
@@ -125,8 +148,6 @@ export const AuthFunctions = () => {
     user,
   };
 };
-
-
 
 // SLICE-----------------------------------------------------------------
 
@@ -148,7 +169,7 @@ const userSlice = createSlice({
       localStorage.removeItem("refreshToken");
       state.user = null;
       state.isAuthenticated = false;
-    }
+    },
   },
   extraReducers: {
     [userLogin.pending]: (state) => {
@@ -159,7 +180,11 @@ const userSlice = createSlice({
       state.status = "SUCCESS";
       state.isLoading = false;
       // userSocket.emit("sign-in", state.user._id);
-      toast.success(`Welcome back, ${state.user.username ? state.user.username : state.user.email} 🔥🔥`);
+      toast.success(
+        `Welcome back, ${
+          state.user.username ? state.user.username : state.user.email
+        } 🔥🔥`
+      );
     },
     [userLogin.rejected]: (state, action) => {
       state.status = "FAILED";
@@ -179,20 +204,12 @@ const userSlice = createSlice({
       state.status = "FAILED";
       state.isLoading = false;
       toast.error(action?.payload);
-    }
-  }
+    },
+  },
+});
 
-})
+export { userLogin, userRegister };
 
-
-export {
-  userLogin
-}
-
-export const {
-  LOGIN,
-  INITIALIZE,
-  LOGOUT
-} = userSlice.actions;
+export const { LOGIN, INITIALIZE, LOGOUT } = userSlice.actions;
 
 export default userSlice.reducer;

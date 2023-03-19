@@ -11,10 +11,8 @@ import TopDiscover from "./TopDiscover/TopDiscover";
 function Discover() {
   const [checkShowModal, setCHeckShowModal] = useState(false);
   const [detailDiscover, setDetailDiscover] = useState({});
-
   const { discoverPost, isLoading } = usePost();
   const dispatch = useDispatch();
-
   useEffect(() => {
     const promise = dispatch(postDiscover());
     return () => promise.abort();
@@ -35,7 +33,7 @@ function Discover() {
     return () => {
       return window.removeEventListener("resize", handleResizeWindow);
     };
-  }, []);
+  }, [discoverPost]);
 
   const handleClickShowDetail = useCallback((data) => {
     setDetailDiscover(data);
@@ -50,9 +48,7 @@ function Discover() {
     <>
       <Header />
       <section className="pt-[60px] md:pt-[90px]">
-        {
-          isLoading && <ContentLoaderComponent />
-        }
+        {isLoading && <ContentLoaderComponent />}
         <div className="w-[100%] lg:w-full max-w-[975px] mx-auto p-0">
           <TopDiscover
             data={discoverPost}

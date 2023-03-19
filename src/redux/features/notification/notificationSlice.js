@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { BASE_API_BACKEND } from "../../../config/common";
 import { isValidToken } from "../../../utils/jwt";
 import { notificationSelector } from "../../selector/selector";
 
@@ -20,15 +22,17 @@ export const getNotificationAsyncThunk = createAsyncThunk(
     try {
       const accessToken = window.localStorage.getItem("accessToken");
       if (accessToken && (await isValidToken(accessToken))) {
-        const response = await fetch("http://localhost:3001/api/notification", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "x-auth-token": window.localStorage.getItem("accessToken"),
-          },
-          signal: signal,
-        });
-        const data = await response.json();
+        const response = await axios.get(
+          `${BASE_API_BACKEND}/api/notification`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "x-auth-token": window.localStorage.getItem("accessToken"),
+            },
+            signal: signal,
+          }
+        );
+        const data = response.data;
         if (data) {
           dispatch(INITIALIZE_NOTIFICATION(data));
         } else {
@@ -49,10 +53,10 @@ export const markAllReadNotificationAsyncThunk = createAsyncThunk(
     try {
       const accessToken = window.localStorage.getItem("accessToken");
       if (accessToken && (await isValidToken(accessToken))) {
-        const response = await fetch(
-          "http://localhost:3001/api/notification/markAllRead",
+        const response = await axios.post(
+          `${BASE_API_BACKEND}/api/notification/markAllRead`,
+          {},
           {
-            method: "POST",
             headers: {
               "Content-Type": "application/json",
               "x-auth-token": window.localStorage.getItem("accessToken"),
@@ -60,7 +64,7 @@ export const markAllReadNotificationAsyncThunk = createAsyncThunk(
             signal: signal,
           }
         );
-        const data = await response.json();
+        const data = response.data;
         if (data) {
           dispatch(MARK_ALL_READ());
         } else {
@@ -81,10 +85,10 @@ export const checkNewNotifyInitialized = createAsyncThunk(
     try {
       const accessToken = window.localStorage.getItem("accessToken");
       if (accessToken && (await isValidToken(accessToken))) {
-        const response = await fetch(
-          "http://localhost:3001/api/notification/check-new",
+        const response = await axios.post(
+          `${BASE_API_BACKEND}/api/notification/check-new`,
+          {},
           {
-            method: "POST",
             headers: {
               "Content-Type": "application/json",
               "x-auth-token": window.localStorage.getItem("accessToken"),
@@ -92,7 +96,7 @@ export const checkNewNotifyInitialized = createAsyncThunk(
             signal: signal,
           }
         );
-        const data = await response.json();
+        const data = response.data;
         if (data) {
           dispatch(CHECK_NEW_NOTIFY(data.data));
         } else {

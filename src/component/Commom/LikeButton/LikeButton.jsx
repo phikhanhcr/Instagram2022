@@ -1,6 +1,8 @@
+import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { socket } from "../../..";
+import { BASE_API_BACKEND } from "../../../config/common";
 import useAuthentication from "../../../customHooks/useAuthentication";
 import { isValidToken } from "../../../utils/jwt";
 
@@ -16,21 +18,22 @@ function LikeButton({ post, setLikeCount }) {
     const accessToken = window.localStorage.getItem("accessToken");
     if (accessToken && (await isValidToken(accessToken))) {
       const optionFetch = {
-        method: "POST",
         headers: {
           "Content-Type": "application/json",
           "x-auth-token": window.localStorage.getItem("accessToken"),
         },
-        body: JSON.stringify({ post_id: post._id }),
       };
 
       if (type === "like") {
         try {
-          const response = await fetch(
-            "http://localhost:3001/api/post/like",
+          const response = await axios.post(
+            `${BASE_API_BACKEND}/api/post/like`,
+            {
+              post_id: post._id
+            },
             optionFetch
           );
-          const data = await response.json();
+          const data = response.data;
           setCheckLike((pre) => !pre);
           setLikeCount((pre) => pre + 1);
           if (data.msg === "oke") {
@@ -46,11 +49,14 @@ function LikeButton({ post, setLikeCount }) {
         }
       } else {
         try {
-          const response = await fetch(
-            "http://localhost:3001/api/post/unlike",
+          const response = await axios.post(
+            `${BASE_API_BACKEND}/api/post/unlike`,
+            {
+              post_id: post._id
+            },
             optionFetch
           );
-          const data = await response.json();
+          const data = response.data;
           setCheckLike((pre) => !pre);
           setLikeCount((pre) => pre - 1);
 

@@ -1,4 +1,3 @@
-import { memo } from "react";
 import OverlayLikeComment from "../../OverlayLikeComment/OverlayLikeComment";
 import EachItemDetail from "./EachItemDetail";
 

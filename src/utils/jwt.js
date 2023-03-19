@@ -1,4 +1,6 @@
+import axios from "axios";
 import jwtDecode from "jwt-decode";
+import { BASE_API_BACKEND } from "../config/common";
 
 const isValidToken = async (accessToken) => {
   if (!accessToken) {
@@ -12,15 +14,18 @@ const isValidToken = async (accessToken) => {
   const isValid = exp > currentTime;
 
   if (!isValid) {
-
     const refreshToken = window.localStorage.getItem("refreshToken");
-    const response = await fetch("http://localhost:3001/api/auth/get-access-token", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await axios.post(
+      `${BASE_API_BACKEND}/api/auth/get-access-token`,
+      {
+        refreshToken,
       },
-      body: JSON.stringify({ refreshToken }),
-    });
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await response.json();
     if (data.msg === "oke") {
       setSession(data.token, data.refreshToken);
@@ -31,8 +36,6 @@ const isValidToken = async (accessToken) => {
 
   return true;
 };
-
-
 
 const setSession = (accessToken, refreshToken) => {
   if (accessToken && refreshToken) {
