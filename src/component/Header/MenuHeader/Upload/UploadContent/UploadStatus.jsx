@@ -4,6 +4,7 @@ import useAuthentication from "../../../../../customHooks/useAuthentication";
 import { useDispatch } from "react-redux";
 import { createPostAsync } from "../../../../../redux/features/post/postSlice";
 import usePost from "../../../../../customHooks/usePost";
+import { API_UPDATE_IMAGES } from "../../../../../config/common";
 function UploadStatus({ onClickNextStep, file, handleUploadSuccessfully }) {
   const dispatch = useDispatch();
   const { user } = useAuthentication();
@@ -21,7 +22,7 @@ function UploadStatus({ onClickNextStep, file, handleUploadSuccessfully }) {
     data.append("file", file);
     data.append("upload_preset", "Instagram");
     const res = await fetch(
-      "https://api.cloudinary.com/v1_1/pklevi/image/upload",
+      API_UPDATE_IMAGES,
       {
         method: "POST",
         body: data,

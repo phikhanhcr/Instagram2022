@@ -16,23 +16,26 @@ function TopDiscover({ data, onClickShowDetail }) {
             >
               <OverlayLikeComment />
             </div>
-            <div
-              className="group w-full bg-cover bg-no-repeat bg-center relative discover-section_img"
-              style={{
-                backgroundImage: `url(${data[1].images[0]})`,
-              }}
-              onClick={() => onClickShowDetail(data[1])}
-            >
-              <OverlayLikeComment />
+            {data[1] && (
+              <div
+                className="group w-full bg-cover bg-no-repeat bg-center relative discover-section_img"
+                style={{
+                  backgroundImage: `url(${data[1].images[0]})`,
+                }}
+                onClick={() => onClickShowDetail(data[1])}
+              >
+                <OverlayLikeComment />
+              </div>
+            )}
+          </div>
+          {data[2] && (
+            <div className="w-8/12 px-[3px] md:px-3">
+              <EachItemDetail
+                onClickShowDetail={onClickShowDetail}
+                data={data[2]}
+              />
             </div>
-          </div>
-
-          <div className="w-8/12 px-[3px] md:px-3">
-            <EachItemDetail
-              onClickShowDetail={onClickShowDetail}
-              data={data[2]}
-            />
-          </div>
+          )}
         </>
       )}
     </div>
