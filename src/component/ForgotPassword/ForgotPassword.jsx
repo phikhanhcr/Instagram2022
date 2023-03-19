@@ -2,6 +2,7 @@ import ForgotImages from '../../assert/images/forgot_password.png'
 function ForgotPassword() {
   return (
     <>
+      
       <section>
         <div className="w-[100%] lg:w-full max-w-[975px] mx-auto p-">
           <div className="w-full h-screen flex justify-center items-center">

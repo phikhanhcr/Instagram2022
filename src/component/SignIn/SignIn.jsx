@@ -1,8 +1,25 @@
 import AndroidDownload from "../../assert/images/downloadPlay.png";
 import IosDownload from "../../assert/images/downloadApp.png";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { userLogin, userRegister } from "../../redux/features/user/userSlice";
 function SignIn() {
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
+  async function registerUser(e) {
+    e.preventDefault();
+    dispatch(
+      userRegister({
+        email,
+        username,
+        password,
+      })
+    );
+  }
   return (
     <div className="h-screen  w-screen bg-[rgb(225, 225, 225)]">
       <div className="h-full w-full">
@@ -25,20 +42,26 @@ function SignIn() {
                         type="text"
                         className="h-full w-full outline-none border border-solid border-[#ccc] text-xs p-2"
                         placeholder="Số di động hoặc email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                       />
                     </div>
-                    <div className=" h-[38px] mb-[6px]">
+                    {/* <div className=" h-[38px] mb-[6px]">
                       <input
                         type="text"
                         className="h-full w-full outline-none border border-solid border-[#ccc] text-xs p-2"
                         placeholder="Tên đầy đủ"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                       />
-                    </div>
+                    </div> */}
                     <div className=" h-[38px] mb-[6px]">
                       <input
                         type="text"
                         className="h-full w-full outline-none border border-solid border-[#ccc] text-xs p-2"
                         placeholder="Tên người dùng"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                       />
                     </div>
                     <div className=" h-[38px] mb-[6px]">
@@ -46,11 +69,14 @@ function SignIn() {
                         type="text"
                         className="h-full w-full outline-none border border-solid border-[#ccc] text-xs p-2"
                         placeholder="Mật khẩu"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                       />
                     </div>
                     <button
                       type="submit"
                       className="my-2 rounded-sm bg-[#0095f6] text-white font-semibold py-[3px] px-[9px]"
+                       onClick={registerUser}
                     >
                       Đăng ký
                     </button>
@@ -83,7 +109,7 @@ function SignIn() {
                 <div className="bg-white text-sm border border-solid border-[#ccc] py-4 text-center mt-3">
                   <span>Bạn đã có tài khoản rồi?</span>
                   <Link to="/login" className="text-[#0095f6] font-semibold">
-                  {" "}
+                    {" "}
                     Đăng nhập
                   </Link>
                 </div>

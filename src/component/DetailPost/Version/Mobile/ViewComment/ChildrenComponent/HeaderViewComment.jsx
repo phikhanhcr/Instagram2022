@@ -1,7 +1,15 @@
+import { memo } from "react";
+import { useNavigate } from "react-router-dom";
+
 function HeaderViewComment() {
+  const navigate = useNavigate();
+
   return (
     <div className="fixed top-0 right-0 left-0 w-full h-header_height bg-white flex items-center z-10">
-      <div className="absolute rotate-[270deg] px-4 cursor-pointer">
+      <div
+        onClick={() => navigate(-1)}
+        className="absolute rotate-[270deg] px-4 cursor-pointer"
+      >
         <svg
           aria-label="Quay lại"
           className="_8-yf5 "
@@ -21,4 +29,4 @@ function HeaderViewComment() {
     </div>
   );
 }
-export default HeaderViewComment;
+export default memo(HeaderViewComment);

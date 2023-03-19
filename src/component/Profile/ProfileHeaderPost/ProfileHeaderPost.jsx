@@ -4,9 +4,9 @@ function ProfileHeaderPost({ onClickTab, currentTab }) {
     <div>
       <div className="h-[53px] w-full border-t border-solid border-[#8f8f8f] flex justify-around md:justify-center items-center">
         <div
-          onClick={() => onClickTab("posts")}
+          onClick={() => onClickTab("post")}
           className={
-            currentTab === "posts"
+            currentTab === "post"
               ? "w-[20%] flex justify-center md:block md:w-auto md:mr-[60px] cursor-pointer h-full text-sm tab-profile opacity-70 tab-profile__active"
               : "w-[20%] flex justify-center md:block md:w-auto md:mr-[60px] cursor-pointer h-full text-sm tab-profile opacity-70"
           }

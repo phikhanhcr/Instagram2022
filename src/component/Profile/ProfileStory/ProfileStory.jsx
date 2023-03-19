@@ -1,11 +1,10 @@
 import { memo } from "react";
 
 function ProfileStory() {
-  console.log("Profile Story")
   
   return (
     <div className="mb-11">
-      <ul className="flex ml-12 overflow-x-auto">
+      <ul className="flex  md:ml-12 overflow-x-auto ">
         <li className="mr-3.5 flex flex-col justify-center items-center w-[115px]">
           <div className="h-[87px] w-[87px] bg-[#e9e9e9] p-1 relative flex justify-center items-center rounded-full">
             <a href="/story.html" className="bg-white block p-0.5 rounded-full">
@@ -54,6 +53,7 @@ function ProfileStory() {
             Pals
           </div>
         </li>
+        
       </ul>
     </div>
   );

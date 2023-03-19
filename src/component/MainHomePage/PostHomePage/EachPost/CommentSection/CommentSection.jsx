@@ -1,7 +1,12 @@
 function CommentSection() {
   return (
     <div className="text-sm">
-      <p className="cursor-pointer opacity-70 my-1">Xem tất cả 29 bình luận</p>
+      <p
+        className="cursor-pointer opacity-70 my-1"
+      >
+        Xem tất cả 29 bình luận
+      </p>
+
       <ul className>
         <li className="overflow-hidden inline-block">
           <a href="/" className="font-semibold hover:underline">

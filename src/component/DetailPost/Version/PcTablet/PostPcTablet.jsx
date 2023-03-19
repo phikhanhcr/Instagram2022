@@ -1,15 +1,15 @@
 import CaptionPcTablet from "./CaptionPcTablet/CaptionPcTablet";
 import PictureTablet from "./PictureTablet";
 
-function PostPcTablet({ onCLickClose }) {
+function PostPcTablet({ onCLickClose, post }) {
   return (
     <div className="hidden md:block md:px-3.5 lg:mx-0">
       <div className="flex flex-wrap justify-center">
         <div className="h-[700px] flex">
           {/* images */}
-          <PictureTablet />
+          <PictureTablet images={post.images}/>
 
-          <CaptionPcTablet onCLickClose={onCLickClose}/>
+          <CaptionPcTablet postId={post._id} postProps={post} onCLickClose={onCLickClose}/>
         </div>
       </div>
     </div>

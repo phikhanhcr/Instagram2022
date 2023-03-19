@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-function PostHeader() {
+function PostHeader({ info, idPost }) {
   const [displayOptionsModal, setDisplayOptionsModal] = useState(false);
   return (
     <div className="post-section__header flex justify-between p-3.5">
@@ -10,14 +10,14 @@ function PostHeader() {
           className="post-section__header-avatar w-[32px] h-[32px] bg-cover bg-no-repeat bg-center rounded-full flex cursor-pointer"
           style={{
             backgroundImage:
-              "url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiEjOYggB8FSaPSeVuuoU-x7SvUmO0fAlxTMZYWS7rzhQkQ53gbRLjaTDLK98SsrmoRgE&usqp=CAU)",
+              `url(${info.avatar})`,
           }}
         ></div>
         <a
           href
           className="post-section__header-name font-semibold text-sm ml-3.5 block hover:underline"
         >
-          air.huyen
+          {info.username}
         </a>
       </div>
       <div
@@ -62,7 +62,7 @@ function PostHeader() {
               <b>Bỏ theo dõi</b>
             </li>
             <li className="hover:opacity-100 flex items-center justify-center cursor-pointer m-0 min-h-[48px] py-1 px-2 text-sm select-none align-middle font-semibold opacity-70 z-[101] border border-solid border-[#ddd]">
-              <Link to={`/post/1`}>Đi tới bài viết</Link>
+              <Link to={`/post/view/${idPost}`}>Đi tới bài viết</Link>
             </li>
             <li className="hover:opacity-100 flex items-center justify-center cursor-pointer m-0 min-h-[48px] py-1 px-2 text-sm select-none align-middle font-semibold opacity-70 z-[101] border border-solid border-[#ddd]">
               Chia sẻ lên..

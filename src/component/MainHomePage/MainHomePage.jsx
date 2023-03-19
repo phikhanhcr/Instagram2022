@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import PostHomePage from "./PostHomePage/PostHomePage";
 import RightSection from "./RightSection/RightSection";
 import StoryHomePage from "./StoryHomePage/StoryHomePage";
@@ -6,6 +6,7 @@ import StoryHomePage from "./StoryHomePage/StoryHomePage";
 const initWidthScreen = window.innerWidth;
 
 function MainHomePage() {
+  
   useEffect(() => {
     const rightMain = document.getElementById("right-main");
     const initPaddingWrapperMain = document.getElementById("wrapper-main");
@@ -29,6 +30,7 @@ function MainHomePage() {
       window.removeEventListener("resize", handleREsize);
     };
   }, []);
+  
   return (
     <section className="pt-0 md:pt-[30px]">
       <div
@@ -49,4 +51,4 @@ function MainHomePage() {
   );
 }
 
-export default MainHomePage;
+export default memo(MainHomePage);

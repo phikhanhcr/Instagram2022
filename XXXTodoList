@@ -11,3 +11,72 @@ All
 -- skeleton
 -- view comment Mobile // ui HTML
 -- detail post split component
+
+
+-- click show notification => bugs => done => don't know why this happened
+
+
+Day: 7/1/2022
+React lazy loading
+  - Build modal loading like instagram =>
+
+
+Day 11/1
+- redirect from login when access token is valid
+- Double click on image => show heart icon
+
+
+Day 14 
+- Header layout
+
+Day 15:
+- Loading post when isLoading === true
+-- render post
+
+
+Day 17
+- Show only on comment bellow each post on the homepage
++ On the pc
+  - show model when clicking the comment button on the pc. => done
++ On the mobile 
+  - Redirect to comment section when click comment button => done
+  - Explore and each post home page => done
+
+- Explore error, no-render post from api yet => oke
+- review useMemo, useCallback, mounted and unmounted
+
+
+Day 18
+  - Tag friends functionality
+  - Add has_tags for post
+  - Allow comment functionality
+
+Day 24:
+  - Comment oke 
+  - But still having one issue with viewing comment replied, what I am using is Redux to store comment replied, 
+    it's not so oke, must think about call direct api through comment root Id to load more content as 
+    well as comment (pagination)
+
+
+
+// Todo list
+
+
+Day 21 - 02 - 2022
+  - Notification view  => oke
+  - Fix redux store avoid reloading data  => oke
+  - Notification realtime                 => oke
+
+
+Day 23-03-2022
+  - Add model show all users who liked post when clicking it.
+  
+
+Day 24-03-2022
+  - send notify when someone like posts      => oke
+  - remove notify when unlike post           => oke
+
+
+Day 16-04-2022
+
+- Load more message  has not done yet..., Keep going

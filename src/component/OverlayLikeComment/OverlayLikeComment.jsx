@@ -1,4 +1,4 @@
-function OverlayLikeComment() {
+function OverlayLikeComment({like, comment}) {
   return (
     <>
       <div className="group-hover:flex hidden absolute bg-black bg-opacity-40 top-0 left-0 right-0 bottom-0 items-center justify-center">
@@ -19,7 +19,7 @@ function OverlayLikeComment() {
             ></path>
           </svg>
           <span className="font-weight-600 text-white font-size-16 mr-3">
-            1,200
+            {like}
           </span>
         </div>
         <div className="text-white flex items-center">
@@ -39,7 +39,7 @@ function OverlayLikeComment() {
             ></path>
           </svg>
           <span className="font-weight-600 text-white font-size-16 mr-3">
-            1,200
+            {comment}
           </span>
         </div>
       </div>
