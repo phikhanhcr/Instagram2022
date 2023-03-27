@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/component/Setting/Setting.css"],"names":[],"mappings":"AAAA,wBACE,0BAA4B,CAC5B,SACF","file":"10.a5087141.chunk.css","sourcesContent":[".setting-option__active {\n  border-left: 2px solid black;\n  opacity: 1;\n}"]}
