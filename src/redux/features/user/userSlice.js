@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSession, isValidToken } from "../../../utils/jwt";
 import { toast } from "react-toastify";
 import { useCallback } from "react";
-
 import { socket } from "../../../index";
 import { BASE_API_BACKEND } from "../../../config/common";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const initialState = {
   user: {},
   isAuthenticated: false,
@@ -21,7 +21,6 @@ const initialState = {
 };
 
 // ASYNC-FUNCTIONS-----------------------------------------------------------------
-
 const userInit = createAsyncThunk(
   "user/init",
   async (_, { dispatch, getState, rejectWithValue }) => {
@@ -70,17 +69,19 @@ const userInit = createAsyncThunk(
 const userLogin = createAsyncThunk(
   "user/login",
   async (userInfo, { dispatch, rejectWithValue }) => {
-    const response = await axios.post(`${BASE_API_BACKEND}/api/login`, {
-      ...userInfo,
-    });
-    const data = response.data;
-    if (response.status < 200 || response.status >= 300) {
-      return rejectWithValue(data.message);
+    try {
+      const response = await axios.post(`${BASE_API_BACKEND}/api/login`, {
+        ...userInfo,
+      });
+      const data = response.data;
+      setSession(data.token, data.refreshToken);
+      data.user = JSON.parse(data.user);
+      dispatch(userInit());
+      dispatch(LOGIN(data));
+    } catch (error) {
+      const { response } = error;
+      return rejectWithValue(response.data.message);
     }
-    setSession(data.token, data.refreshToken);
-    data.user = JSON.parse(data.user);
-    dispatch(userInit());
-    dispatch(LOGIN(data));
   }
 );
 
@@ -88,28 +89,18 @@ const userRegister = createAsyncThunk(
   "user/register",
   async (userInfo, { dispatch, rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `${BASE_API_BACKEND}/api/register`,
-        {
-          ...userInfo,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post(`${BASE_API_BACKEND}/api/register`, {
+        ...userInfo,
+      });
       const { data } = response;
-      //  Nếu bị lỗi thì reject
-      if (response.status < 200 || response.status >= 300) {
-        return rejectWithValue(data.message);
-      }
-      setSession(data.token, data.refreshToken);
-      data.user = JSON.parse(data.user);
-      dispatch(userInit());
-      dispatch(LOGIN(data));
+      console.log({ data });
+      // setSession(data.token, data.refreshToken);
+      // data.user = JSON.parse(data.user);
+      // dispatch(userInit());
+      // dispatch(LOGIN(data));
     } catch (error) {
-      return rejectWithValue("Something went wrong, please try another time");
+      const { response } = error;
+      return rejectWithValue(response.data.message);
     }
   }
 );
@@ -187,6 +178,26 @@ const userSlice = createSlice({
       );
     },
     [userLogin.rejected]: (state, action) => {
+      state.status = "FAILED";
+      state.isLoading = false;
+      toast.error(action?.payload);
+    },
+
+    [userRegister.pending]: (state) => {
+      state.status = "PENDING";
+      state.isLoading = true;
+    },
+    [userRegister.fulfilled]: (state) => {
+      state.status = "SUCCESS";
+      state.isLoading = false;
+      // userSocket.emit("sign-in", state.user._id);
+      toast.success(
+        `Welcome , ${
+          state.user.username ? state.user.username : state.user.email
+        } 🔥🔥`
+      );
+    },
+    [userRegister.rejected]: (state, action) => {
       state.status = "FAILED";
       state.isLoading = false;
       toast.error(action?.payload);

@@ -1,11 +1,12 @@
 import AndroidDownload from "../../assert/images/downloadPlay.png";
 import IosDownload from "../../assert/images/downloadApp.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { userLogin, userRegister } from "../../redux/features/user/userSlice";
 function SignIn() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -19,6 +20,8 @@ function SignIn() {
         password,
       })
     );
+
+    navigate("/login");
   }
   return (
     <div className="h-screen  w-screen bg-[rgb(225, 225, 225)]">

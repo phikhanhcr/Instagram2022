@@ -25,27 +25,20 @@ const Home = React.lazy(() => import("../component/Home/Home"));
 function RouteComponent() {
   return (
     <>
-      <>
-        <Routes>
-          <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/direct/inbox" element={<Direct />}>
-              <Route path=":userId" element={<Direct />} />
-            </Route>
-            <Route path="/explore" element={<Discover />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/story" element={<StoryPage />} />
-            <Route path="/post/view/:idPost" exact element={<DetailPost />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/settings" element={<Setting />} />
-            <Route
-              path="/post/comment/:idPost"
-              element={<ViewCommentMobile />}
-            />
-          </Route>
-        </Routes>
-      </>
       <Routes>
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/direct/inbox" element={<Direct />}>
+            <Route path=":userId" element={<Direct />} />
+          </Route>
+          <Route path="/explore" element={<Discover />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/story" element={<StoryPage />} />
+          <Route path="/post/view/:idPost" exact element={<DetailPost />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/settings" element={<Setting />} />
+          <Route path="/post/comment/:idPost" element={<ViewCommentMobile />} />
+        </Route>
         {/* <Route element={<CheckAuthLogin />}> */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<SignIn />} />

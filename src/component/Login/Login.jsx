@@ -6,6 +6,8 @@ import { useDispatch } from "react-redux";
 import { userLogin } from "../../redux/features/user/userSlice";
 import { useState } from "react";
 import useAuthentication from "../../customHooks/useAuthentication";
+import { useNavigate } from "react-router-dom";
+
 import { Navigate } from "react-router-dom";
 function Login() {
   const dispatch = useDispatch();
@@ -52,6 +54,7 @@ function Login() {
                             placeholder="Số điện thoại, tên người dùng hoặc email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            required
                           />
                         </div>
                         <div className=" h-[38px] mb-[6px]">
@@ -61,6 +64,7 @@ function Login() {
                             placeholder="Mật khẩu"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            required
                           />
                         </div>
                         <button
