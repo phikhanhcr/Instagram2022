@@ -19,9 +19,8 @@ function SignIn() {
         username,
         password,
       })
-    );
-
-    navigate("/login");
+    )
+    // navigate("/login");
   }
   return (
     <div className="h-screen  w-screen bg-[rgb(225, 225, 225)]">

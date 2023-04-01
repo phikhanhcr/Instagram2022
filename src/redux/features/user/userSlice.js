@@ -87,7 +87,7 @@ const userLogin = createAsyncThunk(
 
 const userRegister = createAsyncThunk(
   "user/register",
-  async (userInfo, { dispatch, rejectWithValue }) => {
+  async (userInfo, { dispatch, rejectWithValue, fulfilled }) => {
     try {
       const response = await axios.post(`${BASE_API_BACKEND}/api/register`, {
         ...userInfo,
@@ -98,6 +98,11 @@ const userRegister = createAsyncThunk(
       // data.user = JSON.parse(data.user);
       // dispatch(userInit());
       // dispatch(LOGIN(data));
+
+      fulfilled(data.message);
+
+      const navigate = useNavigate();
+      navigate("/login");
     } catch (error) {
       const { response } = error;
       return rejectWithValue(response.data.message);
@@ -146,6 +151,9 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    REGISTER: (state, action) => {
+      state.isAuthenticated = false;
+    },
     LOGIN: (state, action) => {
       state.user = action.payload.user;
       state.isAuthenticated = true;
@@ -188,14 +196,18 @@ const userSlice = createSlice({
       state.isLoading = true;
     },
     [userRegister.fulfilled]: (state) => {
+      console.log("fullfied");
       state.status = "SUCCESS";
       state.isLoading = false;
       // userSocket.emit("sign-in", state.user._id);
-      toast.success(
-        `Welcome , ${
-          state.user.username ? state.user.username : state.user.email
-        } 🔥🔥`
-      );
+
+      // const navigate = useNavigate();
+      // navigate("/login");
+      // toast.success(
+      //   `Welcome , ${
+      //     state.user.username ? state.user.username : state.user.email
+      //   } 🔥🔥`
+      // );
     },
     [userRegister.rejected]: (state, action) => {
       state.status = "FAILED";
