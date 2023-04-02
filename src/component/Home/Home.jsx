@@ -1,3 +1,4 @@
+import Mqtt from "../../plugins/Mqtt";
 import Header from "../Header/Header";
 import MainHomePage from "../MainHomePage/MainHomePage";
 
@@ -6,6 +7,7 @@ function Home() {
     <div>
       <Header />
       <MainHomePage />
+      {/* <Mqtt /> */}
     </div>
   );
 }

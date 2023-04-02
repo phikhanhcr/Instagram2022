@@ -4,9 +4,10 @@ import { setSession, isValidToken } from "../../../utils/jwt";
 import { toast } from "react-toastify";
 import { useCallback } from "react";
 import { socket } from "../../../index";
-import { BASE_API_BACKEND } from "../../../config/common";
+import { BASE_API_BACKEND, BASE_MQTT_URL } from "../../../config/common";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import mqtt from "mqtt";
 const initialState = {
   user: {},
   isAuthenticated: false,
@@ -46,6 +47,39 @@ const userInit = createAsyncThunk(
         socket.auth = JSON.parse(data.user);
         socket.emit("user-init", JSON.parse(data.user));
         socket.connect();
+        const clientId = "mqttjs_" + Math.random().toString(16).substr(2, 8);
+
+        const client = mqtt.connect(BASE_MQTT_URL, {
+          keepalive: 30,
+          protocolId: "MQTT",
+          protocolVersion: 4,
+          clean: true,
+          reconnectPeriod: 1000,
+          connectTimeout: 30 * 1000,
+          will: {
+            topic: "WillMsg",
+            payload: "Connection Closed abnormally..!",
+            qos: 0,
+            retain: true,
+          },
+          rejectUnauthorized: false,
+          clientId: clientId,
+        });
+        client.on("connect", function () {
+          client.subscribe("presence", function (err) {
+            if (!err) {
+              client.publish("presence", "Hello mqtt");
+            }
+          });
+
+          client.on("message", function (topic, message) {
+            // message is Buffer
+            console.log(message.toString());
+            client.end();
+          });
+
+          console.log("Connected MQTT successfully");
+        });
       } else {
         dispatch(
           INITIALIZE({
@@ -92,17 +126,11 @@ const userRegister = createAsyncThunk(
       const response = await axios.post(`${BASE_API_BACKEND}/api/register`, {
         ...userInfo,
       });
-      const { data } = response;
-      console.log({ data });
-      // setSession(data.token, data.refreshToken);
-      // data.user = JSON.parse(data.user);
-      // dispatch(userInit());
-      // dispatch(LOGIN(data));
-
-      fulfilled(data.message);
-
-      const navigate = useNavigate();
-      navigate("/login");
+      const data = response.data;
+      setSession(data.token, data.refreshToken);
+      data.user = JSON.parse(data.user);
+      dispatch(userInit());
+      dispatch(LOGIN(data));
     } catch (error) {
       const { response } = error;
       return rejectWithValue(response.data.message);
