@@ -6,7 +6,6 @@ import { useCallback } from "react";
 import { socket } from "../../../index";
 import { BASE_API_BACKEND, BASE_MQTT_URL } from "../../../config/common";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import mqtt from "mqtt";
 const initialState = {
   user: {},
@@ -48,10 +47,8 @@ const userInit = createAsyncThunk(
         socket.emit("user-init", JSON.parse(data.user));
         socket.connect();
         const clientId = "mqttjs_" + Math.random().toString(16).substr(2, 8);
-
         const client = mqtt.connect(BASE_MQTT_URL, {
           keepalive: 30,
-          protocolId: "MQTT",
           protocolVersion: 4,
           clean: true,
           reconnectPeriod: 1000,
@@ -60,11 +57,14 @@ const userInit = createAsyncThunk(
             topic: "WillMsg",
             payload: "Connection Closed abnormally..!",
             qos: 0,
-            retain: true,
+            retain: false,
           },
           rejectUnauthorized: false,
-          clientId: clientId,
+          clientId,
+          username: "Instagram123",
+          password: "oke",
         });
+        console.log({ client });
         client.on("connect", function () {
           client.subscribe("presence", function (err) {
             if (!err) {

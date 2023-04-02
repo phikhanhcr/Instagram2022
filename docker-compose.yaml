@@ -12,11 +12,29 @@ services:
       - 127.0.0.1:9081:8081
       - 127.0.0.1:28083:18083
     environment:
-      EMQX_LOADED_PLUGINS: "emqx_auth_http,emqx_recon,emqx_retainer,emqx_management,emqx_dashboard"
+      # EMQX_LOADED_PLUGINS: "emqx_auth_http,emqx_recon,emqx_retainer,emqx_management,emqx_dashboard"
       EMQX_ALLOW_ANONYMOUS: "true"
     networks:
       - common
     restart: always
+  
+  # eclipse-mosquitto:
+  #   container_name: emqxInstagram
+  #   image: eclipse-mosquitto:latest
+  #   ports:
+  #     - 2883:1883
+  #     - 9883:8883
+  #     - 9083:8083
+  #     - 9084:8084
+  #     - 9001:9001
+  #     - 127.0.0.1:9081:8081
+  #     - 127.0.0.1:28083:18083
+  #   environment:
+  #     EMQX_LOADED_PLUGINS: "emqx_auth_http,emqx_recon,emqx_retainer,emqx_management,emqx_dashboard"
+  #     EMQX_ALLOW_ANONYMOUS: "true"
+  #   networks:
+  #     - common
+  #   restart: always
 
 networks:
   common:
