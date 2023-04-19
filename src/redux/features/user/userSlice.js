@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
-import { setSession, isValidToken } from "../../../utils/jwt";
+import { setSession, isValidToken, setSessionUser } from "../../../utils/jwt";
 import { toast } from "react-toastify";
 import { useCallback } from "react";
 import { socket } from "../../../index";
 import { BASE_API_BACKEND, BASE_MQTT_URL } from "../../../config/common";
 import axios from "axios";
 import mqtt from "mqtt";
+import { MqttSubscribeTopic } from "../../../services/mqtt";
 const initialState = {
   user: {},
   isAuthenticated: false,
@@ -43,43 +44,13 @@ const userInit = createAsyncThunk(
             user: JSON.parse(data.user),
           })
         );
+        const user = JSON.parse(data.user);
         socket.auth = JSON.parse(data.user);
+        setSessionUser(data.user);
+        MqttSubscribeTopic.global(user._id);
+
         socket.emit("user-init", JSON.parse(data.user));
         socket.connect();
-        const clientId = "mqttjs_" + Math.random().toString(16).substr(2, 8);
-        const client = mqtt.connect(BASE_MQTT_URL, {
-          keepalive: 30,
-          protocolVersion: 4,
-          clean: true,
-          reconnectPeriod: 1000,
-          connectTimeout: 30 * 1000,
-          will: {
-            topic: "WillMsg",
-            payload: "Connection Closed abnormally..!",
-            qos: 0,
-            retain: false,
-          },
-          rejectUnauthorized: false,
-          clientId,
-          username: "Instagram123",
-          password: "oke",
-        });
-        console.log({ client });
-        client.on("connect", function () {
-          client.subscribe("presence", function (err) {
-            if (!err) {
-              client.publish("presence", "Hello mqtt");
-            }
-          });
-
-          client.on("message", function (topic, message) {
-            // message is Buffer
-            console.log(message.toString());
-            client.end();
-          });
-
-          console.log("Connected MQTT successfully");
-        });
       } else {
         dispatch(
           INITIALIZE({

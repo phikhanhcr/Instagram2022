@@ -1,18 +1,19 @@
 import AndroidDownload from "../../assert/images/downloadPlay.png";
 import IosDownload from "../../assert/images/downloadApp.png";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { userLogin, userRegister } from "../../redux/features/user/userSlice";
 import { Navigate } from "react-router-dom";
 import useAuthentication from "../../customHooks/useAuthentication";
+
+
 function SignIn() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { isAuthenticated } = useAuthentication();
-
   async function registerUser(e) {
     e.preventDefault();
     dispatch(
@@ -22,8 +23,8 @@ function SignIn() {
         password,
       })
     );
-    // navigate("/login");
   }
+
   return (
     <>
       {isAuthenticated ? (

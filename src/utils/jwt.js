@@ -37,7 +37,7 @@ const isValidToken = async (accessToken) => {
   return true;
 };
 
-const setSession = (accessToken, refreshToken) => {
+const setSession = (accessToken, refreshToken, user) => {
   if (accessToken && refreshToken) {
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
@@ -49,4 +49,14 @@ const setSession = (accessToken, refreshToken) => {
   }
 };
 
-export { isValidToken, setSession };
+const setSessionUser = (user) => {
+  if (user) {
+    localStorage.setItem("user", user);
+    // axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+  } else {
+    localStorage.removeItem("user");
+    // delete axios.defaults.headers.common.Authorization;
+  }
+};
+
+export { isValidToken, setSession, setSessionUser };
