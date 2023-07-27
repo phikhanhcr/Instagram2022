@@ -10,7 +10,6 @@ import { getConversationsAsyncById } from "../../redux/features/conversation/con
 function Direct() {
   const dispatch = useDispatch();
   const { conversations, isLoading } = useConversation();
-  console.log("re-render", conversations);
   useEffect(() => {
     const promise = dispatch(getConversationsAsyncById());
     return () => {

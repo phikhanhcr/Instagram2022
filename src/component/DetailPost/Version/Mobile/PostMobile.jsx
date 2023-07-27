@@ -11,13 +11,13 @@ function PostMobile({ onCLickClose, post }) {
       <div className="block md:hidden">
         <div className=" w-full max-h-screen overflow-hidden h-auto bg-[#fff] rounded-lg">
           <HeaderMobileDetail onCLickClose={onCLickClose} post={post} />
-          <ImagesPostMobile images={post.images} />
+          <ImagesPostMobile images={post.images_url} />
 
           {/* icon like */}
           <div className="flex justify-between px-4 pt-1">
             <div className="flex">
               <LikeButton post={post} setLikeCount={setLikeCount}/>
-              <Link to={`/post/comment/${post._id}`}>
+              <Link to={`/post/comment/${post.id}`}>
                 <div className="p-2 cursor-pointer">
                   <svg
                     aria-label="Bình luận"

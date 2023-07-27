@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { socket } from "../../..";
 import { BASE_API_BACKEND } from "../../../config/common";
 import { isValidToken } from "../../../utils/jwt";
 import { conversationSelector } from "../../selector/selector";

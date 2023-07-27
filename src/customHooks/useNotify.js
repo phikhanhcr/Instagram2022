@@ -1,6 +1,5 @@
-import { NotifyFunction } from "../redux/features/notification/notificationSlice";
+// import { NotifyFunction } from "../redux/features/notification/notificationSlice";
 
+// const useNotify = () => NotifyFunction();
 
-const useNotify = () => NotifyFunction();
-
-export default useNotify;
+// export default useNotify;

@@ -5,11 +5,6 @@ import MainHomePage from "../MainHomePage/MainHomePage";
 import mqttClient from "../../services/mqtt";
 
 function Home() {
-  // useEffect(() => {
-  //   mqttClient.on("message", function (topic, message) {
-  //     console.log({ topic, message });
-  //   });
-  // }, []);
 
   return (
     <div>

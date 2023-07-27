@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { socket } from "../../..";
 import { BASE_API_BACKEND } from "../../../config/common";
 import useAuthentication from "../../../customHooks/useAuthentication";
 import { isValidToken } from "../../../utils/jwt";
@@ -10,8 +9,7 @@ function LikeButton({ post, setLikeCount }) {
 
   const { user } = useAuthentication();
   const [checkLike, setCheckLike] = useState(() => {
-    let listUser = post ? post.like_list.map((ele) => ele._id) : [];
-    return listUser.includes(user._id);
+    return post.is_liked;
   });
 
   const handleCheckLike = async (type) => {
@@ -19,17 +17,18 @@ function LikeButton({ post, setLikeCount }) {
     if (accessToken && (await isValidToken(accessToken))) {
       const optionFetch = {
         headers: {
-          "Content-Type": "application/json",
-          "x-auth-token": window.localStorage.getItem("accessToken"),
+          Authorization: `Bearer ${window.localStorage.getItem(
+            "accessToken"
+          )}`,
         },
       };
 
       if (type === "like") {
         try {
           const response = await axios.post(
-            `${BASE_API_BACKEND}/api/post/like`,
+            `${BASE_API_BACKEND}/api/posts/like`,
             {
-              post_id: post._id
+              post_id: post.id
             },
             optionFetch
           );
@@ -37,12 +36,7 @@ function LikeButton({ post, setLikeCount }) {
           setCheckLike((pre) => !pre);
           setLikeCount((pre) => pre + 1);
           if (data.msg === "oke") {
-            socket.emit("handle-post-like", {
-              receiver: post.userId,
-              sender: user._id,
-              type: "like",
-              rootContent: post,
-            });
+
           }
         } catch (error) {
           toast.error("Too much request, please slowly");
@@ -50,9 +44,9 @@ function LikeButton({ post, setLikeCount }) {
       } else {
         try {
           const response = await axios.post(
-            `${BASE_API_BACKEND}/api/post/unlike`,
+            `${BASE_API_BACKEND}/api/posts/unlike`,
             {
-              post_id: post._id
+              post_id: post.id
             },
             optionFetch
           );
@@ -60,15 +54,6 @@ function LikeButton({ post, setLikeCount }) {
           setCheckLike((pre) => !pre);
           setLikeCount((pre) => pre - 1);
 
-          if (data.msg === "oke") {
-            // socket io
-            socket.emit("handle-post-unlike", {
-              receiver: post.userId,
-              sender: user._id,
-              type: "like",
-              rootContent: post,
-            });
-          }
         } catch (error) {
           toast.error("Too much request, please slowly");
         }

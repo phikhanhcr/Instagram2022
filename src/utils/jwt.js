@@ -1,6 +1,6 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import { BASE_API_BACKEND } from "../config/common";
+import { BASE_API_BACKEND, URL_END_POINT } from "../config/common";
 
 const isValidToken = async (accessToken) => {
   if (!accessToken) {
@@ -8,27 +8,22 @@ const isValidToken = async (accessToken) => {
   }
 
   const { exp } = jwtDecode(accessToken);
-
   const currentTime = Date.now() / 1000;
-
   const isValid = exp > currentTime;
 
   if (!isValid) {
     const refreshToken = window.localStorage.getItem("refreshToken");
     const response = await axios.post(
-      `${BASE_API_BACKEND}/api/auth/get-access-token`,
+      `${BASE_API_BACKEND}/${URL_END_POINT.auth.refresh_token}`,
       {
-        refreshToken,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
+        refresh_token: refreshToken,
       }
     );
-    const data = await response.json();
-    if (data.msg === "oke") {
-      setSession(data.token, data.refreshToken);
+    const result = await response.data;
+    if (result.error_code === 0) {
+      setSession(result.data.access_token, result.data.refresh_token);
+      // dispatch(userInit());
+      // dispatch(LOGIN(result));
     } else {
       return false;
     }

@@ -1,10 +1,9 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import NotificationModal from "./NotificationModal/NotificationModal";
-import { socket } from "../../../../index";
 import { useDispatch } from "react-redux";
 import { markAllReadNotificationAsyncThunk } from "../../../../redux/features/notification/notificationSlice";
-import useNotify from "../../../../customHooks/useNotify";
+// import useNotify from "../../../../customHooks/useNotify";
 
 function NotificationIcon() {
   // 1. when user open modal notify, set all read
@@ -16,29 +15,12 @@ function NotificationIcon() {
   const [mewNotify, setNewNotify] = useState(null);
   const dispatch = useDispatch();
 
-  const { checkNewNotify } = useNotify();
-
-  useEffect(() => {
-    socket.on("response-notify-send_notify", (data) => {
-      setCheckNotify(true);
-      setNewNotify(data);
-    });
-  }, []);
-
-  useEffect(() => {
-    socket.on("response-notify-comment_replied_on_post", (data) => {
-      setCheckNotify(true);
-      setNewNotify(data);
-    });
-  }, []);
 
   const handleShowModal = () => {
     setShowModal(true);
     setCheckNotify(false);
     setNewNotify(null);
-    if (checkNewNotify) {
-      dispatch(markAllReadNotificationAsyncThunk());
-    }
+   
   };
   return (
     <>
@@ -67,7 +49,7 @@ function NotificationIcon() {
         {checkShowModal && <NotificationModal mewNotify={mewNotify} />}
 
         {/* having new notifications */}
-        {checkNewNotify && (
+        {true && (
           <div className="absolute h-1 w-1 right-[9px] bottom-[-7px] rounded-full bg-red-600"></div>
         )}
         {checkNotify && (

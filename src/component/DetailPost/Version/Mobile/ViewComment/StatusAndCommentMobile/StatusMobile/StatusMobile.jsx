@@ -23,11 +23,11 @@ function StatusMoblie() {
       {post._id && (
         <ul className="border-b border-solid border-[#e2e2e2] pb-5">
           <li className="flex">
-            <ViewCommentAvatar avatar={post.userId.avatar} />
+            <ViewCommentAvatar avatar={post.user_avatar} />
             <div className="text-xs flex-1">
               <ContentCommentMobile
                 isStatus
-                username={post.userId.username}
+                username={post.username}
                 content={post.description}
               />
             </div>

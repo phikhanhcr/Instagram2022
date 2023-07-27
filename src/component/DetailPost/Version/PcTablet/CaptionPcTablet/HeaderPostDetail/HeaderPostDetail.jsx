@@ -7,18 +7,18 @@ function HeaderPostDetail({ onCLickClose, postProps }) {
   }
   return (
     <>
-      {post._id && (
+      {post.id && (
         <div className=" header  flex items-center justify-between py-2 px-4 lg:p-4 border border-solid border-[#ccc]">
           <div
             className="w-7 h-7 p-2 rounded-full bg-cover bg-no-repeat bg-center mr-[14px] "
             style={{
-              backgroundImage: `url(${post.userId.avatar})`,
+              backgroundImage: `url(${post.user_avatar})`,
             }}
           ></div>
           <div className="flex-1">
             <div className="flex text-sm items-center">
               <a href="/" className="font-medium mr-1 hover:underline">
-                {post.userId.username}
+                {post.username}
               </a>
               <span className="text-[#0095f6] font-semibold">• Theo dõi</span>
             </div>

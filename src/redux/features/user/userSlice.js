@@ -3,8 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSession, isValidToken, setSessionUser } from "../../../utils/jwt";
 import { toast } from "react-toastify";
 import { useCallback } from "react";
-import { socket } from "../../../index";
-import { BASE_API_BACKEND, BASE_MQTT_URL } from "../../../config/common";
+import {
+  BASE_API_BACKEND,
+  BASE_MQTT_URL,
+  URL_END_POINT,
+} from "../../../config/common";
 import axios from "axios";
 import mqtt from "mqtt";
 import { MqttSubscribeTopic } from "../../../services/mqtt";
@@ -28,29 +31,23 @@ const userInit = createAsyncThunk(
     try {
       const accessToken = window.localStorage.getItem("accessToken");
       if (accessToken && (await isValidToken(accessToken))) {
-        const response = await axios.post(
-          `${BASE_API_BACKEND}/api/get-user`,
-          {},
-          {
-            headers: {
-              "x-auth-token": window.localStorage.getItem("accessToken"),
-            },
-          }
-        );
+        const response = await axios.get(`${BASE_API_BACKEND}/api/users/me`, {
+          headers: {
+            Authorization: `Bearer ${window.localStorage.getItem(
+              "accessToken"
+            )}`,
+          },
+        });
         const { data } = response;
+        const user = data.data;
         dispatch(
           INITIALIZE({
             isAuthenticated: true,
-            user: JSON.parse(data.user),
+            user,
           })
         );
-        const user = JSON.parse(data.user);
-        socket.auth = JSON.parse(data.user);
-        setSessionUser(data.user);
-        MqttSubscribeTopic.global(user._id);
-
-        socket.emit("user-init", JSON.parse(data.user));
-        socket.connect();
+        setSessionUser(user);
+        MqttSubscribeTopic.global(user.id);
       } else {
         dispatch(
           INITIALIZE({
@@ -75,14 +72,18 @@ const userLogin = createAsyncThunk(
   "user/login",
   async (userInfo, { dispatch, rejectWithValue }) => {
     try {
-      const response = await axios.post(`${BASE_API_BACKEND}/api/login`, {
-        ...userInfo,
-      });
+      const response = await axios.post(
+        `${BASE_API_BACKEND}/${URL_END_POINT.auth.sign_in}`,
+        {
+          ...userInfo,
+        }
+      );
       const data = response.data;
-      setSession(data.token, data.refreshToken);
-      data.user = JSON.parse(data.user);
-      dispatch(userInit());
-      dispatch(LOGIN(data));
+      if (data.error_code === 0) {
+        setSession(data.data.token.access_token, data.data.token.refresh_token);
+        dispatch(userInit());
+        dispatch(LOGIN(data));
+      }
     } catch (error) {
       const { response } = error;
       return rejectWithValue(response.data.message);
@@ -94,14 +95,16 @@ const userRegister = createAsyncThunk(
   "user/register",
   async (userInfo, { dispatch, rejectWithValue, fulfilled }) => {
     try {
-      const response = await axios.post(`${BASE_API_BACKEND}/api/register`, {
-        ...userInfo,
-      });
+      const response = await axios.post(
+        `${BASE_API_BACKEND}/${URL_END_POINT.auth.sign_up}`,
+        {
+          ...userInfo,
+        }
+      );
       const data = response.data;
       setSession(data.token, data.refreshToken);
-      data.user = JSON.parse(data.user);
       dispatch(userInit());
-      dispatch(LOGIN(data));
+      dispatch(LOGIN(data.user));
     } catch (error) {
       const { response } = error;
       return rejectWithValue(response.data.message);
@@ -154,7 +157,7 @@ const userSlice = createSlice({
       state.isAuthenticated = false;
     },
     LOGIN: (state, action) => {
-      state.user = action.payload.user;
+      state.user = action.payload;
       state.isAuthenticated = true;
     },
     INITIALIZE: (state, action) => {

@@ -10,7 +10,7 @@ function ContentPostDetail({ postProps, handleClickReply }) {
   if(postProps) {
     post = postProps;
   }
-  const postId = post._id;
+  const postId = post.id;
   const dispatch = useDispatch();
   const { comment, isLoading } = useComment();
   
@@ -29,12 +29,12 @@ function ContentPostDetail({ postProps, handleClickReply }) {
           <div
             className="w-7 h-7 p-2 rounded-full bg-cover bg-no-repeat bg-center mr-[14px] mt-1"
             style={{
-              backgroundImage: `url(${post.userId.avatar})`,
+              backgroundImage: `url(${post.user_avatar})`,
             }}
           ></div>
           <div className="flex-1 mt-1">
             <a href="/" className="font-medium mr-1 hover:underline">
-              {post.userId.username}
+              {post.username}
             </a>
             {post.description}
           </div>
@@ -44,8 +44,8 @@ function ContentPostDetail({ postProps, handleClickReply }) {
         <div className="comment">
           <ul className="h-auto">
             {/* list comment */}
-            {comment.length &&
-              comment.map((ele, index) => (
+            {[].length &&
+              [].map((ele, index) => (
                 <EachComment key={index} comment={ele} handleClickReply={handleClickReply}/>
               ))}
           </ul>

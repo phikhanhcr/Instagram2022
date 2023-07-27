@@ -2,16 +2,32 @@ import mqtt from "mqtt";
 import { BASE_MQTT_URL } from "../config/common";
 
 const clientId = "mqttjs_" + Math.random().toString(16).substr(2, 8);
+
 const listenAndForwardMessage = (message, regex) => {
   const regexTopic = regex.exec(message.topic);
-  console.log({ regexTopic });
   if (regexTopic && regexTopic.length === 3) {
+    const string = String.fromCharCode.apply(null, message.payloadString);
+    console.log({ string });
+    let decoder = new TextDecoder("utf-8");
+    let decodedString = decoder.decode(message.payloadString);
+
+    console.log({ decodedString });
     const messageJson = JSON.parse(message.payloadString);
-    const topicKey = regexTopic[2];
-    this.$nuxt.$emit(topicKey, messageJson);
+    console.log({ messageJson });
+    // const topicKey = regexTopic[2];
     return true;
   }
   return false;
+};
+
+const onMessageArrived = (message) => {
+  try {
+    if (listenAndForwardMessage(message, /global\/user\/(.*?)\/(.*?)$/gm)) {
+      return;
+    }
+  } catch (e) {
+    console.log("[MQTT] onMessageArrived:", e);
+  }
 };
 
 const client = mqtt.connect(BASE_MQTT_URL, {
@@ -31,6 +47,9 @@ const client = mqtt.connect(BASE_MQTT_URL, {
   username: "Instagram123",
   password: "oke",
 });
+
+client.onMessageArrived = onMessageArrived;
+client.handleMessage = onMessageArrived;
 
 client.on("connect", function () {
   console.log("MQTT Connected");

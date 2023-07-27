@@ -17,7 +17,6 @@ function DetailPost() {
   const dispatch = useDispatch();
   const { idPost } = useParams();
   const { isLoading, post } = useDetailPost(idPost);
-
   useEffect(() => {
     const promise = dispatch(eachPostInit(idPost));
     // Canceling While Running​
@@ -39,7 +38,7 @@ function DetailPost() {
 
       {isLoading ? <Instagram /> : ""}
 
-      {post._id && (
+      {post.id && (
         <div className="pt-header_height md:pt-[86px] w-[100%] lg:w-full max-w-[975px] mx-auto my-0 p-0 ">
           <PostPcTablet
             onCLickClose={handleClickMenu}
@@ -57,10 +56,10 @@ function DetailPost() {
               Thêm các bài viết của
               <a href="/" className="font-semibold text-sm">
                 {" "}
-                {post.userId.username}
+                {post.username}
               </a>
             </div>
-            <OtherPost userId={post.userId._id} />
+            <OtherPost userId={post.user_id} />
           </>
 
           {showModal && <OverlayMenuPost onCLickClose={handleClickMenu} />}

@@ -7,8 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "./assert/tailwind/build/styleTailwind.css";
 import store from "./redux/store";
 import { Provider } from "react-redux";
-import { io } from "socket.io-client";
-export const socket = io("http://localhost:3001");
 
 ReactDOM.render(
   <Provider store={store}>

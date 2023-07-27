@@ -7,6 +7,7 @@ import AddComment from "./AddComment/AddComment";
 import CaptionStatus from "./CaptionStatus/CaptionStatus";
 import PostHeader from "./EachPostHeader/EachPostHeader";
 import PostImages from "./PostImages/PostImage";
+import CommentSection from "./CommentSection/CommentSection";
 
 function EachPostHomePage({ post }) {
   const [checkShowModal, setCHeckShowModal] = useState(false);
@@ -20,8 +21,8 @@ function EachPostHomePage({ post }) {
     <li className="post_section-item mb-8">
       <div className="bg-[#fff] post-section w-full border border-solid border-[#ccc]">
         <div className="post-section__username-image">
-          <PostHeader info={post.userId} idPost={post._id} />
-          <PostImages images={post.images} />
+          <PostHeader info={{ username: post.username, avatar: post.user_avatar }} idPost={post.id} />
+          <PostImages images={post.images_url} />
         </div>
 
         <div className="post-section__action-comment py-[6px] px-4">
@@ -35,10 +36,10 @@ function EachPostHomePage({ post }) {
           <CaptionStatus post={post} likeCount={likeCount} />
 
           {/* comment section */}
-          {/* <CommentSection /> */}
+          <CommentSection />
 
           {/* post comment*/}
-          <AddComment idPost={post._id} />
+          <AddComment idPost={post.id} />
         </div>
       </div>
     </li>

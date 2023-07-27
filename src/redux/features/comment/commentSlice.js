@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { socket } from "../../..";
 import { BASE_API_BACKEND } from "../../../config/common";
 import { isValidToken } from "../../../utils/jwt";
 import { commentSelector } from "../../selector/selector";
@@ -39,10 +38,8 @@ export const createCommentAsync = createAsyncThunk(
           if (body.comment_root_id || body.reply_to) {
             data.comment_root_id = body.comment_root_id;
             dispatch(CREATE_COMMENT_REPLIED(data));
-            socket.emit("notify-comment_replied_on_post", data);
           } else {
             dispatch(CREATE_COMMENT(data));
-            socket.emit("notify-comment_on_post", data);
           }
         } else {
           return rejectWithValue("Errors");

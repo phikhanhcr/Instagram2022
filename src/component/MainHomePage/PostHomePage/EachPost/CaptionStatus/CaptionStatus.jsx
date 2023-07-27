@@ -14,13 +14,13 @@ function CaptionStatus({ post, likeCount }) {
       </div>
       <div className="text-sm">
         <a href="/" className="font-semibold hover:underline ">
-          {post.userId.username}{" "}
+          {post.username}{" "}
         </a>
         <span className="opacity-80">{post.description} </span>
       </div>
       {/* comment section */}
       {checkModel && (
-        <ModelLikedUser data={post.like_list} />
+        <ModelLikedUser data={post.top_likes} />
       )}
       {checkModel && (
         <div

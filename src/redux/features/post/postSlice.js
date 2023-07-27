@@ -31,8 +31,9 @@ export const createPostAsync = createAsyncThunk(
           },
           {
             headers: {
-              "Content-Type": "application/json",
-              "x-auth-token": window.localStorage.getItem("accessToken"),
+              Authorization: `Bearer ${window.localStorage.getItem(
+                "accessToken"
+              )}`,
             },
           }
         );
@@ -58,14 +59,15 @@ export const getPostByUserId = createAsyncThunk(
       const accessToken = window.localStorage.getItem("accessToken");
       if (accessToken && (await isValidToken(accessToken))) {
         const response = await axios.post(
-          `${BASE_API_BACKEND}/api/post/posts/user`,
+          `${BASE_API_BACKEND}/api/posts/get-by-type`,
           {
-            userId,
+            user_id: userId,
           },
           {
             headers: {
-              "Content-Type": "application/json",
-              "x-auth-token": window.localStorage.getItem("accessToken"),
+              Authorization: `Bearer ${window.localStorage.getItem(
+                "accessToken"
+              )}`,
             },
             signal: signal,
           }
@@ -88,17 +90,21 @@ export const postInit = createAsyncThunk(
     try {
       const accessToken = window.localStorage.getItem("accessToken");
       if (accessToken && (await isValidToken(accessToken))) {
-        const response = await axios.get(`${BASE_API_BACKEND}/api/post/feeds`, {
-          headers: {
-            "Content-Type": "application/json",
-            "x-auth-token": window.localStorage.getItem("accessToken"),
-          },
-        });
+        const response = await axios.get(
+          `${BASE_API_BACKEND}/api/posts/feeds`,
+          {
+            headers: {
+              Authorization: `Bearer ${window.localStorage.getItem(
+                "accessToken"
+              )}`,
+            },
+          }
+        );
         const { data } = response;
 
         dispatch(
           INITIALIZE_POST({
-            post: data,
+            post: data.data,
           })
         );
       } else {
@@ -126,13 +132,15 @@ export const postDiscover = createAsyncThunk(
       if (accessToken && (await isValidToken(accessToken))) {
         const config = {
           headers: {
-            "Content-Type": "application/json",
-            "x-auth-token": window.localStorage.getItem("accessToken"),
+            Authorization: `Bearer ${window.localStorage.getItem(
+              "accessToken"
+            )}`,
           },
+
           signal: signal,
         };
         const response = await axios.get(
-          `${BASE_API_BACKEND}/api/post/feeds`,
+          `${BASE_API_BACKEND}/api/posts/feeds`,
           config
         );
         const { data } = response;

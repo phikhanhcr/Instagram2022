@@ -15,19 +15,20 @@ export const eachPostInit = createAsyncThunk(
       const accessToken = window.localStorage.getItem("accessToken");
       if (accessToken && (await isValidToken(accessToken))) {
         const response = await axios.get(
-          `${BASE_API_BACKEND}/api/post/one/${post_id}`,
+          `${BASE_API_BACKEND}/api/posts/detail/${post_id}`,
           {
             headers: {
-              "Content-Type": "application/json",
-              "x-auth-token": window.localStorage.getItem("accessToken"),
+              Authorization: `Bearer ${window.localStorage.getItem(
+                "accessToken"
+              )}`,
             },
             signal: signal,
           }
         );
-        const data = response.data;
+        const { data } = response;
         dispatch(
           INITIALIZE_DETAIL_POST({
-            post: data,
+            post: data.data,
           })
         );
       } else {

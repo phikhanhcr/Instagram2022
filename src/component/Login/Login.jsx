@@ -20,7 +20,7 @@ function Login() {
     e.preventDefault();
     dispatch(
       userLogin({
-        email,
+        username: email,
         password,
       })
     );

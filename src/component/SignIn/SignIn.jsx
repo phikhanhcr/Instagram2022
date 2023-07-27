@@ -13,6 +13,7 @@ function SignIn() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordRepeat, setPasswordRepeat] = useState("");
   const { isAuthenticated } = useAuthentication();
   async function registerUser(e) {
     e.preventDefault();
@@ -20,7 +21,8 @@ function SignIn() {
       userRegister({
         email,
         username,
-        password,
+        password1 : password,
+        password2 : passwordRepeat,
       })
     );
   }
@@ -80,6 +82,15 @@ function SignIn() {
                             placeholder="Mật khẩu"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                          />
+                        </div>
+                        <div className=" h-[38px] mb-[6px]">
+                          <input
+                            type="text"
+                            className="h-full w-full outline-none border border-solid border-[#ccc] text-xs p-2"
+                            placeholder="Mật khẩu"
+                            value={passwordRepeat}
+                            onChange={(e) => setPasswordRepeat(e.target.value)}
                           />
                         </div>
                         <button

@@ -7,9 +7,9 @@ function PostPcTablet({ onCLickClose, post }) {
       <div className="flex flex-wrap justify-center">
         <div className="h-[700px] flex">
           {/* images */}
-          <PictureTablet images={post.images}/>
+          <PictureTablet images={post.images_url}/>
 
-          <CaptionPcTablet postId={post._id} postProps={post} onCLickClose={onCLickClose}/>
+          <CaptionPcTablet postId={post.id} postProps={post} onCLickClose={onCLickClose}/>
         </div>
       </div>
     </div>
