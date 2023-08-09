@@ -11,7 +11,7 @@ const rootReducer = {
   post: postReducer,
   detailPost: detailPostReducer,
   comment: commentReducer,
-  // notification : notificationReducer,
+  notification: notificationReducer,
   message: messageReducer,
   conversation: conversationReducer,
 };

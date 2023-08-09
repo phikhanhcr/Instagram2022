@@ -15,7 +15,7 @@ function OptionNotification({ data }) {
         <div
           className="notification-image-item"
           style={{
-            backgroundImage: `url(${data.images})`,
+            backgroundImage: `url(${data.image})`,
           }}
         ></div>
       );

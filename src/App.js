@@ -2,7 +2,6 @@ import React, { useEffect, Suspense } from "react";
 import { ToastContainer } from "react-toastify";
 import Loading from "./component/Loading/Loading";
 import useAuthentication from "./customHooks/useAuthentication";
-// import useNotify from './customHooks/useNotify';
 import RouteComponent from "./routes/RouteComponent";
 
 function App() {
@@ -11,14 +10,9 @@ function App() {
   }, []);
 
   const { isLoading, initialize, isInitialized } = useAuthentication();
-  // const { initializeNotify } = useNotify()
   useEffect(() => {
     initialize();
   }, [initialize]);
-
-  // useEffect(() => {
-  //   initializeNotify();
-  // }, [initializeNotify])
 
   return (
     <>

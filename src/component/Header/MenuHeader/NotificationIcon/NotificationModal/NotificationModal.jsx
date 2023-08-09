@@ -1,22 +1,22 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-// import useNotify from "../../../../../customHooks/useNotify";
+import useNotify from "../../../../../customHooks/useNotify";
 import { getNotificationAsyncThunk } from "../../../../../redux/features/notification/notificationSlice";
 
 import ItemNotification from "./ItemNotification";
 import LoadingGif from "../../../../../assert/images/loading.gif";
 
 function NotificationModal({ mewNotify }) {
-  // const { isLoadingNotify, notifications } = useNotify();
+  const { isLoadingNotify, notifications } = useNotify();
   const dispatch = useDispatch();
   useEffect(() => {
-    // if (!notifications.length) {
-    const promise = dispatch(getNotificationAsyncThunk());
-    return () => {
-      promise.abort();
-    };
-    // }
-  }, [dispatch]);
+    if (!notifications.length) {
+      const promise = dispatch(getNotificationAsyncThunk());
+      return () => {
+        promise.abort();
+      };
+    }
+  }, [dispatch, notifications.length]);
 
   return (
     <div
@@ -33,7 +33,7 @@ function NotificationModal({ mewNotify }) {
         md:top-[135%] md:left-[-455px] 
       "
     >
-      {true && (
+      {isLoadingNotify && (
         <div className="flex justify-center items-center h-[100px]">
           <img className="w-[30px]" src={LoadingGif} alt="loading..." />
         </div>
@@ -47,10 +47,8 @@ function NotificationModal({ mewNotify }) {
       <div className="overflow-hidden overflow-y-auto h-full max-h-[362px]">
         <ul>
           {mewNotify ? <ItemNotification data={mewNotify} /> : ""}
-          {[] &&
-            [].map((ele, index) => (
-              <ItemNotification data={ele} key={index} />
-            ))}
+          {notifications &&
+            notifications.map((ele, index) => <ItemNotification data={ele} key={index} />)}
         </ul>
       </div>
     </div>

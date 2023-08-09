@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import NotificationModal from "./NotificationModal/NotificationModal";
 import { useDispatch } from "react-redux";
-import { markAllReadNotificationAsyncThunk } from "../../../../redux/features/notification/notificationSlice";
-// import useNotify from "../../../../customHooks/useNotify";
+import { checkNewNotifyInitialized, markAllReadNotificationAsyncThunk } from "../../../../redux/features/notification/notificationSlice";
+import useNotify from "../../../../customHooks/useNotify";
 
 function NotificationIcon() {
   // 1. when user open modal notify, set all read
@@ -11,15 +11,26 @@ function NotificationIcon() {
   // 3. display red dot when user has any unread notifications
   // 3 types
   const [checkShowModal, setShowModal] = useState(false);
-  const [checkNotify, setCheckNotify] = useState(false);
   const [mewNotify, setNewNotify] = useState(null);
+
+
+  const { isLoadingNotify, notifications , checkNewNotify} = useNotify();
   const dispatch = useDispatch();
+  useEffect(() => {
+      const promise = dispatch(checkNewNotifyInitialized());
+      return () => {
+        promise.abort();
+    }
+  }, [dispatch, notifications.length]);
 
 
   const handleShowModal = () => {
     setShowModal(true);
-    setCheckNotify(false);
     setNewNotify(null);
+    
+    setTimeout(() => {
+      dispatch(markAllReadNotificationAsyncThunk());
+    }, 2000)
    
   };
   return (
@@ -33,7 +44,6 @@ function NotificationIcon() {
           className="header__content-menu-link"
         >
           <svg
-            aria-label="Nguồn cấp dữ liệu hoạt động"
             className="_8-yf5"
             color="#262626"
             fill="#262626"
@@ -49,10 +59,7 @@ function NotificationIcon() {
         {checkShowModal && <NotificationModal mewNotify={mewNotify} />}
 
         {/* having new notifications */}
-        {true && (
-          <div className="absolute h-1 w-1 right-[9px] bottom-[-7px] rounded-full bg-red-600"></div>
-        )}
-        {checkNotify && (
+        {checkNewNotify && (
           <div className="absolute h-1 w-1 right-[9px] bottom-[-7px] rounded-full bg-red-600"></div>
         )}
       </div>
