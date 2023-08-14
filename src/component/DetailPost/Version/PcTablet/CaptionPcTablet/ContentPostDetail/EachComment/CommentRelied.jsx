@@ -1,26 +1,56 @@
+import { memo, useLayoutEffect, useEffect, useState } from "react";
+import { BASE_API_BACKEND } from "../../../../../../../config/common";
+import axios from "axios";
 
 function CommentRelied({ comment, handleClickReply }) {
+  const [comments, setComments] = useState([]);
+  useEffect(() => {
+    const url = `${BASE_API_BACKEND}/api/comments/get-comments-by-post`;
+    const fetcHData = async () => {
+      const response = await axios.post(
+        url,
+        {
+          post_id: comment.post_id,
+          parent_id: comment.id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${window.localStorage.getItem(
+              "accessToken"
+            )}`,
+          },
+        }
+      );
+      const data = response.data;
+      if(data.error_code === 0) {
+        setComments(data.data)
+      }
+    };
+    fetcHData();
+  }, [comment.id, comment.post_id]);
+
+
   return (
     <div>
-      {comment.comment_replied.length &&
-        comment.comment_replied.map((ele, index) => (
+      {comments.length &&
+        comments.map((ele, index) => (
           <div key={index} className="flex flex-col text-sm mt-4">
             <div className="flex">
               <div
                 className="w-7 h-7 p-2 rounded-full bg-cover bg-no-repeat bg-center mt-1 mr-[14px]"
                 style={{
-                  backgroundImage: `url(${ele.avatar})`,
+                  backgroundImage: `url(${ele.user_avatar})`,
                 }}
               ></div>
               <div className="main flex-1">
                 <a href="/" className="font-medium mr-1 hover:underline">
-                  {ele.username}
+                  {ele.user_name}
                 </a>
                 <span>
                   <a href="/" className="text-[#00376b] inline-block">
-                    @{ele.reply_to.username}
+                    @{ele.parent_name}
                   </a>{" "}
-                  {ele.comment_id.content}{" "}
+                  {ele.content}{" "}
                 </span>
               </div>
               <div>
@@ -41,15 +71,15 @@ function CommentRelied({ comment, handleClickReply }) {
             <div className="flex mt-2  text-[10px] items-center pl-10">
               <span className="cursor-pointer opacity-70 mr-2">5 ngày</span>
               <span className="cursor-pointer opacity-70 mr-2">
-                19 lượt thích
+                {ele.like_count} lượt thích
               </span>
               <span
                 onClick={() =>
                   handleClickReply({
-                    commentRoot: comment._id,
-                    username: ele.username,
-                    avatar: ele.avatar,
-                    userId: ele.user_id,
+                    parent_id: comment.id,
+                    username: comment.user_name,
+                    avatar: comment.user_avatar,
+                    userId: comment.user_id,
                   })
                 }
                 className="cursor-pointer opacity-70 mr-2"
@@ -79,4 +109,4 @@ function CommentRelied({ comment, handleClickReply }) {
   );
 }
 
-export default CommentRelied;
+export default memo(CommentRelied);

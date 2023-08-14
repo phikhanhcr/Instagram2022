@@ -7,6 +7,10 @@ function AddComment({ idPost }) {
   const dispatch = useDispatch();
 
   const handleCreateComment = () => {
+    if(input.trim() === "") {
+      setInput(""); 
+      return;
+    }
     dispatch(
       createCommentAsync({
         post_id: idPost,

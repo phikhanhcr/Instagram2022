@@ -25,7 +25,7 @@ export const createPostAsync = createAsyncThunk(
       const accessToken = window.localStorage.getItem("accessToken");
       if (accessToken && (await isValidToken(accessToken))) {
         const response = await axios.post(
-          `${BASE_API_BACKEND}/api/post/create`,
+          `${BASE_API_BACKEND}/api/posts/create`,
           {
             ...body,
           },

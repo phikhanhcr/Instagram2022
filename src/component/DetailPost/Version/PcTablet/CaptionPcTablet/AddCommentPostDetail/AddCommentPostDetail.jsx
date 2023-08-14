@@ -16,8 +16,7 @@ function AddCommentPostDetail({
         createCommentAsync({
           post_id: postId,
           content: input.trim(),
-          comment_root_id: commentInfo.commentRoot,
-          reply_to: commentInfo.userId,
+          parent_id: commentInfo.parent_id,
         })
       );
     } else {

@@ -8,7 +8,7 @@ import EachCommentMobile from "./EachCommentMobile";
 import ContentLoaderComponent from "../../../../../../Commom/ContentLoader";
 function CommentMobile({ handleClickReply }) {
   const { post } = useDetailPost();
-  const idPost = post._id;
+  const idPost = post.id;
   const dispatch = useDispatch();
   const { comment, isLoading } = useComment();
   useEffect(() => {

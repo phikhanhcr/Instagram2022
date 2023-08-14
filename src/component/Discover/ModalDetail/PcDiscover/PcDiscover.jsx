@@ -20,12 +20,12 @@ function PcDiscover({ data }) {
       relative
       "
     >
-      <ImagesSlidePcDiscover urls={data.images} />
+      <ImagesSlidePcDiscover urls={data.images_url} />
 
       <CaptionPcTablet
         onCLickClose={onCLickClose}
         post={data}
-        postId={data._id}
+        postId={data.id}
         postProps={data}
       />
       {/* {showModal && <OverlayMenuPost onCLickClose={onCLickClose} />} */}

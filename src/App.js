@@ -8,7 +8,6 @@ function App() {
   useEffect(() => {
     document.title = "Instagram";
   }, []);
-
   const { isLoading, initialize, isInitialized } = useAuthentication();
   useEffect(() => {
     initialize();

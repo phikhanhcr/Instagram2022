@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, memo } from "react";
 import LikeButton from "../../../../Commom/LikeButton/LikeButton";
 import ModalDetail from "../../../../Discover/ModalDetail/ModalDetail";
 
@@ -9,7 +9,7 @@ function ActionSection({
   handleCloseBtn,
 }) {
   const [detailDiscover, setDetailDiscover] = useState({});
-
+  console.log(" re-render ActionSection")
   const handleClickShowDetail = useCallback(
     (data) => {
       setDetailDiscover(data);
@@ -85,4 +85,4 @@ function ActionSection({
   );
 }
 
-export default ActionSection;
+export default memo(ActionSection);

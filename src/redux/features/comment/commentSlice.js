@@ -21,14 +21,15 @@ export const createCommentAsync = createAsyncThunk(
       const accessToken = window.localStorage.getItem("accessToken");
       if (accessToken && (await isValidToken(accessToken))) {
         const response = await axios.post(
-          `${BASE_API_BACKEND}/api/comment/create`,
+          `${BASE_API_BACKEND}/api/comments/create`,
           {
             ...body,
           },
           {
             headers: {
-              "Content-Type": "application/json",
-              "x-auth-token": window.localStorage.getItem("accessToken"),
+              Authorization: `Bearer ${window.localStorage.getItem(
+                "accessToken"
+              )}`,
             },
           }
         );
@@ -55,25 +56,33 @@ export const createCommentAsync = createAsyncThunk(
 
 export const commentAsyncIdPost = createAsyncThunk(
   `${namespace}/init`,
-  async (idPost, { dispatch, signal }) => {
+  async (idPost, { dispatch, rejectWithValue }) => {
     try {
       const accessToken = window.localStorage.getItem("accessToken");
-      const response = await axios.get(
-        `${BASE_API_BACKEND}/api/comment/post/${idPost}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-auth-token": accessToken,
+      if (accessToken && (await isValidToken(accessToken))) {
+        const response = await axios.post(
+          `${BASE_API_BACKEND}/api/comments/get-comments-by-post`,
+          {
+            post_id: idPost,
           },
-          signal: signal,
-        }
-      );
-      const { data } = response;
-      dispatch(
-        INITIALIZE_COMMENT({
-          comment: data.data,
-        })
-      );
+          {
+            headers: {
+              Authorization: `Bearer ${window.localStorage.getItem(
+                "accessToken"
+              )}`,
+            },
+          }
+        );
+        const { data } = response;
+        console.log({ data });
+        dispatch(
+          INITIALIZE_COMMENT({
+            comment: data.data,
+          })
+        );
+      } else {
+        return rejectWithValue("Something went wrong");
+      }
     } catch (error) {
       dispatch(
         INITIALIZE_COMMENT({
@@ -106,20 +115,20 @@ const commentSlice = createSlice({
     },
     CREATE_COMMENT_REPLIED: (state, action) => {
       state.comment.map((ele) => {
-        if (ele._id === action.payload.comment_root_id) {
+        if (ele.id === action.payload.comment_root_id) {
           return {
             ...ele,
             comment_replied_count: ele.comment_replied_count++,
             comment_replied: ele.comment_replied.push({
               comment_id: {
-                _id: action.payload._id,
+                id: action.payload.id,
                 content: action.payload.content,
               },
               user_id: action.payload.user_commented_id,
               username: action.payload.username,
               avatar: action.payload.avatar,
               reply_to: {
-                user_id: action.payload.reply_to._id,
+                user_id: action.payload.reply_to.id,
                 username: action.payload.reply_to.username,
               },
             }),

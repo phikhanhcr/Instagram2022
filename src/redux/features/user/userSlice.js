@@ -82,7 +82,7 @@ const userLogin = createAsyncThunk(
       if (data.error_code === 0) {
         setSession(data.data.token.access_token, data.data.token.refresh_token);
         dispatch(userInit());
-        dispatch(LOGIN(data));
+        dispatch(LOGIN(data.data.user));
       }
     } catch (error) {
       const { response } = error;
@@ -104,7 +104,7 @@ const userRegister = createAsyncThunk(
       const data = response.data;
       setSession(data.token, data.refreshToken);
       dispatch(userInit());
-      dispatch(LOGIN(data.user));
+      dispatch(LOGIN(data.data.user));
     } catch (error) {
       const { response } = error;
       return rejectWithValue(response.data.message);
@@ -180,7 +180,7 @@ const userSlice = createSlice({
     [userLogin.fulfilled]: (state) => {
       state.status = "SUCCESS";
       state.isLoading = false;
-      // userSocket.emit("sign-in", state.user._id);
+      // userSocket.emit("sign-in", state.user.id);
       toast.success(
         `Welcome back, ${
           state.user.username ? state.user.username : state.user.email
@@ -201,7 +201,7 @@ const userSlice = createSlice({
       console.log("fullfied");
       state.status = "SUCCESS";
       state.isLoading = false;
-      // userSocket.emit("sign-in", state.user._id);
+      // userSocket.emit("sign-in", state.user.id);
 
       // const navigate = useNavigate();
       // navigate("/login");

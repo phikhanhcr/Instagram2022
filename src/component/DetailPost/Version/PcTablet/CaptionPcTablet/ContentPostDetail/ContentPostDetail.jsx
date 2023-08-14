@@ -44,8 +44,8 @@ function ContentPostDetail({ postProps, handleClickReply }) {
         <div className="comment">
           <ul className="h-auto">
             {/* list comment */}
-            {[].length &&
-              [].map((ele, index) => (
+            {comment.length &&
+              comment.map((ele, index) => (
                 <EachComment key={index} comment={ele} handleClickReply={handleClickReply}/>
               ))}
           </ul>

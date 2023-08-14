@@ -18,7 +18,7 @@ function EachMessage({ message }) {
   return (
     <li
       className={
-        message.sender === user._id
+        message.sender === user.id
           ? "w-full flex justify-start items-end mb-2 group my-message"
           : "w-full flex justify-start items-end mb-2 group"
       }

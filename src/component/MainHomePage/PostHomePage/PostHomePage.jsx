@@ -17,9 +17,8 @@ function PostHomePage() {
   return (
     <ul className="post_section-list">
       {isLoading ? <Instagram /> : ""}
-
       {post.length &&
-        post.map((ele) => <EachPostHomePage post={ele} key={ele._id} />)}
+        post.map((ele) => <EachPostHomePage post={ele} key={ele.id} />)}
     </ul>
   );
 }

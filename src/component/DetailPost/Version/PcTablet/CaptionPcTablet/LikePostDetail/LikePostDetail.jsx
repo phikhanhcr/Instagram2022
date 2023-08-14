@@ -1,5 +1,6 @@
 import { useState } from "react";
 import LikeButton from "../../../../../Commom/LikeButton/LikeButton";
+import { convertToRelativeTime } from "../../../../../../utils/convert-timezone";
 
 function LikePostDetail({ postProps }) {
   const [likeCount, setLikeCount] = useState(() => postProps.like_count);
@@ -63,7 +64,7 @@ function LikePostDetail({ postProps }) {
         <a href="#" className="font-semibold text-sm block">
           {likeCount} lượt thích
         </a>
-        <span className="text-xs opacity-60">3 ngày trước</span>
+        <span className="text-xs opacity-60">{convertToRelativeTime(postProps.created_at)}</span>
       </div>
     </>
   );

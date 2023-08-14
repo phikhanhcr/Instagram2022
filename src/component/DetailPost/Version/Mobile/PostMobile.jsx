@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import LikeButton from "../../../Commom/LikeButton/LikeButton";
 import HeaderMobileDetail from "./Header/HeaderMobileDetail";
 import ImagesPostMobile from "./ImagesPost/ImagesPostMobile";
+import { convertToRelativeTime } from "../../../../utils/convert-timezone";
 
 function PostMobile({ onCLickClose, post }) {
   const [likeCount, setLikeCount] = useState(post.like_count);
@@ -72,7 +73,7 @@ function PostMobile({ onCLickClose, post }) {
             <a href="/" className="font-semibold text-sm block">
               {likeCount} lượt thích
             </a>
-            <span className="text-xs text-black">3 ngày trước</span>
+            <span className="text-xs text-black">{convertToRelativeTime(post.created_at)}</span>
           </div>
         </div>
       </div>

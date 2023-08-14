@@ -2,9 +2,10 @@ import { memo } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import LikeButton from '../../../Commom/LikeButton/LikeButton'
+import { convertToRelativeTime } from "../../../../utils/convert-timezone";
 
 function MobileDiscover({ data }) {
-  const urls = data.images;
+  const urls = data.images_url;
   const [currentIndex, setCurrentIndex] = useState(0);
   function getNewSlideIndex(step) {
     let newSlideIndex = currentIndex + step;
@@ -22,12 +23,12 @@ function MobileDiscover({ data }) {
           <div
             className="w-7 h-7 p-2 rounded-full bg-cover bg-no-repeat bg-center mr-[14px] "
             style={{
-              backgroundImage: `url(${data.userId.avatar})`,
+              backgroundImage: `url(${data.user_avatar})`,
             }}
           ></div>
           <div className="flex-1">
             <a href="/" className="text-sm font-semibold hover:underline">
-              {data.userId.username}
+              {data.username}
             </a>
             <span> • </span>
             <span className="font-semibold text-[#0095f6] text-sm">
@@ -96,7 +97,7 @@ function MobileDiscover({ data }) {
             <LikeButton post={data} setLikeCount={setLikeCount}/>
 
             {/* Link to comment section */}
-            <Link to={`/post/comment/${data._id}`}>
+            <Link to={`/post/comment/${data.id}`}>
               <div className="p-2 cursor-pointer">
                 <svg
                   aria-label="Bình luận"
@@ -152,7 +153,7 @@ function MobileDiscover({ data }) {
           <a href="/" className="font-semibold text-sm block">
             {likeCount} lượt thích
           </a>
-          <span className="text-xs opacity-60">3 ngày trước</span>
+          <span className="text-xs opacity-60">{convertToRelativeTime(data.created_at)}</span>
         </div>
         {/* add comment */}
         <div className="input flex items-center flex-1 px-4 py-2 text-sm border-t border-solid border-[#e9e9e9]">

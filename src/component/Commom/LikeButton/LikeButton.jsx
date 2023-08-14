@@ -7,10 +7,10 @@ import { isValidToken } from "../../../utils/jwt";
 
 function LikeButton({ post, setLikeCount }) {
 
-  const { user } = useAuthentication();
   const [checkLike, setCheckLike] = useState(() => {
     return post.is_liked;
   });
+
 
   const handleCheckLike = async (type) => {
     const accessToken = window.localStorage.getItem("accessToken");
@@ -35,9 +35,7 @@ function LikeButton({ post, setLikeCount }) {
           const data = response.data;
           setCheckLike((pre) => !pre);
           setLikeCount((pre) => pre + 1);
-          if (data.msg === "oke") {
-
-          }
+          
         } catch (error) {
           toast.error("Too much request, please slowly");
         }

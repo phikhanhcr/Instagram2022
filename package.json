@@ -14,6 +14,7 @@
     "dotenv": "^16.0.3",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.1.2",
+    "moment-timezone": "^0.5.43",
     "mqtt": "^4.3.7",
     "react": "^17.0.2",
     "react-content-loader": "^6.1.0",

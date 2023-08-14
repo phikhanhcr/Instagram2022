@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import CommentRelied from "./CommentRelied";
+import { convertToRelativeTime } from "../../../../../../../utils/convert-timezone";
 
 function EachComment({ comment, handleClickReply }) {
   const [checkHide, setCheckHide] = useState(false);
@@ -12,12 +13,12 @@ function EachComment({ comment, handleClickReply }) {
         <div
           className="self-start w-7 h-7 p-2 rounded-full bg-cover bg-no-repeat bg-center mt-1 mr-[14px]"
           style={{
-            backgroundImage: `url(${comment.avatar})`,
+            backgroundImage: `url(${comment.user_avatar})`,
           }}
         ></div>
         <div className="flex-1 flex">
           <a href="/" className="font-medium mr-1 hover:underline">
-            {comment.username}
+            {comment.user_name}
           </a>
           <p className="inline-block max-w-[170px] overflow-x-hidden">
             {comment.content}{" "}
@@ -40,15 +41,17 @@ function EachComment({ comment, handleClickReply }) {
       </div>
       <div className="relative text-[11px] pl-10">
         <div className="flex mt-2 items-center  opacity-70">
-          <span className="cursor-pointer mr-2">5 ngày</span>
+          <span className="cursor-pointer mr-2">{
+            convertToRelativeTime(comment.created_at)
+          }</span>
           <span className="cursor-pointer mr-2">19 lượt thích</span>
           <span
             onClick={() =>
               handleClickReply({
-                commentRoot: comment._id,
-                username: comment.username,
-                avatar: comment.avatar,
-                userId: comment.user_commented_id,
+                parent_id: comment.id,
+                username: comment.user_name,
+                avatar: comment.user_avatar,
+                userId: comment.user_id,
               })
             }
             className="cursor-pointer mr-2"
@@ -72,7 +75,8 @@ function EachComment({ comment, handleClickReply }) {
             </svg>
           </div>
         </div>
-        {comment.comment_replied_count > 0 && (
+    
+        {comment.reply_count > 0 && (
           <>
             <br />
             <button onClick={handleSetHide} type="button">
@@ -81,7 +85,7 @@ function EachComment({ comment, handleClickReply }) {
                 <span onClick={() => setCheckHide(true)}>Ẩn câu trả lời</span>
               ) : (
                 <span onClick={() => setCheckHide(false)}>
-                  Xem câu trả lời ({comment.comment_replied_count})
+                  Xem câu trả lời ({comment.reply_count})
                 </span>
               )}
             </button>
@@ -98,4 +102,4 @@ function EachComment({ comment, handleClickReply }) {
   );
 }
 
-export default EachComment;
+export default memo(EachComment);

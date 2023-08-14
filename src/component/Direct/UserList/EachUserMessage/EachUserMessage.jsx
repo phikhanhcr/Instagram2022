@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 
 function EachUserMessage({ info, onClickEvent, userActive }) {
   const handleClick = () => {
-    onClickEvent(info._id);
+    onClickEvent(info.id);
   };
   return (
-    <Link to={`${info._id}`}>
+    <Link to={`${info.id}`}>
       <li
         onClick={handleClick}
         className={

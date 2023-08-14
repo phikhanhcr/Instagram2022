@@ -20,7 +20,7 @@ function StatusMoblie() {
   return (
     <>
       {isLoading && <>Loading...</>}
-      {post._id && (
+      {post.id && (
         <ul className="border-b border-solid border-[#e2e2e2] pb-5">
           <li className="flex">
             <ViewCommentAvatar avatar={post.user_avatar} />

@@ -1,27 +1,33 @@
-function CommentSection() {
+import { convertToRelativeTime } from "../../../../../utils/convert-timezone";
+
+function CommentSection({ post }) {
+  console.log(" re-render comment section")
   return (
     <div className="text-sm">
-      <p
-        className="cursor-pointer opacity-70 my-1"
-      >
-        Xem tất cả 29 bình luận
-      </p>
+      {post.comment_count ? (
+        <div>
+          <p className="cursor-pointer opacity-70 my-1">
+            Xem tất cả {post.comment_count} bình luận
+          </p>
+          <ul className>
+            {post.top_comments.length &&
+              post.top_comments.map((ele) => (
+                <li className="overflow-hidden inline-block">
+                  {/* redirect to user profile */}
+                  <a href="/" className="font-semibold hover:underline">
+                    {ele.user_name}{" "}
+                  </a>
+                  <span className="opacity-80">{ele.content}</span>
+                </li>
+              ))}
+          </ul>
+        </div>
+      ) : (
+        ""
+      )}
 
-      <ul className>
-        <li className="overflow-hidden inline-block">
-          <a href="/" className="font-semibold hover:underline">
-            phikhanhcris{" "}
-          </a>
-          <span className="opacity-80">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos
-            voluptate praesentium perspiciatis vel quae, magnam veniam similique
-            nam, voluptatibus voluptates sunt maxime explicabo cupiditate et.
-            Explicabo maiores doloribus asperiores. Consectetur.
-          </span>
-        </li>
-      </ul>
       <div className="time-comment">
-        <p>3 giờ trước</p>
+        <p>{convertToRelativeTime(post.created_at)}</p>
       </div>
     </div>
   );

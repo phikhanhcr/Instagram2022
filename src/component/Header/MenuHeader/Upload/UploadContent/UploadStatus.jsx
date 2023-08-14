@@ -32,8 +32,9 @@ function UploadStatus({ onClickNextStep, file, handleUploadSuccessfully }) {
     const dataFile = await res.json();
     const dataSendServer = {
       description,
-      images: [dataFile.url],
-      type: "post",
+      images_url: [dataFile.url],
+      // enum 2: post
+      type: 2,
     };
     dispatch(createPostAsync(dataSendServer));
   };
