@@ -74,7 +74,6 @@ export const commentAsyncIdPost = createAsyncThunk(
           }
         );
         const { data } = response;
-        console.log({ data });
         dispatch(
           INITIALIZE_COMMENT({
             comment: data.data,

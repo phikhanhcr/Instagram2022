@@ -7,7 +7,7 @@ import { LOGOUT_SET_NOTIFY } from "../../../../redux/features/notification/notif
 import { LOGOUT_SET_POST } from "../../../../redux/features/post/postSlice";
 function DropDownProfile(props) {
   const { user } = useAuthentication();
-
+  
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(LOGOUT());
@@ -43,7 +43,7 @@ function DropDownProfile(props) {
         />
         <ul className="menu-show-profile__list">
           <li className=" py-2 px-4 hover:bg-gray-200 ">
-            <Link to="/profile" className="menu-show-profile__link">
+            <Link to={`/profile/${user.name}`}  className="menu-show-profile__link">
               <svg
                 aria-label="Trang cá nhân"
                 className="menu-show-profile__icon"
@@ -60,7 +60,8 @@ function DropDownProfile(props) {
             </Link>
           </li>
           <li className=" py-2 px-4 hover:bg-gray-200 ">
-            <Link to="/profile" className="menu-show-profile__link">
+            <Link to={`/profile/${user.name}`} className="menu-show-profile__link">
+            {/* <Link to={`/post/view/${idPost}`}>Đi tới bài viết</Link> */}
               <svg
                 aria-label="Đã lưu"
                 className="menu-show-profile__icon "

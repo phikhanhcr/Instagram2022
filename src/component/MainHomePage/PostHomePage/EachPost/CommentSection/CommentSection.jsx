@@ -1,7 +1,6 @@
 import { convertToRelativeTime } from "../../../../../utils/convert-timezone";
 
 function CommentSection({ post }) {
-  console.log(" re-render comment section")
   return (
     <div className="text-sm">
       {post.comment_count ? (
@@ -9,10 +8,10 @@ function CommentSection({ post }) {
           <p className="cursor-pointer opacity-70 my-1">
             Xem tất cả {post.comment_count} bình luận
           </p>
-          <ul className>
+          <ul>
             {post.top_comments.length &&
-              post.top_comments.map((ele) => (
-                <li className="overflow-hidden inline-block">
+              post.top_comments.map((ele, index) => (
+                <li className="overflow-hidden inline-block" key={index}>
                   {/* redirect to user profile */}
                   <a href="/" className="font-semibold hover:underline">
                     {ele.user_name}{" "}

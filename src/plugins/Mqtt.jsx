@@ -4,14 +4,19 @@ import mqttClient, { MqttSubscribeTopic } from "../services/mqtt";
 const clientId = "mqttjs_" + Math.random().toString(16).substr(2, 8);
 
 function Mqtt() {
-  const [qos, setQos] = useState(0);
-  const [connectStatus, setConnectStatus] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [isConnected, setIsConnected] = useState(false);
   useEffect(() => {
-
-    mqttClient.on("message", function (topic, message) {
-      console.log({ topic, message })
+    mqttClient.on('connect', function () {
+      setIsConnected(true);
+      console.log('connected');
     });
-  }, [connectStatus]);
+
+    mqttClient.on('message', function (topic, message) {
+        console.log("Received '" + message + "' on '" + topic + "'");
+    });
+  }, []);
+
   return <div></div>;
 }
 

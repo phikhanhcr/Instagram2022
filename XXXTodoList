@@ -5,3 +5,13 @@ TODO:
 
 memo is used when having some changes of state in Component parent,
 but Children Component don't use that state, => not re-render
+
+client:
+- profile page
+- list followers, following
+
+backend:
+
+relation:
+- api suggest friends
+- 

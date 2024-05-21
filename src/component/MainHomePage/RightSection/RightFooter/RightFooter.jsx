@@ -1,9 +1,9 @@
 function RightFooterHomepage() {
   return (
     <div className="right-man__footer">
-      <div className>
+      <div>
         <nav className="right-man__footer-nav">
-          <ul className>
+          <ul>
             <li className="inline-block">
               <a
                 className="text-[11px] l93RR font-normal leading-[13px] normal-case text-gray-400]"

@@ -5,14 +5,15 @@ const clientId = "mqttjs_" + Math.random().toString(16).substr(2, 8);
 
 const listenAndForwardMessage = (message, regex) => {
   const regexTopic = regex.exec(message.topic);
+  console.log({ regexTopic });
   if (regexTopic && regexTopic.length === 3) {
-    const string = String.fromCharCode.apply(null, message.payloadString);
+    const string = String.fromCharCode.apply(null, message.payload);
     console.log({ string });
     let decoder = new TextDecoder("utf-8");
-    let decodedString = decoder.decode(message.payloadString);
+    let decodedString = decoder.decode(message.payload);
 
     console.log({ decodedString });
-    const messageJson = JSON.parse(message.payloadString);
+    const messageJson = JSON.parse(message.payload);
     console.log({ messageJson });
     // const topicKey = regexTopic[2];
     return true;
@@ -22,6 +23,7 @@ const listenAndForwardMessage = (message, regex) => {
 
 const onMessageArrived = (message) => {
   try {
+    console.log({ message });
     if (listenAndForwardMessage(message, /global\/user\/(.*?)\/(.*?)$/gm)) {
       return;
     }
@@ -55,11 +57,16 @@ client.on("connect", function () {
   console.log("MQTT Connected");
 });
 
+client.on("disconnect", function () {
+  console.log("MQTT disconnect");
+});
+
 export const MqttSubscribeTopic = {
   global: (id) => {
+    console.log({ id });
     client.subscribe(`global/user/${id}/#`, function (err) {
       if (!err) {
-        client.publish("presence", "Hello mqtt");
+        // client.publish(`global/user/${id}/tests`, "Hello mqtt");
       }
     });
   },

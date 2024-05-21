@@ -9,7 +9,6 @@ function ActionSection({
   handleCloseBtn,
 }) {
   const [detailDiscover, setDetailDiscover] = useState({});
-  console.log(" re-render ActionSection")
   const handleClickShowDetail = useCallback(
     (data) => {
       setDetailDiscover(data);

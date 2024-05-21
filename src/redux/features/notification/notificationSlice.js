@@ -24,9 +24,7 @@ export const getNotificationAsyncThunk = createAsyncThunk(
   async (_, { dispatch, rejectWithValue, signal }) => {
     try {
       const accessToken = window.localStorage.getItem("accessToken");
-      console.log({
-        accessToken: accessToken && (await isValidToken(accessToken)),
-      });
+
       if (accessToken && (await isValidToken(accessToken))) {
         const response = await axios.get(
           `${BASE_API_NOTIFICATION}/api/notifications`,

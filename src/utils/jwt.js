@@ -17,6 +17,7 @@ const isValidToken = async (accessToken) => {
       `${BASE_API_BACKEND}/${URL_END_POINT.auth.refresh_token}`,
       {
         refresh_token: refreshToken,
+        device_id: localStorage.getItem("deviceId"),
       }
     );
     const result = await response.data;

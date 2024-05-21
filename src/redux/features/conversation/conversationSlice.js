@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { BASE_API_BACKEND } from "../../../config/common";
 import { isValidToken } from "../../../utils/jwt";
 import { conversationSelector } from "../../selector/selector";
+import { BASE_API_CHAT } from "../../../config/dist/common";
 
 const initialState = {
   conversations: [],
@@ -13,25 +13,27 @@ const initialState = {
 const namespace = "conversation";
 
 export const getConversationsAsyncById = createAsyncThunk(
-  `${namespace}/by_id`,
+  `${namespace}/all_channels`,
   async (_, { dispatch, signal, rejectWithValue }) => {
     try {
       const accessToken = window.localStorage.getItem("accessToken");
       // need to check if invalid token
       if (accessToken && (await isValidToken(accessToken))) {
-        const response = await axios.get(
-          `${BASE_API_BACKEND}/api/conversation/get`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "x-auth-token": window.localStorage.getItem("accessToken"),
-            },
-            signal: signal,
-          }
-        );
+        const response = await axios.get(`${BASE_API_CHAT}/chat/channels`, {
+          headers: {
+            Authorization: `Bearer ${window.localStorage.getItem(
+              "accessToken"
+            )}`,
+          },
+          params: {
+            limit: 10,
+          },
+          signal: signal,
+        });
         const data = response.data;
-        // dispatch an action
-        dispatch(GET_CONVERSATION_BY_ID(data));
+        if (data.data.length) {
+          dispatch(GET_ALL_CHANNELS(data.data));
+        }
       } else {
         return rejectWithValue("Token expired");
       }
@@ -56,8 +58,9 @@ const conversationSlice = createSlice({
   name: namespace,
   initialState,
   reducers: {
-    GET_CONVERSATION_BY_ID: (state, action) => {
+    GET_ALL_CHANNELS: (state, action) => {
       state.conversations = action.payload;
+      console.log({ state: state.conversations });
     },
   },
   extraReducers: {
@@ -76,6 +79,6 @@ const conversationSlice = createSlice({
   },
 });
 
-export const { GET_CONVERSATION_BY_ID } = conversationSlice.actions;
+export const { GET_ALL_CHANNELS } = conversationSlice.actions;
 
 export default conversationSlice.reducer;

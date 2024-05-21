@@ -2,7 +2,6 @@ import { useState, memo } from "react";
 
 function PostImages({ images }) {
   // const [images, setImages ] = useState([]);
-  console.log(" re-render PostImages")
   const [slideIndex, setSlideIndex] = useState(0);
   const numberSlide = images.length;
 

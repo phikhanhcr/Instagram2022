@@ -10,7 +10,6 @@ import PostImages from "./PostImages/PostImage";
 import CommentSection from "./CommentSection/CommentSection";
 
 function EachPostHomePage({ post }) {
-  console.log("re-render", post.id)
   const [checkShowModal, setCHeckShowModal] = useState(false);
   const [likeCount, setLikeCount] = useState(post.like_count);
 

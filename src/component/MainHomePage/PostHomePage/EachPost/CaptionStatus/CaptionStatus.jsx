@@ -2,7 +2,6 @@ import { useState, memo } from "react";
 import ModelLikedUser from "../../../../Commom/ModelLikedUser/ModelLikedUser";
 
 function CaptionStatus({ post }) {
-  console.log(" re-render CaptionStatus")
   const [checkModel, setCheckModel] = useState(false);
   
   return (

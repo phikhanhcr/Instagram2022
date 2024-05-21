@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.CREATE_COMMENT_REPLIED = exports.CREATE_COMMENT = exports.INITIALIZE_COMMENT = exports.CommentFunction = exports.commentAsyncIdPost = exports.createCommentAsync = void 0;
+exports["default"] = exports.CREATE_COMMENT_REPLIED = exports.CREATE_COMMENT = exports.INITIALIZE_COMMENT = exports.CommentFunction = exports.commentAsyncIdPost = exports.createCommentAsync = void 0;
 
 var _toolkit = require("@reduxjs/toolkit");
 
@@ -19,7 +19,7 @@ var _selector = require("../../selector/selector");
 
 var _extraReducers;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -63,7 +63,7 @@ var createCommentAsync = (0, _toolkit.createAsyncThunk)("".concat(namespace, "/c
           }
 
           _context.next = 11;
-          return regeneratorRuntime.awrap(_axios.default.post("".concat(_common.BASE_API_BACKEND, "/api/comments/create"), _objectSpread({}, body), {
+          return regeneratorRuntime.awrap(_axios["default"].post("".concat(_common.BASE_API_BACKEND, "/api/comments/create"), _objectSpread({}, body), {
             headers: {
               Authorization: "Bearer ".concat(window.localStorage.getItem("accessToken"))
             }
@@ -139,12 +139,12 @@ var commentAsyncIdPost = (0, _toolkit.createAsyncThunk)("".concat(namespace, "/i
 
         case 8:
           if (!_context2.t0) {
-            _context2.next = 17;
+            _context2.next = 16;
             break;
           }
 
           _context2.next = 11;
-          return regeneratorRuntime.awrap(_axios.default.post("".concat(_common.BASE_API_BACKEND, "/api/comments/get-comments-by-post"), {
+          return regeneratorRuntime.awrap(_axios["default"].post("".concat(_common.BASE_API_BACKEND, "/api/comments/get-comments-by-post"), {
             post_id: idPost
           }, {
             headers: {
@@ -155,35 +155,32 @@ var commentAsyncIdPost = (0, _toolkit.createAsyncThunk)("".concat(namespace, "/i
         case 11:
           response = _context2.sent;
           data = response.data;
-          console.log({
-            data: data
-          });
           dispatch(INITIALIZE_COMMENT({
             comment: data.data
           }));
-          _context2.next = 18;
+          _context2.next = 17;
           break;
 
-        case 17:
+        case 16:
           return _context2.abrupt("return", rejectWithValue("Something went wrong"));
 
-        case 18:
-          _context2.next = 23;
+        case 17:
+          _context2.next = 22;
           break;
 
-        case 20:
-          _context2.prev = 20;
+        case 19:
+          _context2.prev = 19;
           _context2.t1 = _context2["catch"](1);
           dispatch(INITIALIZE_COMMENT({
             comment: null
           }));
 
-        case 23:
+        case 22:
         case "end":
           return _context2.stop();
       }
     }
-  }, null, null, [[1, 20]]);
+  }, null, null, [[1, 19]]);
 });
 exports.commentAsyncIdPost = commentAsyncIdPost;
 
@@ -265,4 +262,4 @@ exports.CREATE_COMMENT_REPLIED = CREATE_COMMENT_REPLIED;
 exports.CREATE_COMMENT = CREATE_COMMENT;
 exports.INITIALIZE_COMMENT = INITIALIZE_COMMENT;
 var _default = commentSlice.reducer;
-exports.default = _default;
+exports["default"] = _default;

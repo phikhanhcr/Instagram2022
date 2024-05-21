@@ -13,7 +13,6 @@ const HandleType = ({ children, data }) => {
   }
 };
 function ItemNotification({ data }) {
-  console.log({ data })
   return (
     <HandleType data={data}>
       <li className="flex items-center justify-between py-3 px-6 hover:bg-[rgb(245, 244, 244)]">

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSession, isValidToken, setSessionUser } from "../../../utils/jwt";
 import { toast } from "react-toastify";
 import { useCallback } from "react";
+import { uuid } from "uuidv4";
 import {
   BASE_API_BACKEND,
   BASE_MQTT_URL,
@@ -72,10 +73,16 @@ const userLogin = createAsyncThunk(
   "user/login",
   async (userInfo, { dispatch, rejectWithValue }) => {
     try {
+      let deviceId = localStorage.getItem("deviceId");
+      if (!deviceId) {
+        deviceId = uuid();
+        localStorage.setItem("deviceId", deviceId);
+      }
       const response = await axios.post(
         `${BASE_API_BACKEND}/${URL_END_POINT.auth.sign_in}`,
         {
           ...userInfo,
+          device_id: deviceId,
         }
       );
       const data = response.data;
@@ -120,7 +127,6 @@ export const AuthFunctions = () => {
     (state) => state.user
   );
   const user = useSelector((state) => (state.user.user ? state.user.user : {}));
-
   const initialize = useCallback(() => {
     dispatch(userInit());
   }, [dispatch]);

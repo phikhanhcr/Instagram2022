@@ -16,13 +16,13 @@ function EachUserMessage({ info, onClickEvent, userActive }) {
       >
         <div
           style={{
-            backgroundImage: `url(${info.members.length === 2 ? info.members[0].avatar : info.avatar})`,
+            backgroundImage: `url(${info.channel_avatar})`,
           }}
           className="mr-3 bg-center bg-cover bg-no-repeat rounded-full w-[56px] h-[56px]"
         />
         <div className="flex-1">
           <div className="font-medium text-sm opacity-90 text-[#494949]">
-            {info.name}
+            {info.channel_name}
           </div>
           <div className="font-normal text-sm opacity-50">
             Hoạt động 2 giờ trước

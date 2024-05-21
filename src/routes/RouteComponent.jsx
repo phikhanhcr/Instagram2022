@@ -32,7 +32,7 @@ function RouteComponent() {
             <Route path=":userId" element={<Direct />} />
           </Route>
           <Route path="/explore" element={<Discover />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:username" element={<Profile />} />
           <Route path="/story" element={<StoryPage />} />
           <Route path="/post/view/:idPost" exact element={<DetailPost />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />

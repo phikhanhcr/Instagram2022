@@ -12,6 +12,7 @@ function Direct() {
   const { conversations, isLoading } = useConversation();
   useEffect(() => {
     const promise = dispatch(getConversationsAsyncById());
+    console.log({ conversations})
     return () => {
       promise.abort();
     };

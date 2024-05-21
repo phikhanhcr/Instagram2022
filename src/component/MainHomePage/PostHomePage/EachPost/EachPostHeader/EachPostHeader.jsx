@@ -14,7 +14,7 @@ function PostHeader({ info, idPost }) {
           }}
         ></div>
         <a
-          href
+          href=""
           className="post-section__header-name font-semibold text-sm ml-3.5 block hover:underline"
         >
           {info.username}
