@@ -3,29 +3,26 @@ import { BASE_MQTT_URL } from "../config/common";
 
 const clientId = "mqttjs_" + Math.random().toString(16).substr(2, 8);
 
-const listenAndForwardMessage = (message, regex) => {
+const listenAndForwardMessage = (message, regex, regexTopicLength) => {
   const regexTopic = regex.exec(message.topic);
-  console.log({ regexTopic });
-  if (regexTopic && regexTopic.length === 3) {
-    const string = String.fromCharCode.apply(null, message.payload);
-    console.log({ string });
-    let decoder = new TextDecoder("utf-8");
-    let decodedString = decoder.decode(message.payload);
-
-    console.log({ decodedString });
-    const messageJson = JSON.parse(message.payload);
-    console.log({ messageJson });
-    // const topicKey = regexTopic[2];
-    return true;
+  if (regexTopic && regexTopic.length === regexTopicLength) {
+    const messageJson = JSON.parse(message.message);
+    const topicLKey = regexTopic[regexTopicLength - 1];
+    return [topicLKey, messageJson];
   }
-  return false;
+  return [null];
 };
 
-const onMessageArrived = (message) => {
+export const onMessageArrived = (message) => {
   try {
-    console.log({ message });
-    if (listenAndForwardMessage(message, /global\/user\/(.*?)\/(.*?)$/gm)) {
-      return;
+    if (listenAndForwardMessage(message, /global\/user\/(.*?)\/(.*?)$/gm, 3)) {
+      const [topicLKey, messageJson] = listenAndForwardMessage(
+        message,
+        /global\/user\/(.*?)\/(.*?)$/gm,
+        3
+      );
+
+      return [topicLKey, messageJson];
     }
   } catch (e) {
     console.log("[MQTT] onMessageArrived:", e);
@@ -48,17 +45,6 @@ const client = mqtt.connect(BASE_MQTT_URL, {
   clientId,
   username: "Instagram123",
   password: "oke",
-});
-
-client.onMessageArrived = onMessageArrived;
-client.handleMessage = onMessageArrived;
-
-client.on("connect", function () {
-  console.log("MQTT Connected");
-});
-
-client.on("disconnect", function () {
-  console.log("MQTT disconnect");
 });
 
 export const MqttSubscribeTopic = {

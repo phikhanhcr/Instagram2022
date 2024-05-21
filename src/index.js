@@ -7,12 +7,15 @@ import "react-toastify/dist/ReactToastify.css";
 import "./assert/tailwind/build/styleTailwind.css";
 import store from "./redux/store";
 import { Provider } from "react-redux";
+import { MqttProvider } from "./context/MqttProvider";
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
-      <App />
-    </Router>
+    <MqttProvider>
+      <Router>
+        <App />
+      </Router>
+    </MqttProvider>
   </Provider>,
   document.getElementById("root")
 );

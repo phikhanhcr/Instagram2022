@@ -3,58 +3,54 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.MqttSubscribeTopic = void 0;
+exports["default"] = exports.MqttSubscribeTopic = exports.onMessageArrived = void 0;
 
 var _mqtt = _interopRequireDefault(require("mqtt"));
 
 var _common = require("../config/common");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var clientId = "mqttjs_" + Math.random().toString(16).substr(2, 8);
 
-var listenAndForwardMessage = function listenAndForwardMessage(message, regex) {
+var listenAndForwardMessage = function listenAndForwardMessage(message, regex, regexTopicLength) {
   var regexTopic = regex.exec(message.topic);
-  console.log({
-    regexTopic: regexTopic
-  });
 
-  if (regexTopic && regexTopic.length === 3) {
-    var string = String.fromCharCode.apply(null, message.payload);
-    console.log({
-      string: string
-    });
-    var decoder = new TextDecoder("utf-8");
-    var decodedString = decoder.decode(message.payload);
-    console.log({
-      decodedString: decodedString
-    });
-    var messageJson = JSON.parse(message.payload);
-    console.log({
-      messageJson: messageJson
-    }); // const topicKey = regexTopic[2];
-
-    return true;
+  if (regexTopic && regexTopic.length === regexTopicLength) {
+    var messageJson = JSON.parse(message.message);
+    var topicLKey = regexTopic[regexTopicLength - 1];
+    return [topicLKey, messageJson];
   }
 
-  return false;
+  return [null];
 };
 
 var onMessageArrived = function onMessageArrived(message) {
   try {
-    console.log({
-      message: message
-    });
+    if (listenAndForwardMessage(message, /global\/user\/(.*?)\/(.*?)$/gm, 3)) {
+      var _listenAndForwardMess = listenAndForwardMessage(message, /global\/user\/(.*?)\/(.*?)$/gm, 3),
+          _listenAndForwardMess2 = _slicedToArray(_listenAndForwardMess, 2),
+          topicLKey = _listenAndForwardMess2[0],
+          messageJson = _listenAndForwardMess2[1];
 
-    if (listenAndForwardMessage(message, /global\/user\/(.*?)\/(.*?)$/gm)) {
-      return;
+      return [topicLKey, messageJson];
     }
   } catch (e) {
     console.log("[MQTT] onMessageArrived:", e);
   }
 };
 
-var client = _mqtt.default.connect(_common.BASE_MQTT_URL, {
+exports.onMessageArrived = onMessageArrived;
+
+var client = _mqtt["default"].connect(_common.BASE_MQTT_URL, {
   keepalive: 30,
   protocolVersion: 4,
   clean: true,
@@ -72,14 +68,6 @@ var client = _mqtt.default.connect(_common.BASE_MQTT_URL, {
   password: "oke"
 });
 
-client.onMessageArrived = onMessageArrived;
-client.handleMessage = onMessageArrived;
-client.on("connect", function () {
-  console.log("MQTT Connected");
-});
-client.on("disconnect", function () {
-  console.log("MQTT disconnect");
-});
 var MqttSubscribeTopic = {
   global: function global(id) {
     console.log({
@@ -93,4 +81,4 @@ var MqttSubscribeTopic = {
 };
 exports.MqttSubscribeTopic = MqttSubscribeTopic;
 var _default = client;
-exports.default = _default;
+exports["default"] = _default;

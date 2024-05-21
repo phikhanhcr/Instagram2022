@@ -1,14 +1,12 @@
-import { useEffect } from "react";
-import Mqtt from "../../plugins/Mqtt";
+import { useMqtt } from "../../context/MqttProvider";
 import Header from "../Header/Header";
 import MainHomePage from "../MainHomePage/MainHomePage";
-import mqttClient from "../../services/mqtt";
 
 function Home() {
-
+  const {  data, willCard } = useMqtt();
+  console.log({ data, willCard });
   return (
     <div>
-      <Mqtt />
       <Header />
       <MainHomePage />
     </div>
