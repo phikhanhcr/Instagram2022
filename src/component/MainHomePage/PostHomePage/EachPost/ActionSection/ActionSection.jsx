@@ -4,6 +4,7 @@ import ModalDetail from "../../../../Discover/ModalDetail/ModalDetail";
 
 function ActionSection({
   setLikeCount,
+  likeCount,
   post,
   checkShowModal,
   handleCloseBtn,
@@ -21,7 +22,7 @@ function ActionSection({
     <>
       <div className="post-section__action-like flex justify-between items-center pb-2">
         <div className="action-like-comment flex">
-          <LikeButton post={post} setLikeCount={setLikeCount}/>
+          <LikeButton post={post} likeCount={likeCount} setLikeCount={setLikeCount}/>
 
           <button
             onClick={() => handleClickShowDetail(post)}

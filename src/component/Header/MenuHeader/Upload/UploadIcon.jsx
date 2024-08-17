@@ -102,7 +102,7 @@ function UploadIcon() {
                   Kéo ảnh và video vào đây
                 </h2>
                 <label
-                  for="upload-photo"
+                  htmlFor="upload-photo"
                   className=" cursor-pointer mt-3 border border-solid border-transparent bg-[#0095f6] text-white rounded text-center text-sm appearance-none py-[5px] px-[9px]"
                 >
                   Chọn từ máy tính

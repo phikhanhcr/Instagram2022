@@ -39,7 +39,7 @@ export const createPostAsync = createAsyncThunk(
         );
         const { data } = response;
         if (data) {
-          dispatch(CREATE_POST(data));
+          dispatch(CREATE_POST(data.data));
         } else {
           return rejectWithValue("Can't upload file, try again with other");
         }

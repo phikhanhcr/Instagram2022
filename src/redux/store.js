@@ -6,6 +6,7 @@ import commentReducer from "./features/comment/commentSlice";
 import notificationReducer from "./features/notification/notificationSlice";
 import messageReducer from "./features/message/messageSlice";
 import conversationReducer from "./features/conversation/conversationSlice";
+import relationReducer from "./features/relation/relationSlice";
 const rootReducer = {
   user: userReducer,
   post: postReducer,
@@ -14,6 +15,7 @@ const rootReducer = {
   notification: notificationReducer,
   message: messageReducer,
   conversation: conversationReducer,
+  relation: relationReducer,
 };
 
 const store = configureStore({

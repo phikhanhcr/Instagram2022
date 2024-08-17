@@ -5,7 +5,7 @@ import { BASE_API_BACKEND } from "../../../config/common";
 import useAuthentication from "../../../customHooks/useAuthentication";
 import { isValidToken } from "../../../utils/jwt";
 
-function LikeButton({ post, setLikeCount }) {
+function LikeButton({ post, setLikeCount, likeCount }) {
 
   const [checkLike, setCheckLike] = useState(() => {
     return post.is_liked;

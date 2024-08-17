@@ -6,3 +6,5 @@ export const commentRepliedSelector = (state) => state.comment_replied;
 export const notificationSelector = (state) => state.notification;
 export const messageSelector = (state) => state.message;
 export const conversationSelector = (state) => state.conversation;
+
+export const relationSelector = (state) => state.relation;

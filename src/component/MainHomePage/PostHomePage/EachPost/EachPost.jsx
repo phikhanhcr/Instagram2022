@@ -33,7 +33,7 @@ function EachPostHomePage({ post }) {
             handleCloseBtn={handleCloseBtn}
           />
           {/* status  */}
-          <CaptionStatus post={post} />
+          <CaptionStatus post={post} likeCount={likeCount} />
 
           {/* comment section */}
           <CommentSection post={post}/>

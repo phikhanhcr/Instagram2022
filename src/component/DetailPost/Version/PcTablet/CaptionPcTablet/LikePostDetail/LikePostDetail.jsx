@@ -4,7 +4,6 @@ import { convertToRelativeTime } from "../../../../../../utils/convert-timezone"
 
 function LikePostDetail({ postProps }) {
   const [likeCount, setLikeCount] = useState(() => postProps.like_count);
-
   return (
     <>
       <div className="react flex justify-between px-4 lg:py-2 lg:px-4 pt-1 border-t border-[#d1d1d1] border-solid">

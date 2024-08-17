@@ -1,7 +1,7 @@
 import { useState, memo } from "react";
 import ModelLikedUser from "../../../../Commom/ModelLikedUser/ModelLikedUser";
 
-function CaptionStatus({ post }) {
+function CaptionStatus({ post, likeCount }) {
   const [checkModel, setCheckModel] = useState(false);
   
   return (
@@ -10,7 +10,7 @@ function CaptionStatus({ post }) {
         onClick={() => setCheckModel(true)}
         className="cursor-pointer font-semibold mb-2 block"
       >
-        {post.like_count} lượt thích
+        {likeCount} lượt thích
       </div>
       <div className="text-sm">
         <a href="/" className="font-semibold hover:underline ">
