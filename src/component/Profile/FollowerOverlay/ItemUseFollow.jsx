@@ -1,10 +1,9 @@
-function ItemUseFollow() {
+function ItemUseFollow({ data }) {
   return (
     <li className="flex items-center px-4 py-2 ">
       <div
         style={{
-          backgroundImage:
-            "url(https://images.unsplash.com/photo-1607142426428-ce8910c7e425?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80)",
+          backgroundImage: `url(${data.sender_avatar || data.receiver_avatar})`,
         }}
         className="rounded-full w-[30px] h-[30px] bg-cover bg-center bg-no-repeat mr-3.5"
       ></div>
@@ -14,7 +13,7 @@ function ItemUseFollow() {
           className=" hover:underline font-semibold leading-3 block mb-1"
         >
           {" "}
-          cclarazen
+          {data.receiver_name || data.sender_name}
         </a>
         <span className="mt-2">Zen</span>
       </div>

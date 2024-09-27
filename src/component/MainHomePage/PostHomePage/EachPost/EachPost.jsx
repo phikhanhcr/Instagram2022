@@ -1,42 +1,45 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
+import useAuthentication from "../../../../customHooks/useAuthentication";
+import { isValidToken } from "../../../../utils/jwt";
 import ActionSection from "./ActionSection/ActionSection";
 import AddComment from "./AddComment/AddComment";
 import CaptionStatus from "./CaptionStatus/CaptionStatus";
-import CommentSection from "./CommentSection/CommentSection";
 import PostHeader from "./EachPostHeader/EachPostHeader";
 import PostImages from "./PostImages/PostImage";
+import CommentSection from "./CommentSection/CommentSection";
 
-function EachPostHomePage() {
-  
-  const [checkLike, setCheckLike] = useState(false);
+function EachPostHomePage({ post }) {
+  const [checkShowModal, setCHeckShowModal] = useState(false);
+  const [likeCount, setLikeCount] = useState(post.like_count);
 
-  const handleDbClick = () => {
-    setCheckLike(true);
-  }
-
-  const handleCLickHeart = () => {
-    setCheckLike(pre => !pre)
-  }
+  const handleCloseBtn = () => {
+    setCHeckShowModal((pre) => !pre);
+  };
 
   return (
-
     <li className="post_section-item mb-8">
       <div className="bg-[#fff] post-section w-full border border-solid border-[#ccc]">
         <div className="post-section__username-image">
-          <PostHeader />
-          <PostImages onDbCLick={handleDbClick}/>
+          <PostHeader info={{ username: post.username, avatar: post.user_avatar }} idPost={post.id} />
+          <PostImages images={post.images_url} />
         </div>
 
-        <div className="post-section__action-comment py-[6px] px-[16px]">
-          <ActionSection checkLike={checkLike} handleCheckLike={handleCLickHeart}/>
+        <div className="post-section__action-comment py-[6px] px-4">
+          <ActionSection
+            setLikeCount={setLikeCount}
+            post={post}
+            checkShowModal={checkShowModal}
+            handleCloseBtn={handleCloseBtn}
+          />
           {/* status  */}
-          <CaptionStatus />
+          <CaptionStatus post={post} likeCount={likeCount} />
 
           {/* comment section */}
-          <CommentSection />
+          <CommentSection post={post}/>
 
           {/* post comment*/}
-          <AddComment />
+          <AddComment idPost={post.id} />
         </div>
       </div>
     </li>

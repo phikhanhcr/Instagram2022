@@ -10,7 +10,7 @@ function EachItemNormalDiscover({ ele, onClickShowDetail }) {
       <div
         className="group w-full bg-cover bg-no-repeat bg-center relative mb-[5px] md:mb-6 discover-section_img"
         style={{
-          backgroundImage: `url(${ele.url[0]})`,
+          backgroundImage: `url(${ele.images[0]})`,
         }}
       >
         <OverlayLikeComment />
@@ -19,4 +19,4 @@ function EachItemNormalDiscover({ ele, onClickShowDetail }) {
   );
 }
 
-export default memo(EachItemNormalDiscover);
+export default EachItemNormalDiscover

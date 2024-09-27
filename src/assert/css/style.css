@@ -225,6 +225,10 @@
   display: block;
 }
 
+#input_checkbox-notification:checked ~ .header__content-menu-show-notification {
+  display: block;
+}
+
 #input_checkbox-notification:checked ~ #over__lay-screen-notification {
   display: block;
 }
@@ -232,13 +236,6 @@
 #header__content-menu-link__home {
   font-size: 23px;
 }
-
-
-
-#input_checkbox-notification:checked ~ .header__content-menu-show-notification {
-  display: block;
-}
-
 
 .wrapper-dot {
   display: flex;
@@ -318,6 +315,17 @@
 .people-might-know--item:hover,
 .menu-show-notification__item:hover {
   background-color: rgb(245, 244, 244);
+}
+
+.people-might-know--item .info-name-link p{
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 80%;
+}
+
+.wrapper-info-suggest-middle {
+  max-width: 170px;
 }
 
 @keyframes translateX {

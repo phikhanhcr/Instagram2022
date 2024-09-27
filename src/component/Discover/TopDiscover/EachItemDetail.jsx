@@ -5,7 +5,7 @@ function EachItemDetail({ data, onClickShowDetail }) {
     <div
       className="group w-full bg-cover bg-no-repeat bg-center relative discover-section_img"
       style={{
-        backgroundImage: `url(${data.url[0]})`,
+        backgroundImage: `url(${data.images[0]})`,
       }}
       onClick={() => onClickShowDetail(data)}
     >

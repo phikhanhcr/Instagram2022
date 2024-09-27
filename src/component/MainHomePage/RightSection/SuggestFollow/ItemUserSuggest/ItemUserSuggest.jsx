@@ -1,6 +1,6 @@
 import ModalInfoUser from "./ModalInfoUser/ModalInfoUser";
 
-function ItemUserSuggest() {
+function ItemUserSuggest({ user }) {
   return (
     <li className="people-might-know--item flex items-center py-2 hover:bg-[rgb(245, 244, 244)]">
       <div className="header__wrapper-info_avatar h-[47px] w-[47px] rounded-full flex justify-center items-center has-story">
@@ -9,24 +9,24 @@ function ItemUserSuggest() {
             className="info_avatar h-[39px] w-[39px] bg-center bg-no-repeat bg-cover rounded-full flex story-info_avatar"
             style={{
               backgroundImage:
-                "url(https://cdn.bongdaplus.vn/Assets/Media/2021/05/18/77/Mason-Mount-xuat-sac-nhat-chelsea.jpg)",
+                `url(${user.avatar})`,
             }}
           ></div>
         </a>
       </div>
-      <div className="  ml-[10px] flex-1 items-center">
+      <div className="ml-[10px] flex-1 items-center wrapper-info-suggest-middle">
         <a href="/" className="info-name-link relative group">
           <p className="text-sm mt-[-3px] mb-[-4px]  font-semibold">
-            masonmount
+            {user.name}
           </p>
           <p className="text-sm mb-[-4px]  opacity-50 mt-1">
             Instagram đề xuất
           </p>
-          <ModalInfoUser />
+          {/* <ModalInfoUser /> */}
         </a>
       </div>
       <div>
-        <a href="/" className="text-[#0095f6] font-semibold text-xs my-[-2px]">
+        <a href="/" className="text-[#0095f6] font-semibold text-xs my-[-2px]   width-[100px]">
           Theo dõi
         </a>
       </div>

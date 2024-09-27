@@ -3,6 +3,7 @@ import HeaderListUser from "./HeaderListUser/HeaderListUser";
 
 function UserList({ userActive, listUser, clickEventHandle }) {
   return (
+    
     <div
       className="md:flex w-full md:w-4/12 border-r border-solid border-[#ccc] h-full z-0 flex-col"
       id="direct-message__list"
@@ -11,7 +12,7 @@ function UserList({ userActive, listUser, clickEventHandle }) {
       <HeaderListUser />
 
       <div className="h-4 w-full flex md:hidden"></div>
-      <ul className="overflow-hidden overflow-y-auto h-full md:h-[638px] flex-1">
+      <ul className="overflow-hidden overflow-y-auto h-auto md:h-[638px] md:pt-0 flex-1">
         {listUser.map((ele, index) => (
           <EachUserMessage
             onClickEvent={clickEventHandle}

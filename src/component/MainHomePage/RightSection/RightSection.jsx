@@ -1,7 +1,9 @@
+import useAuthentication from "../../../customHooks/useAuthentication";
 import RightFooterHomepage from "./RightFooter/RightFooter";
 import SuggestFollow from "./SuggestFollow/SuggestFollow";
 
 function RightSection() {
+  const { user } = useAuthentication();
   return (
     <div
       className="px-1 lg:w-4/12 hidden lg:block max-w-[293px] right-[465px] fixed"
@@ -14,7 +16,7 @@ function RightSection() {
               className="info_avatar h-[39px] w-[39px] bg-center bg-no-repeat bg-cover rounded-full flex story-info_avatar"
               style={{
                 backgroundImage:
-                  "url(https://cdn.bongdaplus.vn/Assets/Media/2021/05/18/77/Mason-Mount-xuat-sac-nhat-chelsea.jpg)",
+                  `url(${user.avatar})`,
               }}
             ></div>
           </a>
@@ -22,9 +24,9 @@ function RightSection() {
         <div className="  ml-[10px] flex-1 items-center">
           <a href="/">
             <p className="text-sm mt-[-3px] mb-[-4px] font-semibold">
-              m10_official{" "}
+              {user.username}{" "}
             </p>
-            <p className="text-sm mb-[-4px]  opacity-50 mt-1">Mesut Özil</p>
+            <p className="text-sm mb-[-4px]  opacity-50 mt-1">{user.email.split("@")[0]}</p>
           </a>
         </div>
         <div>
